@@ -22,7 +22,7 @@ using Fire_Emblem_View;
  */
 string testFolder = SelectTestFolder();
 string test = SelectTest(testFolder);
-string teamsFolder = testFolder.Replace("-Tests","");
+string teamsFolder = testFolder.Replace("-Tests", "");
 AnnounceTestCase(test);
 
 var view = View.BuildManualTestingView(test);
@@ -46,7 +46,7 @@ string[] GetAvailableTestsInOrder()
 
 void ShowArrayOfOptions(string[] options)
 {
-    for(int i = 0; i < options.Length; i++)
+    for (int i = 0; i < options.Length; i++)
         Console.WriteLine($"{i}- {options[i]}");
 }
 
@@ -78,7 +78,7 @@ bool IsValueOutsideTheValidRange(int minValue, int value, int maxValue)
 string SelectTest(string testFolder)
 {
     Console.WriteLine("¿Qué test quieres ejecutar?");
-    string[] tests = Directory.GetFiles(testFolder, "*.txt" );
+    string[] tests = Directory.GetFiles(testFolder, "*.txt");
     Array.Sort(tests);
     return AskUserToSelectAnOption(tests);
 }
