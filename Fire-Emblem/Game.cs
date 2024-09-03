@@ -24,6 +24,10 @@ public class Game {
 
     public void Play() {
         SelectTeam();
+        if (!AreTeamsValid()) {
+            _view.WriteLine("Archivo de equipos no válido");
+            return;
+        }
 
     }
 
@@ -52,29 +56,27 @@ public class Game {
 
 
         foreach (var line in File.ReadLines(file)) {
-            _view.WriteLine(line);
-            _view.WriteLine($"{players.Count()}");
             if (playerLine.Match(line).Success) {
                 players.Add(new Player());
-                _view.WriteLine("continue");
                 continue;
             }
 
             var unitMatch = unitLine.Match(line);
 
             var unitName = unitMatch.Groups[1].Value;
-
-            players.Last().addUnit(new Unit(unitName));
+            var unitSkills = unitMatch.Groups[2].Value.Split(",");
+            players.Last().addUnit(new Unit(unitName, unitSkills));
         }
     }
 
+
+    bool AreTeamsValid() {
+        foreach (var player in players) {
+            if (!player.IsTeamValid()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
-// Player 1 Team
-// Seliph (Blinding Flash)
-// Dimitri (Belief in Love)
-// Ephraim (Frenzy)
-// Roy (Brazen Atk/Spd)
-// Corrin (Sun-Twin Wing)
-// Player 2 Team
-// Lyn (True Dragon Wall)

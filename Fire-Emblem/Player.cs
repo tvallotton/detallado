@@ -18,6 +18,10 @@ class Player {
     }
 
 
+    public bool IsTeamValid() {
+        return team.IsValid();
+    }
+
 }
 
 
