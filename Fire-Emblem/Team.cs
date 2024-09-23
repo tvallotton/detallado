@@ -1,5 +1,5 @@
 class Team {
-    List<Unit> units;
+    public List<Unit> units;
 
 
     public Team() {
@@ -27,22 +27,29 @@ class Team {
 
     */
     public bool IsValid() {
+        ;
         if (units.Count() < 1 || units.Count() > 3) {
             return false;
         }
-
+        ;
         var unitNames = units.Select(unit => unit.character.Name).ToList();
-
+        ;
         if (unitNames.Distinct().Count() != unitNames.Count()) {
             return false;
         }
-
+        ;
         foreach (var unit in units) {
             if (!unit.IsValid()) {
                 return false;
             }
         }
-
+        ;
         return true;
+    }
+
+    public IEnumerable<string> unitOptions() {
+        foreach (var (i, unit) in units.Enumerate()) {
+            yield return $"{i}: {unit.character.Name}";
+        }
     }
 }

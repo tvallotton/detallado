@@ -13,9 +13,19 @@ public enum Weapon {
 
 
 static class WeaponExtension {
-    public static bool HasAdvantage(this Weapon first, Weapon second) {
+    public static bool HasAdvantageOver(this Weapon first, Weapon second) {
         return ((first == Weapon.Sword) && (second == Weapon.Axe))
             || ((first == Weapon.Lance) && (second == Weapon.Sword))
             || ((first == Weapon.Axe) && (second == Weapon.Lance));
+    }
+
+    public static double WTB(this Weapon player, Weapon rival) {
+        if (player.HasAdvantageOver(rival)) {
+            return 1.2;
+        } else if (rival.HasAdvantageOver(player)) {
+            return 0.8;
+        } else {
+            return 1;
+        }
     }
 }

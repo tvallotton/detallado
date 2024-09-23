@@ -4,6 +4,7 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -33,9 +34,64 @@ class Unit {
     }
 
     public override string ToString() {
-        return $"Unit {{ character: {character} }}";
+        return character.Name;
     }
 
+
+    public bool IsAlive() {
+        return 0 < character.HP;
+    }
+
+    public int Attack(Unit rival) {
+        int damage = Damage(rival);
+        rival.TakeDamage(damage);
+        return damage;
+    }
+
+    public void TakeDamage(int damage) {
+        character.HP -= damage;
+    }
+
+    int Damage(Unit rival) {
+        return Character.Damage(character, rival.character);
+    }
+
+    public bool HasAdvantageOver(Unit rival) {
+        return this.Weapon().HasAdvantageOver(rival.Weapon());
+    }
+
+    public string Name() {
+        return character.Name;
+    }
+
+    public Weapon Weapon() {
+        return character.Weapon;
+    }
+
+    public string Gender() {
+        return character.Gender;
+    }
+
+    public string DeathQuote() {
+        return character.DeathQuote;
+    }
+
+    public int HP() {
+
+        return Math.Max(character.HP, 0);
+    }
+    public int Atk() {
+        return character.Atk;
+    }
+    public int Spd() {
+        return character.Spd;
+    }
+    public int Def() {
+        return character.Def;
+    }
+    public int Res() {
+        return character.Res;
+    }
 
     /*
     Cada jugador podrá equipar un máximo de 2 habilidades en cada una de sus unidades.
@@ -44,12 +100,15 @@ class Unit {
     equipar New Divinity por segunda vez, pero cualquier otra unidad puede equipar New Divinit
     */
     public bool IsValid() {
-        if (skills.Count() < 3) {
+        ;
+        if (3 < skills.Count()) {
             return false;
         }
 
         var skillNames = skills.Select(skill => skill.Name).ToList();
+        ;
 
+        ;
         return skillNames.Count() == skillNames.Distinct().Count();
     }
 
