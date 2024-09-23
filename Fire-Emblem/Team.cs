@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 class Team {
     public List<Unit> units;
 
@@ -25,31 +27,44 @@ class Team {
     primera unidad, no podrá tener una segunda o tercera Celica en su equipo, pero el otro jugador podrá
     tener una única Celica en el mismo juego.
 
+Player 1 Team
+Lucina (Guard Bearing)
+Roy (Swift Impact)
+Byleth (Speed +5)
+Player 2 Team
+Shez (Phys. Null Follow,Mystic Boost,Atk/Res Push)
+
     */
     public bool IsValid() {
-        ;
-        if (units.Count() < 1 || units.Count() > 3) {
-            return false;
-        }
-        ;
-        var unitNames = units.Select(unit => unit.character.Name).ToList();
-        ;
-        if (unitNames.Distinct().Count() != unitNames.Count()) {
-            return false;
-        }
-        ;
-        foreach (var unit in units) {
-            if (!unit.IsValid()) {
-                return false;
-            }
-        }
-        ;
-        return true;
+        return (
+            AreQuantitiesValid() &&
+            AreUnitsDistinct() &&
+            AreIndividualUnitsValid()
+        );
     }
 
+    bool AreQuantitiesValid() {
+        return !(units.Count() < 1 || units.Count() > 3);
+    }
+
+    bool AreUnitsDistinct() {
+        var unitNames = units.Select(unit => unit.character.Name).ToList();
+        return unitNames.Distinct().Count() == unitNames.Count();
+    }
+
+    bool AreIndividualUnitsValid() {
+        return units.All(unit => unit.IsValid());
+
+    }
+
+
     public IEnumerable<string> unitOptions() {
-        foreach (var (i, unit) in units.Enumerate()) {
+        foreach (var (i, unit) in LivingUnits().Enumerate()) {
             yield return $"{i}: {unit.character.Name}";
         }
+    }
+
+    public IEnumerable<Unit> LivingUnits() {
+        return units.Where((unit) => unit.IsAlive());
     }
 }

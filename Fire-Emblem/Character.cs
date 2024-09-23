@@ -26,7 +26,7 @@ public class Character {
     public static int Damage(Character attacker, Character defender) {
         int attack = (int)(attacker.Atk * WTB(attacker, defender));
         int defense = Defense(attacker, defender);
-        return attack - defense;
+        return Math.Max(attack - defense, 0);
     }
 
     static double WTB(Character attacker, Character defender) {

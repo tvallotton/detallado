@@ -100,15 +100,11 @@ class Unit {
     equipar New Divinity por segunda vez, pero cualquier otra unidad puede equipar New Divinit
     */
     public bool IsValid() {
-        ;
-        if (3 < skills.Count()) {
-            return false;
-        }
+        return (skills.Count() < 3) && AreSkillsDistinct();
+    }
 
+    bool AreSkillsDistinct() {
         var skillNames = skills.Select(skill => skill.Name).ToList();
-        ;
-
-        ;
         return skillNames.Count() == skillNames.Distinct().Count();
     }
 

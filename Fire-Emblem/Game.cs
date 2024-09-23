@@ -32,15 +32,18 @@ public class Game {
             _view.WriteLine("Archivo de equipos no válido");
             return;
         }
-        PlayRound();
+        while (!IsGameOver()) {
+            PlayRound();
+        }
+        AnounceWinner();
+
     }
 
     void PlayRound() {
         SelectPlayers();
-        while (!IsGameOver()) {
-            Fight();
-        }
-        AnounceWinner();
+        Fight();
+        turn = (turn + 1) & 1;
+        round.number += 1;
     }
 
     bool IsGameOver() {
@@ -53,11 +56,17 @@ public class Game {
     }
 
     void SelectPlayers() {
-        for (var i = 0; i < 2; i++) {
+        foreach (var i in turnIter()) {
             _view.WriteLine($"Player {i + 1} selecciona una opción");
             _view.WriteLine(players[i].unitOptions());
-            players[i].fighter = Int32.Parse(_view.ReadLine());
+            players[i].SetFighter(Int32.Parse(_view.ReadLine()));
         }
+    }
+
+    IEnumerable<int> turnIter() {
+        if (turn == 0)
+            return [0, 1];
+        else return [1, 0];
     }
 
     void Fight() {
@@ -67,7 +76,8 @@ public class Game {
         if (Defender().IsAlive()) {
             RetailateAttack();
         } else {
-            _view.WriteLine("se murió");
+            FightResults();
+            return;
         }
         if (Attacker().IsAlive()) {
             FollowUp();
@@ -80,12 +90,13 @@ public class Game {
     }
 
     void FollowUp() {
-        if (Defender().Spd() + 5 < Attacker().Spd()) {
+
+        if (Defender().Spd() + 5 <= Attacker().Spd()) {
             LaunchAttack();
-        } else if (Attacker().Spd() + 5 < Defender().Spd()) {
+        } else if (Attacker().Spd() + 5 <= Defender().Spd()) {
             RetailateAttack();
         } else {
-            _view.WriteLine("No follow up");
+            _view.WriteLine("Ninguna unidad puede hacer un follow up");
         }
     }
 
@@ -111,11 +122,11 @@ public class Game {
 
 
     Unit Attacker() {
-        return players[turn].getFighter();
+        return players[turn].GetFighter();
     }
 
     Unit Defender() {
-        return players[(turn + 1) & 1].getFighter();
+        return players[(turn + 1) & 1].GetFighter();
     }
 
 
