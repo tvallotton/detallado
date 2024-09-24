@@ -10,7 +10,11 @@ public class Skill {
     static BaseSkill[] SKILLS = {
         new ArmoredBlow(),
         new AktDefPlus5(),
-    };
+        new AktResPlus5(),
+        new SpdResPlus5(),
+        new DefensePlus5(),
+        new ResistancePlus5(),
+};
 
     public Skill(string name) {
         skill = SKILLS
