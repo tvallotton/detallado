@@ -3,8 +3,9 @@
 
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using Fire_Emblem;
 
-class Player {
+public class Player {
     Team team;
     public int? fighter;
 
@@ -24,11 +25,14 @@ class Player {
             .Where((unit) => unit.Item2.IsAlive())
             .ElementAt(index)
             .Item1;
-
     }
 
-    public void addUnit(Unit unit) {
+    public void AddUnit(Unit unit) {
         team.addUnit(unit);
+    }
+
+    public void AddEffect(Effect effect) {
+        GetFighter().AddEffect(effect);
     }
 
     public override string ToString() {
@@ -40,13 +44,24 @@ class Player {
         return team.IsValid();
     }
 
-    public string unitOptions() {
+    public string UnitOptions() {
         return string.Join("\n", team.unitOptions());
     }
 
     public bool HasLost() {
         return !team.units.Any((unit) => unit.IsAlive());
     }
+
+    public IEnumerable<Skill> Skills() {
+        return GetFighter().skills;
+    }
+
+    public void ClearFighter() {
+        GetFighter().ClearEffects();
+        fighter = null;
+    }
+
+
 }
 
 

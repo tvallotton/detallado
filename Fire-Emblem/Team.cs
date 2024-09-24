@@ -18,23 +18,7 @@ class Team {
         return $"Team {{ units: {unitStrings} }}";
     }
 
-    /*
-    Cada jugador podrá escoger un máximo de 3 unidades para conformar su equipo. Los equipos deben
-    tener un mínimo de 1 unidad
 
-    Un jugador no podrá tener una unidad repetida en su equipo, pero su contrincante podrá tener las
-    mismas unidades que el jugador. Por ejemplo, si el primer jugador tiene a la unidad Celica como su
-    primera unidad, no podrá tener una segunda o tercera Celica en su equipo, pero el otro jugador podrá
-    tener una única Celica en el mismo juego.
-
-Player 1 Team
-Lucina (Guard Bearing)
-Roy (Swift Impact)
-Byleth (Speed +5)
-Player 2 Team
-Shez (Phys. Null Follow,Mystic Boost,Atk/Res Push)
-
-    */
     public bool IsValid() {
         return (
             AreQuantitiesValid() &&
@@ -48,7 +32,7 @@ Shez (Phys. Null Follow,Mystic Boost,Atk/Res Push)
     }
 
     bool AreUnitsDistinct() {
-        var unitNames = units.Select(unit => unit.character.Name).ToList();
+        var unitNames = units.Select(unit => unit.Name()).ToList();
         return unitNames.Distinct().Count() == unitNames.Count();
     }
 
@@ -60,7 +44,7 @@ Shez (Phys. Null Follow,Mystic Boost,Atk/Res Push)
 
     public IEnumerable<string> unitOptions() {
         foreach (var (i, unit) in LivingUnits().Enumerate()) {
-            yield return $"{i}: {unit.character.Name}";
+            yield return $"{i}: {unit.Name()}";
         }
     }
 

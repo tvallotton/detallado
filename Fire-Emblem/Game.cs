@@ -5,14 +5,16 @@ using Fire_Emblem_View;
 using System.Text.RegularExpressions;
 using System.Reflection.Metadata;
 using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
+using System.IO.Pipes;
 namespace Fire_Emblem;
 
 public class Game {
     private View _view;
     private string _teamsFolder;
 
-    private List<Player> players;
-    private int turn;
+    public List<Player> players;
+    public int turn;
     private Round round;
 
 
@@ -42,8 +44,14 @@ public class Game {
     void PlayRound() {
         SelectPlayers();
         Fight();
+        EndRoundClenup();
+    }
+
+    void EndRoundClenup() {
         turn = (turn + 1) & 1;
         round.number += 1;
+        players[0].ClearFighter();
+        players[1].ClearFighter();
     }
 
     bool IsGameOver() {
@@ -58,7 +66,7 @@ public class Game {
     void SelectPlayers() {
         foreach (var i in turnIter()) {
             _view.WriteLine($"Player {i + 1} selecciona una opción");
-            _view.WriteLine(players[i].unitOptions());
+            _view.WriteLine(players[i].UnitOptions());
             players[i].SetFighter(Int32.Parse(_view.ReadLine()));
         }
     }
@@ -71,7 +79,8 @@ public class Game {
 
     void Fight() {
         AnounceFightStarts();
-
+        AnounceAdvantage();
+        SetupEffects();
         LaunchAttack();
         if (Defender().IsAlive()) {
             RetailateAttack();
@@ -90,7 +99,6 @@ public class Game {
     }
 
     void FollowUp() {
-
         if (Defender().Spd() + 5 <= Attacker().Spd()) {
             LaunchAttack();
         } else if (Attacker().Spd() + 5 <= Defender().Spd()) {
@@ -99,6 +107,7 @@ public class Game {
             _view.WriteLine("Ninguna unidad puede hacer un follow up");
         }
     }
+
 
     void LaunchAttack() {
         _view.WriteLine($"{Attacker()} ataca a {Defender()} con {Attacker().Attack(Defender())} de daño");
@@ -110,7 +119,30 @@ public class Game {
 
     void AnounceFightStarts() {
         _view.WriteLine($"Round {round.number}: {Attacker()} (Player {turn + 1}) comienza");
+    }
 
+    void SetupEffects() {
+        foreach (var i in turnIter()) {
+            SetupEffectsForPlayer(i);
+        }
+    }
+
+    void SetupEffectsForPlayer(int player) {
+        foreach (var skill in players[player].Skills()) {
+            Console.WriteLine($"{players[player].GetFighter().Name()} - {skill.Name()}");
+            var anouncement = skill.Install(this, player);
+            if (anouncement != null)
+                _view.WriteLine(anouncement);
+        }
+    }
+
+    public Unit Fighter(int player) {
+        return players[player & 1].GetFighter();
+    }
+
+
+
+    void AnounceAdvantage() {
         if (Attacker().HasAdvantageOver(Defender())) {
             _view.WriteLine($"{Attacker()} ({Attacker().Weapon()}) tiene ventaja con respecto a {Defender()} ({Defender().Weapon()})");
         } else if (Defender().HasAdvantageOver(Attacker())) {
@@ -121,12 +153,14 @@ public class Game {
     }
 
 
-    Unit Attacker() {
-        return players[turn].GetFighter();
+
+
+    public Unit Attacker() {
+        return Fighter(turn);
     }
 
-    Unit Defender() {
-        return players[(turn + 1) & 1].GetFighter();
+    public Unit Defender() {
+        return Fighter(turn + 1);
     }
 
 
@@ -165,7 +199,7 @@ public class Game {
 
             var unitName = unitMatch.Groups[1].Value;
             var unitSkills = unitMatch.Groups[2].Value.Split(",");
-            players.Last().addUnit(new Unit(unitName, unitSkills));
+            players.Last().AddUnit(new Unit(unitName, unitSkills));
         }
     }
 
