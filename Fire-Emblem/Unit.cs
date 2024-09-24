@@ -2,8 +2,9 @@
 
 
 public class Unit {
-    Character character;
+    private Character character;
 
+    private int _accDamage;
     List<Effect> effects;
 
     public List<Skill> skills;
@@ -21,7 +22,7 @@ public class Unit {
 
 
     public bool IsAlive() {
-        return 0 < character.HP;
+        return 0 < HP();
     }
 
     public int Attack(Unit rival) {
@@ -31,7 +32,7 @@ public class Unit {
     }
 
     public void TakeDamage(int damage) {
-        character.HP -= damage;
+        _accDamage += damage;
     }
 
 
@@ -74,7 +75,11 @@ public class Unit {
     }
 
     public int HP() {
-        return Math.Max(character.HP, 0);
+        return Math.Max(character.HP - _accDamage, 0);
+    }
+
+    public int PercentageHP() {
+        return 100 * HP() / character.HP;
     }
 
     public int Atk() {

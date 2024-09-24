@@ -2,15 +2,14 @@
 
 using Fire_Emblem;
 
-class FairFight : BaseSkill {
+class BracingBlow : BaseSkill {
     public override string Name() {
-        return "Fair Fight";
+        return "Bracing Blow";
     }
 
     public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Akt+6\n" +
-        $"{game.Fighter(player + 1)} obtiene Akt+6";
-
+        return $"{game.Fighter(player)} obtiene Def+6\n"
+            + $"{game.Fighter(player)} obtiene Res+6";
     }
 
     public override bool Condition(Game game, int player) {
@@ -20,13 +19,8 @@ class FairFight : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
         effect.isBonus = true;
-        effect.Atk = 5;
-        return effect;
-    }
-    public override Effect RivalEffect(Game game, int player) {
-        var effect = new Effect();
-        effect.isBonus = true;
-        effect.Atk = 5;
+        effect.Def = 6;
+        effect.Res = 6;
         return effect;
     }
 

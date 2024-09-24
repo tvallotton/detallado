@@ -14,6 +14,19 @@ public class Skill {
         new SpdResPlus5(),
         new DefensePlus5(),
         new ResistancePlus5(),
+        new AttackPlus6(),
+        new SpeedPlus5(),
+        new FairFight(),
+        new BracingBlow(),
+        new BrazenAtkSpd(),
+        new BrazenAtkDef(),
+        new BrazenAtkRes(),
+        new BrazenSpdDef(),
+        new BrazenSpdRes(),
+        new BrazenDefRes(),
+        new LifeAndDeath(),
+        new FortDefRef(),
+
 };
 
     public Skill(string name) {
