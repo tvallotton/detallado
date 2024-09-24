@@ -8,7 +8,7 @@ class Team {
         units = new List<Unit>();
     }
 
-    public void addUnit(Unit unit) {
+    public void AddUnit(Unit unit) {
         units.Add(unit);
     }
 
@@ -20,6 +20,7 @@ class Team {
 
 
     public bool IsValid() {
+        Console.WriteLine($"{AreQuantitiesValid()} {AreUnitsDistinct()}{AreIndividualUnitsValid()}");
         return (
             AreQuantitiesValid() &&
             AreUnitsDistinct() &&

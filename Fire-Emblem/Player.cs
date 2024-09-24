@@ -28,7 +28,7 @@ public class Player {
     }
 
     public void AddUnit(Unit unit) {
-        team.addUnit(unit);
+        team.AddUnit(unit);
     }
 
     public void AddEffect(Effect effect) {

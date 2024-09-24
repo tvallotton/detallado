@@ -152,9 +152,6 @@ public class Game {
         }
     }
 
-
-
-
     public Unit Attacker() {
         return Fighter(turn);
     }
@@ -162,7 +159,6 @@ public class Game {
     public Unit Defender() {
         return Fighter(turn + 1);
     }
-
 
 
     void SelectTeam() {
@@ -181,26 +177,28 @@ public class Game {
         return list;
     }
 
+    static Regex PLAYER_LINE = new Regex(@"Player [12] Team");
+
+    static Regex UNIT_LINE = new Regex(@"^([^)]+)(?:| \(([^)]+)\))$");
+
 
     void LoadTeams(string file) {
-
-        var playerLine = new Regex(@"Player [12] Team");
-
-        var unitLine = new Regex(@"^([^)]+)(?:| \(([^)]+)\))$");
-
-
         foreach (var line in File.ReadLines(file)) {
-            if (playerLine.Match(line).Success) {
-                players.Add(new Player());
-                continue;
-            }
-
-            var unitMatch = unitLine.Match(line);
-
-            var unitName = unitMatch.Groups[1].Value;
-            var unitSkills = unitMatch.Groups[2].Value.Split(",");
-            players.Last().AddUnit(new Unit(unitName, unitSkills));
+            addPlayerFromFileLine(line);
         }
+    }
+
+    void addPlayerFromFileLine(string line) {
+        if (PLAYER_LINE.Match(line).Success) {
+            players.Add(new Player());
+            return;
+        }
+
+        var unitMatch = UNIT_LINE.Match(line);
+
+        var unitName = unitMatch.Groups[1].Value;
+        var unitSkills = unitMatch.Groups[2].Value.Split(",");
+        players.Last().AddUnit(new Unit(unitName, unitSkills));
     }
 
 
