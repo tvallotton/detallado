@@ -37,7 +37,6 @@ public class Unit {
 
 
     public static int Damage(Unit attacker, Unit defender) {
-        Console.WriteLine($"{attacker.Atk()}, {WTB(attacker, defender)}");
         int attack = (int)(attacker.Atk() * WTB(attacker, defender));
         int defense = Defense(attacker, defender);
         return Math.Max(attack - defense, 0);
@@ -87,8 +86,6 @@ public class Unit {
     }
 
     public int Def() {
-        Console.WriteLine($"def {character.Def}");
-        Console.WriteLine($"sum {effects.Select((e) => e.Def).Sum()}");
         return character.Def + effects.Select((e) => e.Def).Sum(); ;
     }
 
@@ -105,8 +102,8 @@ public class Unit {
     }
 
     bool AreSkillsDistinct() {
-
-        return skills.Count() == skills.Distinct().Count();
+        var skillNames = skills.Select(skill => skill.Name());
+        return skillNames.Count() == skillNames.Distinct().Count();
     }
 
     public void AddEffect(Effect effect) {

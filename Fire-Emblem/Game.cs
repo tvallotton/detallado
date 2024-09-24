@@ -129,7 +129,6 @@ public class Game {
 
     void SetupEffectsForPlayer(int player) {
         foreach (var skill in players[player].Skills()) {
-            Console.WriteLine($"{players[player].GetFighter().Name()} - {skill.Name()}");
             var anouncement = skill.Install(this, player);
             if (anouncement != null)
                 _view.WriteLine(anouncement);

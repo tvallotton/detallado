@@ -20,7 +20,6 @@ class Team {
 
 
     public bool IsValid() {
-        Console.WriteLine($"{AreQuantitiesValid()} {AreUnitsDistinct()}{AreIndividualUnitsValid()}");
         return (
             AreQuantitiesValid() &&
             AreUnitsDistinct() &&
