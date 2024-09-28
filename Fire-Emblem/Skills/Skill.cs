@@ -32,6 +32,23 @@ public class Skill {
         new CloseDef(),
         new DistantDef(),
         new LullAtkSpd(),
+        new LullAtkDef(),
+        new LullAtkRes(),
+        new LullSpdRes(),
+        new LullDefRes(),
+        new LightAndDark(),
+        new LullSpdDef(),
+        new SwordAgility(),
+        new BeorcsBlessing(),
+        new AgneasArrow(),
+        new Dragonskin(),
+        new SwordFocus(),
+        new SwordPower(),
+        new LancePower(),
+        new LanceAgility(),
+        new AxePower(),
+        new BowAgility(),
+        new BowFocus(),
 };
 
     public Skill(string name) {

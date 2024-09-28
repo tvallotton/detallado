@@ -2,9 +2,9 @@
 
 using Fire_Emblem;
 
-class SpdResPlus5 : BaseSkill {
+class SwordFocus : BaseSkill {
     public override string Name() {
-        return "Sword Agility";
+        return "Sword Focus";
     }
 
     public override bool Condition(Game game, int player) {
@@ -13,8 +13,8 @@ class SpdResPlus5 : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Spd = 10;
-        effect.diff.Atk = -6;
+        effect.diff.Res = -10;
+        effect.diff.Atk = 10;
         return effect;
     }
 

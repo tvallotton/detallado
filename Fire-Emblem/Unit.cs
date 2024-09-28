@@ -156,6 +156,7 @@ public class Unit {
 
     public IEnumerable<string> AnounceBonus() {
         foreach (var (name, value) in AllBonuses()) {
+            Console.WriteLine($"{this} obtiene {name}{value.ToString("+#;-#;0")}");
             Trace.Assert(value >= 0);
             if (value != 0) {
                 yield return $"{this} obtiene {name}{value.ToString("+#;-#;0")}";

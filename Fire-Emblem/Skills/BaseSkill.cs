@@ -27,6 +27,8 @@ public abstract class BaseSkill {
         if (Condition(game, player)) {
             Console.WriteLine($"{Name()} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
+        } else {
+            Console.WriteLine($"{Name()} was not installed for {game.Fighter(player)}: {Condition(game, player)}");
         }
         return null;
     }

@@ -2,19 +2,18 @@
 
 using Fire_Emblem;
 
-class SpdResPlus5 : BaseSkill {
+class AgneasArrow : BaseSkill {
     public override string Name() {
-        return "Sword Agility";
+        return "Agnea's Arrow";
     }
 
     public override bool Condition(Game game, int player) {
-        return game.Fighter(player).Weapon() == Weapon.Sword;
+        return true;
     }
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Spd = 10;
-        effect.diff.Atk = -6;
+        effect.neutralize.penalty = Values<bool>.All();
         return effect;
     }
 

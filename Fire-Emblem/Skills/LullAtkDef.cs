@@ -2,22 +2,21 @@
 
 using Fire_Emblem;
 
-class LullSpdDef : BaseSkill {
+class LullAtkDef : BaseSkill {
     public override string Name() {
-        return "Lull Spd/Def";
+        return "Lull Atk/Def";
     }
 
     public override bool Condition(Game game, int player) {
-        Console.WriteLine("Called");
         return true;
     }
 
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
         effect.diff.Def = -3;
-        effect.diff.Spd = -3;
-        effect.neutralize.bonus.Spd = true;
+        effect.diff.Atk = -3;
         effect.neutralize.bonus.Def = true;
+        effect.neutralize.bonus.Atk = true;
         return effect;
     }
 
