@@ -7,10 +7,6 @@ class AttackPlus6 : BaseSkill {
         return "Attack +6";
     }
 
-    public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Atk+6";
-
-    }
 
     public override bool Condition(Game game, int player) {
         return true;
@@ -18,8 +14,8 @@ class AttackPlus6 : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.isBonus = true;
-        effect.Atk = 6;
+
+        effect.diff.Atk = 6;
         return effect;
     }
 

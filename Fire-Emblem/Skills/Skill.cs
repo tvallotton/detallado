@@ -26,7 +26,12 @@ public class Skill {
         new BrazenDefRes(),
         new LifeAndDeath(),
         new FortDefRef(),
-
+        new StillWater(),
+        new Resolve(),
+        new SwiftSparrow(),
+        new CloseDef(),
+        new DistantDef(),
+        new LullAtkSpd(),
 };
 
     public Skill(string name) {

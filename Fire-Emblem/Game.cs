@@ -125,15 +125,46 @@ public class Game {
         foreach (var i in turnIter()) {
             SetupEffectsForPlayer(i);
         }
+        foreach (var i in turnIter()) {
+            AnounceBonusForPlayer(i);
+            AnouncePenaltyForPlayer(i);
+            AnounceNeutralizedBonusForPlayer(i);
+            AnounceNeutralizedPenaltiesForPlayer(i);
+        }
     }
+
+    void AnounceBonusForPlayer(int player) {
+        foreach (var anouncement in Fighter(player).AnounceBonus())
+            _view.WriteLine(anouncement);
+    }
+
+    void AnouncePenaltyForPlayer(int player) {
+        foreach (var anouncement in Fighter(player).AnouncePenalty())
+            _view.WriteLine(anouncement);
+    }
+
+
+    void AnounceNeutralizedBonusForPlayer(int player) {
+
+        foreach (var anouncement in Fighter(player).AnounceNeutralizedBonuses())
+            _view.WriteLine(anouncement);
+    }
+    void AnounceNeutralizedPenaltiesForPlayer(int player) {
+        foreach (var anouncement in Fighter(player).AnounceNeutralizedPenalties())
+            _view.WriteLine(anouncement);
+    }
+
+
 
     void SetupEffectsForPlayer(int player) {
         foreach (var skill in players[player].Skills()) {
-            var anouncement = skill.Install(this, player);
-            if (anouncement != null)
-                _view.WriteLine(anouncement);
+            Console.WriteLine($"installing skill: {skill.Name()}");
+            skill.Install(this, player);
         }
     }
+
+
+
 
     public Unit Fighter(int player) {
         return players[player & 1].GetFighter();

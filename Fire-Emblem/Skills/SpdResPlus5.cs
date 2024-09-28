@@ -7,20 +7,15 @@ class SpdResPlus5 : BaseSkill {
         return "Spd/Res +5";
     }
 
-    public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Spd+5\n"
-            + $"{game.Fighter(player)} obtiene Res+5";
-    }
-
     public override bool Condition(Game game, int player) {
         return true;
     }
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.isBonus = true;
-        effect.Res = 5;
-        effect.Spd = 5;
+
+        effect.diff.Res = 5;
+        effect.diff.Spd = 5;
         return effect;
     }
 

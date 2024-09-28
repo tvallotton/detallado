@@ -7,10 +7,6 @@ class BrazenAtkSpd : BaseSkill {
         return "Brazen Atk/Spd";
     }
 
-    public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Atk+10\n"
-            + $"{game.Fighter(player)} obtiene Spd+10";
-    }
 
     public override bool Condition(Game game, int player) {
         Console.WriteLine(game.Fighter(player).PercentageHP());
@@ -19,9 +15,9 @@ class BrazenAtkSpd : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.isBonus = true;
-        effect.Spd = 10;
-        effect.Atk = 10;
+
+        effect.diff.Spd = 10;
+        effect.diff.Atk = 10;
         return effect;
     }
 

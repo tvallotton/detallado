@@ -2,21 +2,20 @@
 
 using Fire_Emblem;
 
-class BrazenSpdRes : BaseSkill {
+class StillWater : BaseSkill {
     public override string Name() {
-        return "Brazen Spd/Res";
+        return "Still Water";
     }
-
-
+    
     public override bool Condition(Game game, int player) {
-        return game.Fighter(player).PercentageHP() <= 80;
+        return true;
     }
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-
-        effect.diff.Res = 10;
-        effect.diff.Spd = 10;
+        effect.diff.Atk = 6;
+        effect.diff.Res = 6;
+        effect.diff.Def = -2;
         return effect;
     }
 

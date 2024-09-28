@@ -24,10 +24,9 @@ public abstract class BaseSkill {
     }
 
     public string? Install(Game game, int player) {
-        int rival = (player + 1) & 1;
         if (Condition(game, player)) {
+            Console.WriteLine($"{Name()} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
-            return Anounce(game, player);
         }
         return null;
     }

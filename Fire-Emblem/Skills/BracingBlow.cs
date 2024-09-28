@@ -7,10 +7,6 @@ class BracingBlow : BaseSkill {
         return "Bracing Blow";
     }
 
-    public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Def+6\n"
-            + $"{game.Fighter(player)} obtiene Res+6";
-    }
 
     public override bool Condition(Game game, int player) {
         return game.turn == player;
@@ -18,9 +14,9 @@ class BracingBlow : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.isBonus = true;
-        effect.Def = 6;
-        effect.Res = 6;
+
+        effect.diff.Def = 6;
+        effect.diff.Res = 6;
         return effect;
     }
 

@@ -2,25 +2,26 @@
 
 using Fire_Emblem;
 
-class FairFight : BaseSkill {
+class DistantDef : BaseSkill {
     public override string Name() {
-        return "Fair Fight";
+        return "Distant Def";
     }
 
     public override bool Condition(Game game, int player) {
-        return game.turn == player;
+        var rivalStarts = game.turn != player;
+        var rivalWeapon = game.Fighter(player + 1).Weapon();
+        return rivalStarts && (rivalWeapon == Weapon.Magic || rivalWeapon == Weapon.Bow);
     }
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-
-        effect.diff.Atk = 5;
+        effect.diff.Def = 8;
+        effect.diff.Res = 8;
         return effect;
     }
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
-
-        effect.diff.Atk = 5;
+        effect.neutralize.bonus = Values<bool>.All();
         return effect;
     }
 
