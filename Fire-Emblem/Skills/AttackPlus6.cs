@@ -6,8 +6,8 @@ class AttackPlus6 : BaseSkill {
     public override string Name { get; } = "Attack +6";
 
 
-    public override bool Condition(Game game, int player) {
-        return true;
+    public override BaseCondition Condition() {
+        return new Always();
     }
 
     public override Effect PlayerEffect(Game game, int player) {

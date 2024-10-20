@@ -5,8 +5,8 @@ using Fire_Emblem;
 class DefensePlus5 : BaseSkill {
     public override string Name { get; } = "Defense +5";
 
-    public override bool Condition(Game game, int player) {
-        return true;
+    public override BaseCondition Condition() {
+        return new Always();
     }
 
     public override Effect PlayerEffect(Game game, int player) {

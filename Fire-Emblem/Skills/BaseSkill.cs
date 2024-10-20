@@ -15,7 +15,7 @@ public abstract class BaseSkill {
         return null;
     }
 
-    public abstract bool Condition(Game game, int player);
+    public abstract BaseCondition Condition();
 
     public virtual Effect PlayerEffect(Game game, int player) {
         return new Effect();
@@ -25,11 +25,11 @@ public abstract class BaseSkill {
     }
 
     public string? Install(Game game, int player) {
-        if (Condition(game, player)) {
+        if (Condition().Condition(game, player)) {
             Console.WriteLine($"{Name} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
         } else {
-            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition(game, player)}");
+            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition().Condition(game, player)}");
         }
         return null;
     }

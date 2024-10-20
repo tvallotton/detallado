@@ -5,10 +5,8 @@ using Fire_Emblem;
 class DistantDef : BaseSkill {
     public override string Name { get; } = "Distant Def";
 
-    public override bool Condition(Game game, int player) {
-        var rivalStarts = game.turn != player;
-        var rivalWeapon = game.Fighter(player + 1).Weapon();
-        return rivalStarts && (rivalWeapon == Weapon.Magic || rivalWeapon == Weapon.Bow);
+    public override BaseCondition Condition() {
+        return new OnDef();
     }
 
     public override Effect PlayerEffect(Game game, int player) {

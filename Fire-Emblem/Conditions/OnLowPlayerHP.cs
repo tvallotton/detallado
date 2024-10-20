@@ -1,15 +1,15 @@
 
 using Fire_Emblem;
 
-public class OnLowHP: BaseCondition {
+public class OnPlayerLowHP : BaseCondition {
     private int _hp;
 
-    public OnLowHP(int hp)  {
+    public OnPlayerLowHP(int hp) {
         _hp = hp;
     }
 
     public override bool Condition(Game game, int player) {
-         return game.Fighter(player).PercentageHP() <= _hp;
+        return game.Fighter(player).PercentageHP() <= _hp;
     }
 }
 

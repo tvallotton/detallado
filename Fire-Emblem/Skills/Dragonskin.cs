@@ -2,13 +2,13 @@
 
 using Fire_Emblem;
 
-class Dragonskin : BaseSkill {
+
+
+public class Dragonskin : BaseSkill {
     public override string Name { get; } = "Dragonskin";
 
-    public override bool Condition(Game game, int player) {
-        var rivalStarts = game.turn != player;
-        var rivalHP = game.Fighter(player + 1).PercentageHP();
-        return rivalStarts || 75 < rivalHP;
+    public override BaseCondition Condition() {
+        return new OnRivalsTurn().Or(new OnHighRivalHP(75));
     }
 
     public override Effect PlayerEffect(Game game, int player) {

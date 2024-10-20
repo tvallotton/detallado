@@ -5,10 +5,8 @@ using Fire_Emblem;
 class CloseDef : BaseSkill {
     public override string Name { get; } = "Close Def";
 
-    public override bool Condition(Game game, int player) {
-        Weapon[] weapons = { Weapon.Axe, Weapon.Lance, Weapon.Sword };
-        var fighter = game.Fighter(player + 1);
-        return game.turn != player && weapons.Contains(fighter.Weapon());
+    public override BaseCondition Condition() {
+        return new OnDef();
     }
 
     public override Effect PlayerEffect(Game game, int player) {

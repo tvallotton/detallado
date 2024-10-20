@@ -5,9 +5,8 @@ using Fire_Emblem;
 class BrazenAtkDef : BaseSkill {
     public override string Name { get; } = "Brazen Atk/Def";
 
-    public override bool Condition(Game game, int player) {
-        Console.WriteLine(game.Fighter(player).PercentageHP());
-        return game.Fighter(player).PercentageHP() <= 80;
+    public override BaseCondition Condition() {
+        return new OnPlayerLowHP(80);
     }
 
     public override Effect PlayerEffect(Game game, int player) {

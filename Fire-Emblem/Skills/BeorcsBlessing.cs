@@ -7,8 +7,8 @@ class BeorcsBlessing : BaseSkill {
 
 
 
-    public override bool Condition(Game game, int player) {
-        return true;
+    public override BaseCondition Condition() {
+        return new Always();
     }
 
     public override Effect RivalEffect(Game game, int player) {

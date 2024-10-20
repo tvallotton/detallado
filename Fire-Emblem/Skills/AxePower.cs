@@ -5,8 +5,8 @@ using Fire_Emblem;
 class AxePower : BaseSkill {
     public override string Name { get; } = "Axe Power";
 
-    public override bool Condition(Game game, int player) {
-        return game.Fighter(player).Weapon() == Weapon.Axe;
+    public override BaseCondition Condition() {
+        return new OnFighterWeapon(Weapon.Axe);
     }
 
     public override Effect PlayerEffect(Game game, int player) {

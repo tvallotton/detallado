@@ -5,8 +5,8 @@ using Fire_Emblem;
 class Resolve : BaseSkill {
     public override string Name { get; } = "Resolve";
 
-    public override bool Condition(Game game, int player) {
-        return game.Fighter(player).PercentageHP() <= 75;
+    public override BaseCondition Condition() {
+        return new OnPlayerLowHP(75);
     }
 
     public override Effect PlayerEffect(Game game, int player) {

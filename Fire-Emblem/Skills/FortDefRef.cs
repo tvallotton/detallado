@@ -5,8 +5,8 @@ using Fire_Emblem;
 class FortDefRef : BaseSkill {
     public override string Name { get; } = "Fort. Def/Res";
 
-    public override bool Condition(Game game, int player) {
-        return true;
+    public override BaseCondition Condition() {
+        return new Always();
     }
 
     public override Effect PlayerEffect(Game game, int player) {

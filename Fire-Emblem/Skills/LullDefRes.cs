@@ -5,8 +5,8 @@ using Fire_Emblem;
 class LullDefRes : BaseSkill {
     public override string Name { get; } = "Lull Def/Res";
 
-    public override bool Condition(Game game, int player) {
-        return true;
+    public override BaseCondition Condition() {
+        return new Always();
     }
 
     public override Effect RivalEffect(Game game, int player) {

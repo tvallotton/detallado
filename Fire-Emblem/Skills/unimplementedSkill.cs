@@ -10,7 +10,7 @@ public class UnimplementedSkill : BaseSkill {
     }
 
 
-    public override bool Condition(Game game, int player) {
-        return false;
+    public override BaseCondition Condition() {
+        return new Always().Not();
     }
 }

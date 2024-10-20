@@ -5,8 +5,8 @@ using Fire_Emblem;
 class SwiftSparrow : BaseSkill {
     public override string Name { get; } = "Swift Sparrow";
 
-    public override bool Condition(Game game, int player) {
-        return game.turn == player;
+    public override BaseCondition Condition() {
+        return new OnPlayersTurn();
     }
 
     public override Effect PlayerEffect(Game game, int player) {
