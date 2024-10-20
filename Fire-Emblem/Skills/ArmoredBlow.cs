@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class ArmoredBlow : BaseSkill {
-    public override string Name() {
-        return "Armored Blow";
-    }
+    public override string Name { get; } = "Armored Blow";
 
     public override bool Condition(Game game, int player) {
         return game.turn == player;

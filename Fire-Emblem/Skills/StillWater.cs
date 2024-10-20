@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class StillWater : BaseSkill {
-    public override string Name() {
-        return "Still Water";
-    }
+    public override string Name { get; } = "Still Water";
 
     public override bool Condition(Game game, int player) {
         return true;

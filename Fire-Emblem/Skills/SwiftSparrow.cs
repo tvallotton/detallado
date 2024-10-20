@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class SwiftSparrow : BaseSkill {
-    public override string Name() {
-        return "Swift Sparrow";
-    }
+    public override string Name { get; } = "Swift Sparrow";
 
     public override bool Condition(Game game, int player) {
         return game.turn == player;

@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class LanceAgility : BaseSkill {
-    public override string Name() {
-        return "Lance Agility";
-    }
+    public override string Name { get; } = "Lance Agility";
 
     public override bool Condition(Game game, int player) {
         return game.Fighter(player).Weapon() == Weapon.Lance;

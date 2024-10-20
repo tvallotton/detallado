@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class FortDefRef : BaseSkill {
-    public override string Name() {
-        return "Fort. Def/Res";
-    }
+    public override string Name { get; } = "Fort. Def/Res";
 
     public override bool Condition(Game game, int player) {
         return true;

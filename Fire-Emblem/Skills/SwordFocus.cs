@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class SwordFocus : BaseSkill {
-    public override string Name() {
-        return "Sword Focus";
-    }
+    public override string Name { get; } = "Sword Focus";
 
     public override bool Condition(Game game, int player) {
         return game.Fighter(player).Weapon() == Weapon.Sword;

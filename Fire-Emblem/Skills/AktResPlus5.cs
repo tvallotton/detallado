@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class AktResPlus5 : BaseSkill {
-    public override string Name() {
-        return "Atk/Res +5";
-    }
+    public override string Name { get; } = "Atk/Res +5";
 
     public override bool Condition(Game game, int player) {
         return true;

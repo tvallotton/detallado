@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class BowAgility : BaseSkill {
-    public override string Name() {
-        return "Bow Agility";
-    }
+    public override string Name { get; } = "Bow Agility";
 
     public override bool Condition(Game game, int player) {
         return game.Fighter(player).Weapon() == Weapon.Bow;

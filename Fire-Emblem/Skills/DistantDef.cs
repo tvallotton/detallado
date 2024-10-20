@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class DistantDef : BaseSkill {
-    public override string Name() {
-        return "Distant Def";
-    }
+    public override string Name { get; } = "Distant Def";
 
     public override bool Condition(Game game, int player) {
         var rivalStarts = game.turn != player;

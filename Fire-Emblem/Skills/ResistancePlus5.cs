@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class ResistancePlus5 : BaseSkill {
-    public override string Name() {
-        return "Resistance +5";
-    }
+    public override string Name { get; } = "Resistance +5";
 
     public override bool Condition(Game game, int player) {
         return true;

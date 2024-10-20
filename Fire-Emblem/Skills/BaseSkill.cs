@@ -8,7 +8,8 @@ enum SkillType {
 
 public abstract class BaseSkill {
 
-    public abstract string Name();
+    public virtual string Name { get; } = "";
+
 
     public virtual string? Anounce(Game game, int player) {
         return null;
@@ -25,10 +26,10 @@ public abstract class BaseSkill {
 
     public string? Install(Game game, int player) {
         if (Condition(game, player)) {
-            Console.WriteLine($"{Name()} was installed for {game.Fighter(player)}");
+            Console.WriteLine($"{Name} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
         } else {
-            Console.WriteLine($"{Name()} was not installed for {game.Fighter(player)}: {Condition(game, player)}");
+            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition(game, player)}");
         }
         return null;
     }

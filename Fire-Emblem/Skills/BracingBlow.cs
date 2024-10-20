@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class BracingBlow : BaseSkill {
-    public override string Name() {
-        return "Bracing Blow";
-    }
+    public override string Name { get; } = "Bracing Blow";
 
 
     public override bool Condition(Game game, int player) {

@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class CloseDef : BaseSkill {
-    public override string Name() {
-        return "Close Def";
-    }
+    public override string Name { get; } = "Close Def";
 
     public override bool Condition(Game game, int player) {
         Weapon[] weapons = { Weapon.Axe, Weapon.Lance, Weapon.Sword };

@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class FairFight : BaseSkill {
-    public override string Name() {
-        return "Fair Fight";
-    }
+    public override string Name { get; } = "Fair Fight";
 
     public override bool Condition(Game game, int player) {
         return game.turn == player;

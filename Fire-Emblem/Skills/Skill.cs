@@ -1,6 +1,7 @@
 
 
 
+using System.Diagnostics;
 using Fire_Emblem;
 
 public class Skill {
@@ -53,12 +54,12 @@ public class Skill {
 
     public Skill(string name) {
         skill = SKILLS
-            .FirstOrDefault((skill) => skill.Name() == name)
+            .FirstOrDefault((skill) => skill.Name == name)
             ?? new UnimplementedSkill(name);
     }
 
     public string Name() {
-        return skill.Name();
+        return skill.Name;
     }
 
     public string? Install(Game game, int player) {

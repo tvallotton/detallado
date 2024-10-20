@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class BeorcsBlessing : BaseSkill {
-    public override string Name() {
-        return "Beorc's Blessing";
-    }
+    public override string Name { get; } = "Beorc's Blessing";
 
 
 

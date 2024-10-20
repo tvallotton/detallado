@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class LifeAndDeath : BaseSkill {
-    public override string Name() {
-        return "Life and Death";
-    }
+    public override string Name { get; } = "Life and Death";
 
     public override bool Condition(Game game, int player) {
         return true;

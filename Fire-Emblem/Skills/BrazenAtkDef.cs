@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class BrazenAtkDef : BaseSkill {
-    public override string Name() {
-        return "Brazen Atk/Def";
-    }
+    public override string Name { get; } = "Brazen Atk/Def";
 
     public override bool Condition(Game game, int player) {
         Console.WriteLine(game.Fighter(player).PercentageHP());

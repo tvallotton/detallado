@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class Dragonskin : BaseSkill {
-    public override string Name() {
-        return "Dragonskin";
-    }
+    public override string Name { get; } = "Dragonskin";
 
     public override bool Condition(Game game, int player) {
         var rivalStarts = game.turn != player;

@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class LightAndDark : BaseSkill {
-    public override string Name() {
-        return "Light and Dark";
-    }
+    public override string Name { get; } = "Light and Dark";
 
     public override bool Condition(Game game, int player) {
         return true;

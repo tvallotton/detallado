@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class SpeedPlus5 : BaseSkill {
-    public override string Name() {
-        return "Speed +5";
-    }
+    public override string Name { get; } = "Speed +5";
 
     public override bool Condition(Game game, int player) {
         return true;

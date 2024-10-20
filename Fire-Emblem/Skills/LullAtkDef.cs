@@ -3,9 +3,7 @@
 using Fire_Emblem;
 
 class LullAtkDef : BaseSkill {
-    public override string Name() {
-        return "Lull Atk/Def";
-    }
+    public override string Name { get; } = "Lull Atk/Def";
 
     public override bool Condition(Game game, int player) {
         return true;
