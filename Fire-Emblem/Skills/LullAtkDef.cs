@@ -13,10 +13,10 @@ class LullAtkDef : BaseSkill {
 
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Def = -3;
-        effect.diff.Atk = -3;
-        effect.neutralize.bonus.Def = true;
-        effect.neutralize.bonus.Atk = true;
+        effect.difference.Def = -3;
+        effect.difference.Atk = -3;
+        effect.neutralized.bonus.Def = true;
+        effect.neutralized.bonus.Atk = true;
         return effect;
     }
 

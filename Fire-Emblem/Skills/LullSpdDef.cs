@@ -8,16 +8,15 @@ class LullSpdDef : BaseSkill {
     }
 
     public override bool Condition(Game game, int player) {
-        Console.WriteLine("Called");
         return true;
     }
 
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Def = -3;
-        effect.diff.Spd = -3;
-        effect.neutralize.bonus.Spd = true;
-        effect.neutralize.bonus.Def = true;
+        effect.difference.Def = -3;
+        effect.difference.Spd = -3;
+        effect.neutralized.bonus.Spd = true;
+        effect.neutralized.bonus.Def = true;
         return effect;
     }
 

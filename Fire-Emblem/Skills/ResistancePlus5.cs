@@ -14,7 +14,7 @@ class ResistancePlus5 : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Res = 5;
+        effect.difference.Res = 5;
         return effect;
     }
 

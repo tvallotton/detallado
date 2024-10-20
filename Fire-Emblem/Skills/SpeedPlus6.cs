@@ -13,7 +13,7 @@ class SpeedPlus5 : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Spd = 5;
+        effect.difference.Spd = 5;
         return effect;
     }
 

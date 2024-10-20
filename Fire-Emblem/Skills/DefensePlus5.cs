@@ -14,7 +14,7 @@ class DefensePlus5 : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Def = 5;
+        effect.difference.Def = 5;
         return effect;
     }
 

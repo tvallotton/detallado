@@ -14,13 +14,13 @@ class FairFight : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Atk = 5;
+        effect.difference.Atk = 5;
         return effect;
     }
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Atk = 5;
+        effect.difference.Atk = 5;
         return effect;
     }
 

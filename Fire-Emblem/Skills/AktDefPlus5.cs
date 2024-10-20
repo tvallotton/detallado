@@ -7,11 +7,6 @@ class AktDefPlus5 : BaseSkill {
         return "Atk/Def +5";
     }
 
-    public override string? Anounce(Game game, int player) {
-        return $"{game.Fighter(player)} obtiene Atk+5\n"
-            + $"{game.Fighter(player)} obtiene Def+5";
-    }
-
     public override bool Condition(Game game, int player) {
         return true;
     }
@@ -19,8 +14,8 @@ class AktDefPlus5 : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Def = 5;
-        effect.diff.Atk = 5;
+        effect.difference.Def = 5;
+        effect.difference.Atk = 5;
         return effect;
     }
 

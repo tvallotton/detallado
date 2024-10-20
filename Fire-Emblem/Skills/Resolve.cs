@@ -13,8 +13,8 @@ class Resolve : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Def = 7;
-        effect.diff.Res = 7;
+        effect.difference.Def = 7;
+        effect.difference.Res = 7;
         return effect;
     }
 

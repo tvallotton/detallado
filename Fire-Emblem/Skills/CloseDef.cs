@@ -15,14 +15,14 @@ class CloseDef : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Def = 8;
-        effect.diff.Res = 8;
+        effect.difference.Def = 8;
+        effect.difference.Res = 8;
         return effect;
     }
 
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
-        effect.neutralize.bonus = Values<bool>.All();
+        effect.neutralized.bonus = Stats<bool>.All();
         return effect;
     }
 

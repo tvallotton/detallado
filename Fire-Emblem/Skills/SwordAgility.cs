@@ -13,8 +13,8 @@ class SwordAgility : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Spd = 12;
-        effect.diff.Atk = -6;
+        effect.difference.Spd = 12;
+        effect.difference.Atk = -6;
         return effect;
     }
 

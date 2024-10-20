@@ -14,8 +14,8 @@ class AktResPlus5 : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Res = 5;
-        effect.diff.Atk = 5;
+        effect.difference.Res = 5;
+        effect.difference.Atk = 5;
         return effect;
     }
 

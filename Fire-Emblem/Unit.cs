@@ -207,23 +207,23 @@ public class Unit {
 
     (string, IEnumerable<int>)[] Stats() {
         (string, IEnumerable<int>)[] stats = [
-            ("Atk", effects.Select((e) => e.diff.Atk)),
-            ("Spd", effects.Select((e) => e.diff.Spd)),
-            ("Def", effects.Select((e) => e.diff.Def)),
-            ("Res", effects.Select((e) => e.diff.Res))
+            ("Atk", effects.Select((e) => e.difference.Atk)),
+            ("Spd", effects.Select((e) => e.difference.Spd)),
+            ("Def", effects.Select((e) => e.difference.Def)),
+            ("Res", effects.Select((e) => e.difference.Res))
         ];
         return stats;
     }
 
     (string, bool)[] NeutralizedBonuses() {
         effects.ForEach((x) => {
-            Console.WriteLine($"{x.neutralize.bonus.Atk} {x.neutralize.bonus.Spd}");
+            Console.WriteLine($"{x.neutralized.bonus.Atk} {x.neutralized.bonus.Spd}");
         });
         (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralize.bonus.Atk)),
-            ("Spd", effects.Any((e) => e.neutralize.bonus.Spd)),
-            ("Def", effects.Any((e) => e.neutralize.bonus.Def)),
-            ("Res", effects.Any((e) => e.neutralize.bonus.Res)),
+            ("Atk", effects.Any((e) => e.neutralized.bonus.Atk)),
+            ("Spd", effects.Any((e) => e.neutralized.bonus.Spd)),
+            ("Def", effects.Any((e) => e.neutralized.bonus.Def)),
+            ("Res", effects.Any((e) => e.neutralized.bonus.Res)),
         ];
         return stats;
     }
@@ -231,10 +231,10 @@ public class Unit {
 
     (string, bool)[] NeutralizedPenalties() {
         (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralize.penalty.Atk)),
-            ("Spd", effects.Any((e) => e.neutralize.penalty.Spd)),
-            ("Def", effects.Any((e) => e.neutralize.penalty.Def)),
-            ("Res", effects.Any((e) => e.neutralize.penalty.Res))
+            ("Atk", effects.Any((e) => e.neutralized.penalty.Atk)),
+            ("Spd", effects.Any((e) => e.neutralized.penalty.Spd)),
+            ("Def", effects.Any((e) => e.neutralized.penalty.Def)),
+            ("Res", effects.Any((e) => e.neutralized.penalty.Res))
         ];
         return stats;
     }

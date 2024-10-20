@@ -14,7 +14,7 @@ class ArmoredBlow : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Def = 8;
+        effect.difference.Def = 8;
         return effect;
     }
 

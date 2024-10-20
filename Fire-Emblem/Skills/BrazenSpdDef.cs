@@ -16,8 +16,8 @@ class BrazenSpdDef : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Def = 10;
-        effect.diff.Spd = 10;
+        effect.difference.Def = 10;
+        effect.difference.Spd = 10;
         return effect;
     }
 

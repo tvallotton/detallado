@@ -15,8 +15,8 @@ class BrazenDefRes : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Res = 10;
-        effect.diff.Def = 10;
+        effect.difference.Res = 10;
+        effect.difference.Def = 10;
         return effect;
     }
 

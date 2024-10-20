@@ -15,7 +15,7 @@ class BeorcsBlessing : BaseSkill {
 
     public override Effect RivalEffect(Game game, int player) {
         var effect = new Effect();
-        effect.neutralize.bonus = Values<bool>.All();
+        effect.neutralized.bonus = Stats<bool>.All();
         return effect;
     }
 

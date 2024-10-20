@@ -15,8 +15,8 @@ class BracingBlow : BaseSkill {
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
 
-        effect.diff.Def = 6;
-        effect.diff.Res = 6;
+        effect.difference.Def = 6;
+        effect.difference.Res = 6;
         return effect;
     }
 

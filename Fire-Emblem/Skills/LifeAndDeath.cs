@@ -13,10 +13,10 @@ class LifeAndDeath : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Atk = 6;
-        effect.diff.Spd = 6;
-        effect.diff.Def = -5;
-        effect.diff.Res = -5;
+        effect.difference.Atk = 6;
+        effect.difference.Spd = 6;
+        effect.difference.Def = -5;
+        effect.difference.Res = -5;
         return effect;
     }
 

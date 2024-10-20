@@ -13,8 +13,8 @@ class SwiftSparrow : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.diff.Atk = 6;
-        effect.diff.Spd = 6;
+        effect.difference.Atk = 6;
+        effect.difference.Spd = 6;
         return effect;
     }
 

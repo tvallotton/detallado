@@ -13,7 +13,7 @@ class AgneasArrow : BaseSkill {
 
     public override Effect PlayerEffect(Game game, int player) {
         var effect = new Effect();
-        effect.neutralize.penalty = Values<bool>.All();
+        effect.neutralized.penalty = Stats<bool>.All();
         return effect;
     }
 
