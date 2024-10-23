@@ -5,17 +5,19 @@ using Fire_Emblem;
 class LullSpdRes : BaseSkill {
     public override string Name { get; } = "Lull Spd/Res";
 
-    public override BaseCondition Condition() {
-        return new Always();
-    }
+    public override BaseCondition Condition { get; } = new Always();
 
     public override Effect RivalEffect(Game game, int player) {
-        var effect = new Effect();
-        effect.difference.Spd = -3;
-        effect.difference.Res = -3;
-        effect.neutralized.bonus.Spd = true;
-        effect.neutralized.bonus.Res = true;
-        return effect;
+        return new Effect {
+            difference = new Stats<int> {
+                Spd = -3,
+                Res = -3
+            },
+            neutralizedBonus = new Stats<bool> {
+                Spd = true,
+                Res = true
+            }
+        };
     }
 
 }

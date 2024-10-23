@@ -11,8 +11,8 @@ public class Not : BaseCondition {
 
     }
 
-    public override bool Condition(Game game, int player) {
-        return !_first.Condition(game, player);
+    public override bool Check(Game game, int player) {
+        return !_first.Check(game, player);
     }
 
 }

@@ -3,7 +3,7 @@
 using Fire_Emblem;
 
 public abstract class BaseCondition {
-    public abstract bool Condition(Game game, int player);
+    public abstract bool Check(Game game, int player);
 
 
     public BaseCondition And(BaseCondition condition) {

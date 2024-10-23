@@ -217,13 +217,13 @@ public class Unit {
 
     (string, bool)[] NeutralizedBonuses() {
         effects.ForEach((x) => {
-            Console.WriteLine($"{x.neutralized.bonus.Atk} {x.neutralized.bonus.Spd}");
+            Console.WriteLine($"{x.neutralizedBonus.Atk} {x.neutralizedBonus.Spd}");
         });
         (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralized.bonus.Atk)),
-            ("Spd", effects.Any((e) => e.neutralized.bonus.Spd)),
-            ("Def", effects.Any((e) => e.neutralized.bonus.Def)),
-            ("Res", effects.Any((e) => e.neutralized.bonus.Res)),
+            ("Atk", effects.Any((e) => e.neutralizedBonus.Atk)),
+            ("Spd", effects.Any((e) => e.neutralizedBonus.Spd)),
+            ("Def", effects.Any((e) => e.neutralizedBonus.Def)),
+            ("Res", effects.Any((e) => e.neutralizedBonus.Res)),
         ];
         return stats;
     }
@@ -231,10 +231,10 @@ public class Unit {
 
     (string, bool)[] NeutralizedPenalties() {
         (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralized.penalty.Atk)),
-            ("Spd", effects.Any((e) => e.neutralized.penalty.Spd)),
-            ("Def", effects.Any((e) => e.neutralized.penalty.Def)),
-            ("Res", effects.Any((e) => e.neutralized.penalty.Res))
+            ("Atk", effects.Any((e) => e.neutralizedPenalty.Atk)),
+            ("Spd", effects.Any((e) => e.neutralizedPenalty.Spd)),
+            ("Def", effects.Any((e) => e.neutralizedPenalty.Def)),
+            ("Res", effects.Any((e) => e.neutralizedPenalty.Res))
         ];
         return stats;
     }

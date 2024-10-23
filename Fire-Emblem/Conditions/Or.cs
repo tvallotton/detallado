@@ -11,8 +11,8 @@ public class Or : BaseCondition {
         _second = second;
     }
 
-    public override bool Condition(Game game, int player) {
-        return _first.Condition(game, player) || _second.Condition(game, player);
+    public override bool Check(Game game, int player) {
+        return _first.Check(game, player) || _second.Check(game, player);
     }
 
 }

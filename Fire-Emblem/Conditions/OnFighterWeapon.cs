@@ -1,14 +1,14 @@
 
 using Fire_Emblem;
 
-public class OnFighterWeapon: BaseCondition {
+public class OnFighterWeapon : BaseCondition {
     private Weapon _weapon;
 
     public OnFighterWeapon(Weapon weapon) {
-        _weapon = _weapon;
+        _weapon = weapon;
     }
 
-    public override bool Condition(Game game, int player) {
-         return game.Fighter(player).Weapon() == _weapon;
+    public override bool Check(Game game, int player) {
+        return game.Fighter(player).Weapon() == _weapon;
     }
 }

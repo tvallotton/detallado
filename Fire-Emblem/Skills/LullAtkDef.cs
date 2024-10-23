@@ -1,21 +1,24 @@
 
 
+using System.Net.Http.Headers;
 using Fire_Emblem;
 
 class LullAtkDef : BaseSkill {
     public override string Name { get; } = "Lull Atk/Def";
 
-    public override BaseCondition Condition() {
-        return new Always();
-    }
+    public override BaseCondition Condition { get; } = new Always();
 
     public override Effect RivalEffect(Game game, int player) {
-        var effect = new Effect();
-        effect.difference.Def = -3;
-        effect.difference.Atk = -3;
-        effect.neutralized.bonus.Def = true;
-        effect.neutralized.bonus.Atk = true;
-        return effect;
+        return new Effect {
+            difference = new Stats<int> {
+                Def = -3,
+                Atk = -3,
+            },
+            neutralizedBonus = new Stats<bool> {
+                Def = true,
+                Atk = true,
+            }
+        };
     }
 
 }

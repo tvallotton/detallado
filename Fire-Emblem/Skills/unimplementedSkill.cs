@@ -10,7 +10,5 @@ public class UnimplementedSkill : BaseSkill {
     }
 
 
-    public override BaseCondition Condition() {
-        return new Always().Not();
-    }
+    public override BaseCondition Condition { get; } = new Always().Not();
 }

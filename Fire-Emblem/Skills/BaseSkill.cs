@@ -10,12 +10,9 @@ public abstract class BaseSkill {
 
     public virtual string Name { get; } = "";
 
+    public virtual BaseCondition Condition { get; } = new Always();
 
-    public virtual string? Anounce(Game game, int player) {
-        return null;
-    }
 
-    public abstract BaseCondition Condition();
 
     public virtual Effect PlayerEffect(Game game, int player) {
         return new Effect();
@@ -25,11 +22,11 @@ public abstract class BaseSkill {
     }
 
     public string? Install(Game game, int player) {
-        if (Condition().Condition(game, player)) {
+        if (Condition.Check(game, player)) {
             Console.WriteLine($"{Name} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
         } else {
-            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition().Condition(game, player)}");
+            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition.Check(game, player)}");
         }
         return null;
     }

@@ -7,14 +7,13 @@ class BeorcsBlessing : BaseSkill {
 
 
 
-    public override BaseCondition Condition() {
-        return new Always();
-    }
+    public override BaseCondition Condition { get; } = new Always();
 
     public override Effect RivalEffect(Game game, int player) {
-        var effect = new Effect();
-        effect.neutralized.bonus = Stats<bool>.All();
-        return effect;
+        return new Effect {
+            neutralizedBonus = Stats<bool>.All(),
+        };
+
     }
 
 }
