@@ -1,5 +1,7 @@
 
 
+using System.Diagnostics;
+
 public struct Stats<T> where T : new() {
     public T HP;
     public T Atk;
@@ -23,6 +25,16 @@ public struct Stats<T> where T : new() {
         values.Def = true;
         values.Res = true;
         return values;
+    }
 
+    public T Get(Stat stat) {
+        switch (stat) {
+            case Stat.Atk: return Atk;
+            case Stat.Spd: return Spd;
+            case Stat.Res: return Res;
+            case Stat.Def: return Def;
+            case Stat.HP: return HP;
+        }
+        throw new UnreachableException();
     }
 }

@@ -52,9 +52,7 @@ public class Player {
         return !team.units.Any((unit) => unit.IsAlive());
     }
 
-    public IEnumerable<Skill> Skills() {
-        return GetFighter().skills;
-    }
+
 
     public void ClearFighter() {
         GetFighter().ClearEffects();

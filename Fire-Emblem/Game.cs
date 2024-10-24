@@ -99,9 +99,9 @@ public class Game {
     }
 
     void FollowUp() {
-        if (Defender().Spd() + 5 <= Attacker().Spd()) {
+        if (Defender().Get(Stat.Spd) + 5 <= Attacker().Get(Stat.Spd)) {
             LaunchAttack();
-        } else if (Attacker().Spd() + 5 <= Defender().Spd()) {
+        } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
             RetailateAttack();
         } else {
             _view.WriteLine("Ninguna unidad puede hacer un follow up");
@@ -157,8 +157,8 @@ public class Game {
 
 
     void SetupEffectsForPlayer(int player) {
-        foreach (var skill in players[player].Skills()) {
-            Console.WriteLine($"installing skill: {skill.Name()}");
+        var fighter = players[player].GetFighter();
+        foreach (var skill in fighter.skills) {
             skill.Install(this, player);
         }
     }
@@ -174,9 +174,9 @@ public class Game {
 
     void AnounceAdvantage() {
         if (Attacker().HasAdvantageOver(Defender())) {
-            _view.WriteLine($"{Attacker()} ({Attacker().Weapon()}) tiene ventaja con respecto a {Defender()} ({Defender().Weapon()})");
+            _view.WriteLine($"{Attacker()} ({Attacker().GetWeapon()}) tiene ventaja con respecto a {Defender()} ({Defender().GetWeapon()})");
         } else if (Defender().HasAdvantageOver(Attacker())) {
-            _view.WriteLine($"{Defender()} ({Defender().Weapon()}) tiene ventaja con respecto a {Attacker()} ({Attacker().Weapon()})");
+            _view.WriteLine($"{Defender()} ({Defender().GetWeapon()}) tiene ventaja con respecto a {Attacker()} ({Attacker().GetWeapon()})");
         } else {
             _view.WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
         }

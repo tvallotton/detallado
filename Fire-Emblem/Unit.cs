@@ -3,26 +3,28 @@
 
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 
 public class Unit {
-    private Character character;
+    private CharacterDto _character;
 
-    private int _accDamage;
-    List<Effect> effects;
+    private int _accumulatedDamage;
+
+    private List<Effect> _effects;
 
     public List<Skill> skills;
 
     public Unit(string name, IEnumerable<string> skills) {
-        character = Utils.GetCharacterByName(name);
+        _character = Utils.GetCharacterByName(name);
         this.skills = skills.Select(skill => new Skill(skill)).ToList();
-        effects = new List<Effect>();
+        _effects = new List<Effect>();
 
     }
 
     public override string ToString() {
-        return character.Name;
+        return _character.Name;
     }
 
 
@@ -37,108 +39,72 @@ public class Unit {
     }
 
     public void TakeDamage(int damage) {
-        _accDamage += damage;
+        _accumulatedDamage += damage;
     }
-
 
 
     public static int Damage(Unit attacker, Unit defender) {
-        int attack = (int)(attacker.Atk() * WTB(attacker, defender));
-        int defense = Defense(attacker, defender);
+        int attack = (int)(attacker.Get(Stat.Atk) * GetWTB(attacker, defender));
+        int defense = GetDefense(attacker, defender);
         return Math.Max(attack - defense, 0);
     }
 
-    static double WTB(Unit attacker, Unit defender) {
-        return attacker.Weapon().WTB(defender.Weapon());
+    static double GetWTB(Unit attacker, Unit defender) {
+        return attacker.GetWeapon().WTB(defender.GetWeapon());
     }
 
-    static int Defense(Unit attacker, Unit defender) {
-        if (attacker.Weapon() == global::Weapon.Magic) {
-            return defender.Res();
+    static int GetDefense(Unit attacker, Unit defender) {
+        if (attacker.GetWeapon() == global::Weapon.Magic) {
+            return defender.Get(Stat.Res);
         }
-        return defender.Def();
+        return defender.Get(Stat.Def);
     }
 
     public bool HasAdvantageOver(Unit rival) {
-        return this.Weapon().HasAdvantageOver(rival.Weapon());
+        return this.GetWeapon().HasAdvantageOver(rival.GetWeapon());
     }
 
-    public string Name() {
-        return character.Name;
+    public string GetName() {
+        return _character.Name;
     }
 
-    public Weapon Weapon() {
-        return character.Weapon;
+    public Weapon GetWeapon() {
+        return _character.Weapon;
     }
 
-    public string Gender() {
-        return character.Gender;
-    }
-
-    public string DeathQuote() {
-        return character.DeathQuote;
-    }
 
     public int HP() {
-        return Math.Max(character.HP - _accDamage, 0);
+        return Math.Max(_character.HP - _accumulatedDamage, 0);
     }
 
     public int PercentageHP() {
-        return 100 * HP() / character.HP;
+        return 100 * HP() / _character.HP;
     }
 
-    public int Atk() {
-        return character.Atk + BonusFor("Atk") + PenaltyFor("Atk");
+    public int Get(Stat stat) {
+        return (
+            GetBaseStat(stat) +
+            GetEffectFor(stat, EffectType.Bonus) +
+            GetEffectFor(stat, EffectType.Penalty)
+        );
     }
 
-    public int Spd() {
-        return character.Spd + BonusFor("Spd") + PenaltyFor("Spd");
-    }
-
-    public int Def() {
-        return character.Def + BonusFor("Def") + PenaltyFor("Def");
-    }
-
-    public int Res() {
-        return character.Res + BonusFor("Res") + PenaltyFor("Res");
-    }
-
-    int BonusFor(string stat) {
-        if (IsBonusNeutralized(stat)) {
+    private int GetEffectFor(Stat stat, EffectType effectType) {
+        if (IsNeutralized(stat, effectType)) {
             return 0;
         }
-        return AllBonuses()
-            .Where((x) => x.Item1 == stat)
-            .First()
-            .Item2;
-    }
-    int PenaltyFor(string stat) {
-        if (IsPenaltyNeutralized(stat)) {
-            return 0;
-        }
-        return AllPenalties()
-            .Where((x) => x.Item1 == stat)
-            .First()
-            .Item2;
+        return _effects
+             .Select(effect => effect.difference.Get(stat))
+             .Where(value => value > 0 ^ effectType == EffectType.Penalty)
+             .Sum();
     }
 
-    bool IsBonusNeutralized(string stat) {
-        return NeutralizedBonuses()
-            .Where((t) => t.Item1 == stat)
-            .First()
-            .Item2;
+    bool IsNeutralized(Stat stat, EffectType effectType) {
+        return _effects.Any(e => e.GetNeutralized(effectType).Get(stat));
     }
-    bool IsPenaltyNeutralized(string stat) {
-        return NeutralizedPenalties()
-            .Where((t) => t.Item1 == stat)
-            .First()
-            .Item2;
-    }
-
-
 
     public void ClearEffects() {
-        effects.Clear();
+        _effects.Clear();
     }
 
     public bool IsValid() {
@@ -151,12 +117,11 @@ public class Unit {
     }
 
     public void AddEffect(Effect effect) {
-        effects.Add(effect);
+        _effects.Add(effect);
     }
 
     public IEnumerable<string> AnounceBonus() {
         foreach (var (name, value) in AllBonuses()) {
-            Console.WriteLine($"{this} obtiene {name}{value.ToString("+#;-#;0")}");
             Trace.Assert(value >= 0);
             if (value != 0) {
                 yield return $"{this} obtiene {name}{value.ToString("+#;-#;0")}";
@@ -191,52 +156,63 @@ public class Unit {
     }
 
 
-    IEnumerable<Tuple<string, int>> AllBonuses() {
+
+    IEnumerable<Tuple<Stat, int>> AllBonuses() {
         foreach (var (name, iter) in Stats()) {
             var bonus = iter.Where(v => v > 0).Sum();
-            yield return new Tuple<string, int>(name, bonus);
+            yield return new Tuple<Stat, int>(name, bonus);
         }
     }
 
-    IEnumerable<Tuple<string, int>> AllPenalties() {
+    IEnumerable<Tuple<Stat, int>> AllPenalties() {
         foreach (var (name, iter) in Stats()) {
             var bonus = iter.Where(v => v < 0).Sum();
-            yield return new Tuple<string, int>(name, bonus);
+            yield return new Tuple<Stat, int>(name, bonus);
         }
     }
 
-    (string, IEnumerable<int>)[] Stats() {
-        (string, IEnumerable<int>)[] stats = [
-            ("Atk", effects.Select((e) => e.difference.Atk)),
-            ("Spd", effects.Select((e) => e.difference.Spd)),
-            ("Def", effects.Select((e) => e.difference.Def)),
-            ("Res", effects.Select((e) => e.difference.Res))
+    (Stat, IEnumerable<int>)[] Stats() {
+        (Stat, IEnumerable<int>)[] stats = [
+            (Stat.Atk, _effects.Select((e) => e.difference.Atk)),
+            (Stat.Spd, _effects.Select((e) => e.difference.Spd)),
+            (Stat.Def, _effects.Select((e) => e.difference.Def)),
+            (Stat.Res, _effects.Select((e) => e.difference.Res))
         ];
         return stats;
     }
 
-    (string, bool)[] NeutralizedBonuses() {
-        effects.ForEach((x) => {
+    (Stat, bool)[] NeutralizedBonuses() {
+        _effects.ForEach((x) => {
             Console.WriteLine($"{x.neutralizedBonus.Atk} {x.neutralizedBonus.Spd}");
         });
-        (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralizedBonus.Atk)),
-            ("Spd", effects.Any((e) => e.neutralizedBonus.Spd)),
-            ("Def", effects.Any((e) => e.neutralizedBonus.Def)),
-            ("Res", effects.Any((e) => e.neutralizedBonus.Res)),
+        (Stat, bool)[] stats = [
+            (Stat.Atk, _effects.Any((e) => e.neutralizedBonus.Atk)),
+            (Stat.Spd, _effects.Any((e) => e.neutralizedBonus.Spd)),
+            (Stat.Def, _effects.Any((e) => e.neutralizedBonus.Def)),
+            (Stat.Res, _effects.Any((e) => e.neutralizedBonus.Res)),
         ];
         return stats;
     }
 
 
-    (string, bool)[] NeutralizedPenalties() {
-        (string, bool)[] stats = [
-            ("Atk", effects.Any((e) => e.neutralizedPenalty.Atk)),
-            ("Spd", effects.Any((e) => e.neutralizedPenalty.Spd)),
-            ("Def", effects.Any((e) => e.neutralizedPenalty.Def)),
-            ("Res", effects.Any((e) => e.neutralizedPenalty.Res))
+    (Stat, bool)[] NeutralizedPenalties() {
+        (Stat, bool)[] stats = [
+            (Stat.Atk, _effects.Any((e) => e.neutralizedPenalty.Atk)),
+            (Stat.Spd, _effects.Any((e) => e.neutralizedPenalty.Spd)),
+            (Stat.Def, _effects.Any((e) => e.neutralizedPenalty.Def)),
+            (Stat.Res, _effects.Any((e) => e.neutralizedPenalty.Res))
         ];
         return stats;
+    }
+
+    public int GetBaseStat(Stat stat) {
+        switch (stat) {
+            case Stat.Atk: return _character.Atk;
+            case Stat.Spd: return _character.Spd;
+            case Stat.Def: return _character.Def;
+            case Stat.Res: return _character.Res;
+        }
+        throw new UnreachableException();
     }
 
 

@@ -32,7 +32,7 @@ class Team {
     }
 
     bool AreUnitsDistinct() {
-        var unitNames = units.Select(unit => unit.Name()).ToList();
+        var unitNames = units.Select(unit => unit.GetName()).ToList();
         return unitNames.Distinct().Count() == unitNames.Count();
     }
 
@@ -44,7 +44,7 @@ class Team {
 
     public IEnumerable<string> unitOptions() {
         foreach (var (i, unit) in LivingUnits().Enumerate()) {
-            yield return $"{i}: {unit.Name()}";
+            yield return $"{i}: {unit.GetName()}";
         }
     }
 
