@@ -5,7 +5,7 @@ using Fire_Emblem;
 class CloseDef : BaseSkill {
     public override string Name { get; } = "Close Def";
 
-    public override BaseCondition Condition { get; } = new OnDef();
+    public override BaseCondition Condition { get; } = new OnCloseDef();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

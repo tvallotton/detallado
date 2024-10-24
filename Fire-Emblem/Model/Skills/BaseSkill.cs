@@ -23,10 +23,7 @@ public abstract class BaseSkill {
 
     public string? Install(Game game, int player) {
         if (Condition.Check(game, player)) {
-            Console.WriteLine($"{Name} was installed for {game.Fighter(player)}");
             AddEffects(game, player);
-        } else {
-            Console.WriteLine($"{Name} was not installed for {game.Fighter(player)}: {Condition.Check(game, player)}");
         }
         return null;
     }

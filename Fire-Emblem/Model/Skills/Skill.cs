@@ -50,6 +50,15 @@ public class Skill {
         new AxePower(),
         new BowAgility(),
         new BowFocus(),
+        new SolidGround(),
+        new SturdyBow(),
+        new EarthBoost(),
+        new WardingBlow(),
+        new DeadlyBlade(),
+        new Wrath(),
+        new SingleMinded(),
+        new Charmer(),
+        new Perceptive()
 };
 
     public Skill(string name) {

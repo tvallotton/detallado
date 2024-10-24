@@ -5,7 +5,7 @@ using Fire_Emblem;
 class DistantDef : BaseSkill {
     public override string Name { get; } = "Distant Def";
 
-    public override BaseCondition Condition { get; } = new OnDef();
+    public override BaseCondition Condition { get; } = new OnDistantDef();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

@@ -2,16 +2,17 @@
 
 using Fire_Emblem;
 
-class SpdResPlus5 : BaseSkill {
-    public override string Name { get; } = "Spd/Res +5";
+class SolidGround : BaseSkill {
+    public override string Name { get; } = "Solid Ground";
 
     public override BaseCondition Condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {
             difference = new Stats<int> {
-                Spd = 5,
-                Res = 5,
+                Res = -5,
+                Atk = +6,
+                Def = +6,
             }
         };
     }

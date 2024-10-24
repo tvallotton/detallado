@@ -48,6 +48,8 @@ public class Game {
     void EndRoundClenup() {
         _turn = (_turn + 1) & 1;
         _round += 1;
+        Fighter(1).SetLatestOpponent(Fighter(0));
+        Fighter(0).SetLatestOpponent(Fighter(1));
         players[0].ClearFighter();
         players[1].ClearFighter();
     }

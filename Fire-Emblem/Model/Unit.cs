@@ -16,6 +16,8 @@ public class Unit {
 
     private List<Skill> _skills;
 
+    private Unit _latestOpponent;
+
     public Unit(string name, IEnumerable<string> skills) {
         _character = Utils.GetCharacterByName(name);
         _skills = skills.Select(skill => new Skill(skill)).ToList();
@@ -76,6 +78,10 @@ public class Unit {
         return Math.Max(_character.HP - _accumulatedDamage, 0);
     }
 
+    public int AccumulatedDamage() {
+        return _accumulatedDamage;
+    }
+
     public int PercentageHP() {
         return 100 * HP() / _character.HP;
     }
@@ -108,6 +114,14 @@ public class Unit {
 
     public void ClearEffects() {
         _effects.Clear();
+    }
+
+    public void SetLatestOpponent(Unit opponent) {
+        _latestOpponent = opponent;
+    }
+
+    public bool IsLatestOpponent(Unit opponent) {
+        return _latestOpponent == opponent;
     }
 
     public bool IsValid() {

@@ -2,16 +2,17 @@
 
 using Fire_Emblem;
 
-class SpdResPlus5 : BaseSkill {
-    public override string Name { get; } = "Spd/Res +5";
+class Wrath : BaseSkill {
+    public override string Name { get; } = "Wrath";
 
     public override BaseCondition Condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
+        var damage = Math.Min(game.Fighter(player).AccumulatedDamage(), 30);
         return new Effect {
             difference = new Stats<int> {
-                Spd = 5,
-                Res = 5,
+                Atk = damage,
+                Spd = damage,
             }
         };
     }
