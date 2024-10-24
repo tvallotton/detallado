@@ -128,8 +128,8 @@ public class Game {
         foreach (var i in turnIter()) {
             AnounceEfectForPlayer(i, EffectType.Bonus);
             AnounceEfectForPlayer(i, EffectType.Penalty);
-            AnounceNeutralizedBonusForPlayer(i);
-            AnounceNeutralizedPenaltiesForPlayer(i);
+            AnounceNeutralizedEffectsForPlayer(i, EffectType.Bonus);
+            AnounceNeutralizedEffectsForPlayer(i, EffectType.Penalty);
         }
     }
 
@@ -141,15 +141,13 @@ public class Game {
         }
     }
 
-    void AnounceNeutralizedBonusForPlayer(int player) {
-        foreach (var anouncement in Fighter(player).AnounceNeutralizedBonuses())
-            _view.WriteLine(anouncement);
+    void AnounceNeutralizedEffectsForPlayer(int player, EffectType effectType) {
+        var unit = Fighter(player);
+        foreach (var stat in StatConstants.ORDERED) {
+            if (unit.IsNeutralized(stat, effectType))
+                _view.AnounceNeutralizedEffect(unit, stat, effectType);
+        }
     }
-    void AnounceNeutralizedPenaltiesForPlayer(int player) {
-        foreach (var anouncement in Fighter(player).AnounceNeutralizedPenalties())
-            _view.WriteLine(anouncement);
-    }
-
 
 
     void SetupEffectsForPlayer(int player) {

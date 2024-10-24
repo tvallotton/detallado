@@ -102,7 +102,7 @@ public class Unit {
              .Sum();
     }
 
-    bool IsNeutralized(Stat stat, EffectType effectType) {
+    public bool IsNeutralized(Stat stat, EffectType effectType) {
         return _effects.Any(e => e.GetNeutralized(effectType).Get(stat));
     }
 
@@ -121,80 +121,6 @@ public class Unit {
 
     public void AddEffect(Effect effect) {
         _effects.Add(effect);
-    }
-
-
-    public IEnumerable<string> AnounceNeutralizedBonuses() {
-        foreach (var (name, value) in NeutralizedBonuses()) {
-            if (value) {
-                yield return $"Los bonus de {name} de {this} fueron neutralizados";
-            }
-        }
-    }
-
-    public IEnumerable<string> AnounceNeutralizedPenalties() {
-        foreach (var (name, value) in NeutralizedPenalties()) {
-            if (value) {
-                yield return $"Los penalty de {name} de {this} fueron neutralizados";
-            }
-        }
-    }
-
-    public IEnumerable<Tuple<Stat, int>> GetEffects(EffectType effectType) {
-        foreach (var (name, iter) in Stats()) {
-            var bonus = iter.Where(v => v > 0).Sum();
-            yield return new Tuple<Stat, int>(name, bonus);
-        }
-    }
-
-    public IEnumerable<Tuple<Stat, int>> AllBonuses() {
-
-        foreach (var (name, iter) in Stats()) {
-
-            var bonus = iter.Where(v => v > 0).Sum();
-            yield return new Tuple<Stat, int>(name, bonus);
-        }
-    }
-
-    public IEnumerable<Tuple<Stat, int>> AllPenalties() {
-        foreach (var (name, iter) in Stats()) {
-            var bonus = iter.Where(v => v < 0).Sum();
-            yield return new Tuple<Stat, int>(name, bonus);
-        }
-    }
-
-    (Stat, IEnumerable<int>)[] Stats() {
-        (Stat, IEnumerable<int>)[] stats = [
-            (Stat.Atk, _effects.Select((e) => e.difference.Atk)),
-            (Stat.Spd, _effects.Select((e) => e.difference.Spd)),
-            (Stat.Def, _effects.Select((e) => e.difference.Def)),
-            (Stat.Res, _effects.Select((e) => e.difference.Res))
-        ];
-        return stats;
-    }
-
-    (Stat, bool)[] NeutralizedBonuses() {
-        _effects.ForEach((x) => {
-            Console.WriteLine($"{x.neutralizedBonus.Atk} {x.neutralizedBonus.Spd}");
-        });
-        (Stat, bool)[] stats = [
-            (Stat.Atk, _effects.Any((e) => e.neutralizedBonus.Atk)),
-            (Stat.Spd, _effects.Any((e) => e.neutralizedBonus.Spd)),
-            (Stat.Def, _effects.Any((e) => e.neutralizedBonus.Def)),
-            (Stat.Res, _effects.Any((e) => e.neutralizedBonus.Res)),
-        ];
-        return stats;
-    }
-
-
-    (Stat, bool)[] NeutralizedPenalties() {
-        (Stat, bool)[] stats = [
-            (Stat.Atk, _effects.Any((e) => e.neutralizedPenalty.Atk)),
-            (Stat.Spd, _effects.Any((e) => e.neutralizedPenalty.Spd)),
-            (Stat.Def, _effects.Any((e) => e.neutralizedPenalty.Def)),
-            (Stat.Res, _effects.Any((e) => e.neutralizedPenalty.Res))
-        ];
-        return stats;
     }
 
     public int GetBaseStat(Stat stat) {

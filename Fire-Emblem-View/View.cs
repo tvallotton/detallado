@@ -21,6 +21,11 @@ public class View {
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")}");
     }
 
+    public void AnounceNeutralizedEffect(object unit, object stat, object effectType) {
+        var type = effectType.ToString()!.ToLower();
+        WriteLine($"Los {type} de {stat} de {unit} fueron neutralizados");
+    }
+
     public void AnounceNeutralizedBonus(object unit, object stat) {
         WriteLine($"Los bonus de {stat} de {unit} fueron neutralizados");
     }
