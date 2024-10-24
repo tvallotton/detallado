@@ -12,7 +12,7 @@ public enum Weapon {
 }
 
 
-static class WeaponExtension {
+static class WeaponCalculator {
     public static bool HasAdvantageOver(this Weapon first, Weapon second) {
         return ((first == Weapon.Sword) && (second == Weapon.Axe))
             || ((first == Weapon.Lance) && (second == Weapon.Sword))

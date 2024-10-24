@@ -12,7 +12,6 @@ public class Effect {
 
     public Stats<bool> neutralizedBonus = new Stats<bool>();
     public Stats<bool> neutralizedPenalty = new Stats<bool>();
-    // public NeutralizedStats neutralized = new NeutralizedStats();
 
     public Scope scope = Scope.ALL;
 
@@ -23,7 +22,6 @@ public class Effect {
             case EffectType.Penalty: return neutralizedPenalty;
         }
         throw new UnreachableException();
-
     }
 
 }

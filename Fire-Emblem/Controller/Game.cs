@@ -15,14 +15,14 @@ public class Game {
 
     public List<Player> players;
     public int turn;
-    private Round round;
+    private int _round;
 
 
     public Game(View view, string teamsFolder) {
         _view = view;
         _teamsFolder = teamsFolder;
         players = new List<Player>();
-        round = new Round();
+        _round = 1;
         turn = 0;
 
 
@@ -49,7 +49,7 @@ public class Game {
 
     void EndRoundClenup() {
         turn = (turn + 1) & 1;
-        round.number += 1;
+        _round += 1;
         players[0].ClearFighter();
         players[1].ClearFighter();
     }
@@ -118,7 +118,7 @@ public class Game {
     }
 
     void AnounceFightStarts() {
-        _view.WriteLine($"Round {round.number}: {Attacker()} (Player {turn + 1}) comienza");
+        _view.WriteLine($"Round {_round}: {Attacker()} (Player {turn + 1}) comienza");
     }
 
     void SetupEffects() {
@@ -126,26 +126,22 @@ public class Game {
             SetupEffectsForPlayer(i);
         }
         foreach (var i in turnIter()) {
-            AnounceBonusForPlayer(i);
-            AnouncePenaltyForPlayer(i);
+            AnounceEfectForPlayer(i, EffectType.Bonus);
+            AnounceEfectForPlayer(i, EffectType.Penalty);
             AnounceNeutralizedBonusForPlayer(i);
             AnounceNeutralizedPenaltiesForPlayer(i);
         }
     }
 
-    void AnounceBonusForPlayer(int player) {
-        foreach (var anouncement in Fighter(player).AnounceBonus())
-            _view.WriteLine(anouncement);
+    void AnounceEfectForPlayer(int player, EffectType effectType) {
+        var unit = Fighter(player);
+        foreach (var stat in StatConstants.ORDERED) {
+            var value = unit.GetEffectFor(stat, effectType);
+            _view.AnounceEffect(unit, stat, value);
+        }
     }
-
-    void AnouncePenaltyForPlayer(int player) {
-        foreach (var anouncement in Fighter(player).AnouncePenalty())
-            _view.WriteLine(anouncement);
-    }
-
 
     void AnounceNeutralizedBonusForPlayer(int player) {
-
         foreach (var anouncement in Fighter(player).AnounceNeutralizedBonuses())
             _view.WriteLine(anouncement);
     }
@@ -158,12 +154,10 @@ public class Game {
 
     void SetupEffectsForPlayer(int player) {
         var fighter = players[player].GetFighter();
-        foreach (var skill in fighter.skills) {
+        foreach (var skill in fighter.GetSkills()) {
             skill.Install(this, player);
         }
     }
-
-
 
 
     public Unit Fighter(int player) {

@@ -14,13 +14,12 @@ public class Unit {
 
     private List<Effect> _effects;
 
-    public List<Skill> skills;
+    private List<Skill> _skills;
 
     public Unit(string name, IEnumerable<string> skills) {
         _character = Utils.GetCharacterByName(name);
-        this.skills = skills.Select(skill => new Skill(skill)).ToList();
+        _skills = skills.Select(skill => new Skill(skill)).ToList();
         _effects = new List<Effect>();
-
     }
 
     public override string ToString() {
@@ -38,22 +37,22 @@ public class Unit {
         return damage;
     }
 
-    public void TakeDamage(int damage) {
+    private void TakeDamage(int damage) {
         _accumulatedDamage += damage;
     }
 
 
-    public static int Damage(Unit attacker, Unit defender) {
+    private static int Damage(Unit attacker, Unit defender) {
         int attack = (int)(attacker.Get(Stat.Atk) * GetWTB(attacker, defender));
         int defense = GetDefense(attacker, defender);
         return Math.Max(attack - defense, 0);
     }
 
-    static double GetWTB(Unit attacker, Unit defender) {
+    private static double GetWTB(Unit attacker, Unit defender) {
         return attacker.GetWeapon().WTB(defender.GetWeapon());
     }
 
-    static int GetDefense(Unit attacker, Unit defender) {
+    private static int GetDefense(Unit attacker, Unit defender) {
         if (attacker.GetWeapon() == global::Weapon.Magic) {
             return defender.Get(Stat.Res);
         }
@@ -84,17 +83,21 @@ public class Unit {
     public int Get(Stat stat) {
         return (
             GetBaseStat(stat) +
-            GetEffectFor(stat, EffectType.Bonus) +
-            GetEffectFor(stat, EffectType.Penalty)
+            GetTotalEffectFor(stat, EffectType.Bonus) +
+            GetTotalEffectFor(stat, EffectType.Penalty)
         );
     }
 
-    private int GetEffectFor(Stat stat, EffectType effectType) {
-        if (IsNeutralized(stat, effectType)) {
+    private int GetTotalEffectFor(Stat stat, EffectType effectType) {
+        if (IsNeutralized(stat, effectType))
             return 0;
-        }
+        return GetEffectFor(stat, effectType);
+    }
+
+    public int GetEffectFor(Stat stat, EffectType effectType) {
         return _effects
              .Select(effect => effect.difference.Get(stat))
+             .Where(value => value != 0)
              .Where(value => value > 0 ^ effectType == EffectType.Penalty)
              .Sum();
     }
@@ -108,11 +111,11 @@ public class Unit {
     }
 
     public bool IsValid() {
-        return (skills.Count() < 3) && AreSkillsDistinct();
+        return (_skills.Count() < 3) && AreSkillsDistinct();
     }
 
     bool AreSkillsDistinct() {
-        var skillNames = skills.Select(skill => skill.Name());
+        var skillNames = _skills.Select(skill => skill.Name());
         return skillNames.Count() == skillNames.Distinct().Count();
     }
 
@@ -120,27 +123,9 @@ public class Unit {
         _effects.Add(effect);
     }
 
-    public IEnumerable<string> AnounceBonus() {
-        foreach (var (name, value) in AllBonuses()) {
-            Trace.Assert(value >= 0);
-            if (value != 0) {
-                yield return $"{this} obtiene {name}{value.ToString("+#;-#;0")}";
-            }
-        }
-    }
-
-    public IEnumerable<string> AnouncePenalty() {
-        foreach (var (name, value) in AllPenalties()) {
-            Trace.Assert(value <= 0);
-            if (value != 0) {
-                yield return $"{this} obtiene {name}{value.ToString("+#;-#;0")}";
-            }
-        }
-    }
 
     public IEnumerable<string> AnounceNeutralizedBonuses() {
         foreach (var (name, value) in NeutralizedBonuses()) {
-            Console.WriteLine($"Los bonus de {name} de {this} fueron neutralizados: {value}");
             if (value) {
                 yield return $"Los bonus de {name} de {this} fueron neutralizados";
             }
@@ -155,16 +140,23 @@ public class Unit {
         }
     }
 
-
-
-    IEnumerable<Tuple<Stat, int>> AllBonuses() {
+    public IEnumerable<Tuple<Stat, int>> GetEffects(EffectType effectType) {
         foreach (var (name, iter) in Stats()) {
             var bonus = iter.Where(v => v > 0).Sum();
             yield return new Tuple<Stat, int>(name, bonus);
         }
     }
 
-    IEnumerable<Tuple<Stat, int>> AllPenalties() {
+    public IEnumerable<Tuple<Stat, int>> AllBonuses() {
+
+        foreach (var (name, iter) in Stats()) {
+
+            var bonus = iter.Where(v => v > 0).Sum();
+            yield return new Tuple<Stat, int>(name, bonus);
+        }
+    }
+
+    public IEnumerable<Tuple<Stat, int>> AllPenalties() {
         foreach (var (name, iter) in Stats()) {
             var bonus = iter.Where(v => v < 0).Sum();
             yield return new Tuple<Stat, int>(name, bonus);
@@ -215,6 +207,8 @@ public class Unit {
         throw new UnreachableException();
     }
 
-
+    public IEnumerable<Skill> GetSkills() {
+        return _skills;
+    }
 }
 
