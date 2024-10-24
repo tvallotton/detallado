@@ -31,15 +31,6 @@ public class Player {
         team.AddUnit(unit);
     }
 
-    public void AddEffect(Effect effect) {
-        GetFighter().AddEffect(effect);
-    }
-
-    public override string ToString() {
-        return $"Player {{ team: {team} }}";
-    }
-
-
     public bool IsTeamValid() {
         return team.IsValid();
     }
@@ -52,14 +43,10 @@ public class Player {
         return !team.units.Any((unit) => unit.IsAlive());
     }
 
-
-
     public void ClearFighter() {
         GetFighter().ClearEffects();
         fighter = null;
     }
-
-
 }
 
 

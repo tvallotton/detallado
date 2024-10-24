@@ -14,7 +14,7 @@ public class Game {
     private string _teamsFolder;
 
     public List<Player> players;
-    public int turn;
+    private int _turn;
     private int _round;
 
 
@@ -23,9 +23,7 @@ public class Game {
         _teamsFolder = teamsFolder;
         players = new List<Player>();
         _round = 1;
-        turn = 0;
-
-
+        _turn = 0;
     }
 
     public void Play() {
@@ -48,7 +46,7 @@ public class Game {
     }
 
     void EndRoundClenup() {
-        turn = (turn + 1) & 1;
+        _turn = (_turn + 1) & 1;
         _round += 1;
         players[0].ClearFighter();
         players[1].ClearFighter();
@@ -72,7 +70,7 @@ public class Game {
     }
 
     IEnumerable<int> turnIter() {
-        if (turn == 0)
+        if (_turn == 0)
             return [0, 1];
         else return [1, 0];
     }
@@ -108,6 +106,9 @@ public class Game {
         }
     }
 
+    public bool IsPlayersTurn(int player) {
+        return _turn == (player & 1);
+    }
 
     void LaunchAttack() {
         _view.WriteLine($"{Attacker()} ataca a {Defender()} con {Attacker().Attack(Defender())} de daño");
@@ -118,7 +119,7 @@ public class Game {
     }
 
     void AnounceFightStarts() {
-        _view.WriteLine($"Round {_round}: {Attacker()} (Player {turn + 1}) comienza");
+        _view.WriteLine($"Round {_round}: {Attacker()} (Player {_turn + 1}) comienza");
     }
 
     void SetupEffects() {
@@ -175,11 +176,11 @@ public class Game {
     }
 
     public Unit Attacker() {
-        return Fighter(turn);
+        return Fighter(_turn);
     }
 
     public Unit Defender() {
-        return Fighter(turn + 1);
+        return Fighter(_turn + 1);
     }
 
 
