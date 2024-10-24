@@ -1,5 +1,5 @@
 public enum EffectType {
-    Bonus,
-    Penalty
+    Bonus = "bonus",
+    Penalty = "penalty"
 }
 
