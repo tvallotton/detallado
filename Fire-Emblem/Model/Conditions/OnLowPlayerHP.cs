@@ -9,7 +9,7 @@ public class OnPlayerLowHP : BaseCondition {
     }
 
     protected internal override bool Check(Game game, int player) {
-        return game.Fighter(player).PercentageHP() <= _hp;
+        return game.Fighter(player).GetPercentageHP() <= _hp;
     }
 }
 

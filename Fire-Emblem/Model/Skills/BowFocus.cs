@@ -5,7 +5,7 @@ using Fire_Emblem;
 class BowFocus : BaseSkill {
     public override string name { get; } = "Bow Focus";
 
-    public override BaseCondition condition { get; } = new OnFighterWeapon(Weapon.Bow);
+    public override BaseCondition condition { get; } = new OnPlayerWeapon(Weapon.Bow);
 
 
     public override Effect PlayerEffect(Game game, int player) {

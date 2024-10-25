@@ -17,6 +17,8 @@ public class Game {
     private int _turn;
     private int _round;
 
+    private Scope _scope;
+
 
     public Game(View view, string teamsFolder) {
         _view = view;
@@ -80,31 +82,33 @@ public class Game {
 
 
     void Fight() {
+        _scope = Scope.FIRST_ATTACK;
         AnounceFightStarts();
         AnounceAdvantage();
         SetupEffects();
         LaunchAttack();
         if (Defender().IsAlive()) {
-            RetailateAttack();
+            RetaliateAttack();
         } else {
             FightResults();
             return;
         }
         if (Attacker().IsAlive()) {
+            _scope = Scope.FOLLOW_UP;
             FollowUp();
         }
         FightResults();
     }
 
     void FightResults() {
-        _view.WriteLine($"{Attacker()} ({Attacker().HP()}) : {Defender()} ({Defender().HP()})");
+        _view.WriteLine($"{Attacker()} ({Attacker().GetHP()}) : {Defender()} ({Defender().GetHP()})");
     }
 
     void FollowUp() {
         if (Defender().Get(Stat.Spd) + 5 <= Attacker().Get(Stat.Spd)) {
             LaunchAttack();
         } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
-            RetailateAttack();
+            RetaliateAttack();
         } else {
             _view.WriteLine("Ninguna unidad puede hacer un follow up");
         }
@@ -115,12 +119,12 @@ public class Game {
     }
 
     void LaunchAttack() {
-        int damage = Attacker().Attack(Defender());
+        int damage = Attacker().Attack(Defender(), _scope);
         _view.AnounceAttack(Attacker(), Defender(), damage);
     }
 
-    void RetailateAttack() {
-        int damage = Defender().Attack(Attacker());
+    void RetaliateAttack() {
+        int damage = Defender().Attack(Attacker(), _scope);
         _view.AnounceAttack(Defender(), Attacker(), damage);
     }
 
@@ -138,20 +142,27 @@ public class Game {
         }
 
         foreach (var i in TurnIter()) {
-            AnounceEfectForPlayer(i, EffectType.Bonus);
-            AnounceEfectForPlayer(i, EffectType.Penalty);
-            AnounceNeutralizedEffectsForPlayer(i, EffectType.Bonus);
-            AnounceNeutralizedEffectsForPlayer(i, EffectType.Penalty);
-            AnounceDamageEffectsForPlayer(i);
+            AnounceEffectsForPlayer(i);
         }
     }
 
-    void AnounceDamageEffectsForPlayer(int player) {
-        var fighter = Fighter(player);
-        _view.AnouncePercentEffect(fighter, fighter.TotalPercentDamageReduction());
+    private void AnounceEffectsForPlayer(int player) {
+        AnounceStatEfectForPlayer(player, EffectType.Bonus);
+        AnounceStatEfectForPlayer(player, EffectType.Penalty);
+        AnounceNeutralizedEffectsForPlayer(player, EffectType.Bonus);
+        AnounceNeutralizedEffectsForPlayer(player, EffectType.Penalty);
+        AnounceDamageEffectsForPlayer(player);
     }
 
-    void AnounceEfectForPlayer(int player, EffectType effectType) {
+    private void AnounceDamageEffectsForPlayer(int player) {
+        var fighter = Fighter(player);
+        var reduction = fighter.GetTotalPercentDamageReduction(Scope.ALL);
+        _view.AnouncePercentEffect(fighter, reduction);
+        reduction = fighter.GetTotalPercentDamageReduction(Scope.FIRST_ATTACK);
+        _view.AnouncePercentEffectFirstAttack(fighter, reduction);
+    }
+
+    private void AnounceStatEfectForPlayer(int player, EffectType effectType) {
         var unit = Fighter(player);
         foreach (var stat in StatConstants.ORDERED) {
             var value = unit.GetEffectFor(stat, effectType);
@@ -159,7 +170,7 @@ public class Game {
         }
     }
 
-    void AnounceNeutralizedEffectsForPlayer(int player, EffectType effectType) {
+    private void AnounceNeutralizedEffectsForPlayer(int player, EffectType effectType) {
         var unit = Fighter(player);
         foreach (var stat in StatConstants.ORDERED) {
             if (unit.IsNeutralized(stat, effectType))

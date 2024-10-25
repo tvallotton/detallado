@@ -8,7 +8,7 @@ class Wrath : BaseSkill {
     public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
-        var damage = Math.Min(game.Fighter(player).AccumulatedDamage(), 30);
+        var damage = Math.Min(game.Fighter(player).GetAccumulatedDamage(), 30);
         return new Effect {
             difference = new Stats<int> {
                 Atk = damage,

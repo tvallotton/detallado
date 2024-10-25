@@ -61,6 +61,7 @@ public class Skill {
         new Perceptive(),
         new Dodge(),
         new DragonWall(),
+        new GoldenLotus(),
 };
 
     public Skill(string name) {

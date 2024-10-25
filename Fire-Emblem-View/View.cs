@@ -30,6 +30,12 @@ public class View {
         WriteLine($"{unit} reducirá el daño de los ataques del rival en un {value}%");
     }
 
+
+    public void AnouncePercentEffectFirstAttack(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} reducirá el daño del primer ataque del rival en un {value}%");
+    }
+
     public void AnounceNeutralizedEffect(object unit, object stat, object effectType) {
         var type = effectType.ToString()!.ToLower();
         WriteLine($"Los {type} de {stat} de {unit} fueron neutralizados");

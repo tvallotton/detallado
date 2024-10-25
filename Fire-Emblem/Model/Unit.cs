@@ -30,11 +30,11 @@ public class Unit {
 
 
     public bool IsAlive() {
-        return 0 < HP();
+        return 0 < GetHP();
     }
 
-    public int Attack(Unit rival) {
-        int damage = ComputeDamage(this, rival);
+    public int Attack(Unit rival, Scope scope) {
+        int damage = ComputeDamage(this, rival, scope);
         rival.TakeDamage(damage);
         return damage;
     }
@@ -44,11 +44,12 @@ public class Unit {
     }
 
 
-    private static int ComputeDamage(Unit attacker, Unit defender) {
+    private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
         int damage = ComputeBaseDamage(attacker, defender);
-        damage += attacker.GetExtraDamage();
-        damage = defender.ReduceDamagePercentwise(damage);
-        damage -= defender.GetDamageReduction();
+        damage += attacker.GetExtraDamage(scope);
+
+        damage = defender.ReduceDamagePercentwise(damage, defender.GetEffectsByScope(scope));
+        damage -= defender.GetDamageReduction(scope);
         return Math.Max(damage, 0);
     }
 
@@ -57,9 +58,6 @@ public class Unit {
         int defense = GetDefense(attacker, defender);
         return Math.Max(attack - defense, 0);
     }
-
-
-
 
     private static double GetWTB(Unit attacker, Unit defender) {
         return attacker.GetWeapon().WTB(defender.GetWeapon());
@@ -73,7 +71,7 @@ public class Unit {
     }
 
     public bool HasAdvantageOver(Unit rival) {
-        return this.GetWeapon().HasAdvantageOver(rival.GetWeapon());
+        return GetWeapon().HasAdvantageOver(rival.GetWeapon());
     }
 
     public string GetName() {
@@ -85,20 +83,20 @@ public class Unit {
     }
 
 
-    public int HP() {
+    public int GetHP() {
         return Math.Max(_character.HP - _accumulatedDamage, 0);
     }
 
-    public int AccumulatedDamage() {
+    public int GetAccumulatedDamage() {
         return _accumulatedDamage;
     }
 
-    public int PercentageHP() {
-        return 100 * HP() / _character.HP;
+    public int GetPercentageHP() {
+        return 100 * GetHP() / _character.HP;
     }
 
-    public int TotalPercentDamageReduction() {
-        return 100 - ReduceDamagePercentwise(100);
+    public int GetTotalPercentDamageReduction(Scope scope) {
+        return 100 - ReduceDamagePercentwise(100, GetEffectByScopeExact(scope));
     }
 
     public int Get(Stat stat) {
@@ -166,21 +164,29 @@ public class Unit {
         return _skills;
     }
 
-    private int ReduceDamagePercentwise(int initialDamage) {
+    private int ReduceDamagePercentwise(int initialDamage, IEnumerable<Effect> effects) {
         double damage = initialDamage;
-        foreach (var effect in _effects) {
+        foreach (var effect in effects) {
             damage = damage * (100.0 - effect.percentDamageReduction) / 100.0;
             damage = Math.Round(damage, 9);
         }
         return Convert.ToInt32(Math.Floor(damage));
     }
 
-    private int GetExtraDamage() {
-        return _effects.Select(e => e.extraDamage).Sum();
+    private int GetExtraDamage(Scope scope) {
+        return GetEffectsByScope(scope).Select(e => e.extraDamage).Sum();
     }
 
-    private int GetDamageReduction() {
-        return _effects.Select(e => e.absoluteDamageReduction).Sum();
+    private int GetDamageReduction(Scope scope) {
+        return GetEffectsByScope(scope).Select(e => e.absoluteDamageReduction).Sum();
+    }
+
+    private IEnumerable<Effect> GetEffectsByScope(Scope scope) {
+        return _effects.Where(effect => effect.scope.Includes(scope));
+    }
+
+    private IEnumerable<Effect> GetEffectByScopeExact(Scope scope) {
+        return _effects.Where(effect => effect.scope == scope);
     }
 }
 

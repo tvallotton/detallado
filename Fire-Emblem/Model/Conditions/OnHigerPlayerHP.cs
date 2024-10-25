@@ -9,7 +9,7 @@ public class OnHigherPlayerHP : BaseCondition {
     }
 
     protected internal override bool Check(Game game, int player) {
-        return game.Fighter(player).HP() > game.Fighter(player + 1).HP() + 3;
+        return game.Fighter(player).GetHP() > game.Fighter(player + 1).GetHP() + 3;
     }
 }
 
