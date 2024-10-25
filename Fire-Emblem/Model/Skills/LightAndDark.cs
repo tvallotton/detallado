@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class LightAndDark : BaseSkill {
-    public override string Name { get; } = "Light and Dark";
+    public override string name { get; } = "Light and Dark";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

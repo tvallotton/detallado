@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class SolidGround : BaseSkill {
-    public override string Name { get; } = "Solid Ground";
+    public override string name { get; } = "Solid Ground";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

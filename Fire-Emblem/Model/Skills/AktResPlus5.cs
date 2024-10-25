@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class AktResPlus5 : BaseSkill {
-    public override string Name { get; } = "Atk/Res +5";
+    public override string name { get; } = "Atk/Res +5";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

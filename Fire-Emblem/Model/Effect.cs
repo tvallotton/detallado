@@ -15,6 +15,12 @@ public class Effect {
 
     public Scope scope = Scope.ALL;
 
+    public int extraDamage = 0;
+
+    public int percentDamageReduction = 0;
+
+    public int absoluteDamageReduction = 0;
+
 
     public Stats<bool> GetNeutralized(EffectType effectType) {
         switch (effectType) {

@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class Wrath : BaseSkill {
-    public override string Name { get; } = "Wrath";
+    public override string name { get; } = "Wrath";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         var damage = Math.Min(game.Fighter(player).AccumulatedDamage(), 30);

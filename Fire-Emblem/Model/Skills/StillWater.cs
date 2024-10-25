@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class StillWater : BaseSkill {
-    public override string Name { get; } = "Still Water";
+    public override string name { get; } = "Still Water";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

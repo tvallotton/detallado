@@ -60,22 +60,24 @@ public class Game {
 
     void AnounceWinner() {
         int winner = players[0].HasLost() ? 2 : 1;
-        _view.WriteLine($"Player {winner} ganó");
+        _view.AnounceWinner(winner);
     }
 
     void SelectPlayers() {
-        foreach (var i in turnIter()) {
+        foreach (var i in TurnIter()) {
             _view.WriteLine($"Player {i + 1} selecciona una opción");
             _view.WriteLine(players[i].UnitOptions());
             players[i].SetFighter(Int32.Parse(_view.ReadLine()));
         }
     }
 
-    IEnumerable<int> turnIter() {
+    private IEnumerable<int> TurnIter() {
         if (_turn == 0)
             return [0, 1];
         else return [1, 0];
     }
+
+
 
     void Fight() {
         AnounceFightStarts();
@@ -125,10 +127,14 @@ public class Game {
     }
 
     void SetupEffects() {
-        foreach (var i in turnIter()) {
-            SetupEffectsForPlayer(i);
+        foreach (var i in TurnIter()) {
+            SetupStatEffectsForPlayer(i);
         }
-        foreach (var i in turnIter()) {
+        foreach (var i in TurnIter()) {
+            SetupDamageEffectsForPlayer(i);
+        }
+
+        foreach (var i in TurnIter()) {
             AnounceEfectForPlayer(i, EffectType.Bonus);
             AnounceEfectForPlayer(i, EffectType.Penalty);
             AnounceNeutralizedEffectsForPlayer(i, EffectType.Bonus);
@@ -153,10 +159,17 @@ public class Game {
     }
 
 
-    void SetupEffectsForPlayer(int player) {
+    void SetupStatEffectsForPlayer(int player) {
         var fighter = players[player].GetFighter();
         foreach (var skill in fighter.GetSkills()) {
-            skill.Install(this, player);
+            skill.InstallOnStats(this, player);
+        }
+    }
+
+    void SetupDamageEffectsForPlayer(int player) {
+        var fighter = players[player].GetFighter();
+        foreach (var skill in fighter.GetSkills()) {
+            skill.InstallOnDamage(this, player);
         }
     }
 

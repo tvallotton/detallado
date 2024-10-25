@@ -34,6 +34,10 @@ public class View {
         WriteLine($"Los penalty de {stat} de {unit} fueron neutralizados");
     }
 
+    public void AnounceWinner(int unit) {
+        WriteLine($"Player {unit} ganó");
+    }
+
     public string ReadLine() => _view.ReadLine();
 
     public void WriteLine(string message) {

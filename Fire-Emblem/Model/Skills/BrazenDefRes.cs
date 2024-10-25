@@ -3,10 +3,10 @@
 using Fire_Emblem;
 
 class BrazenDefRes : BaseSkill {
-    public override string Name { get; } = "Brazen Def/Res";
+    public override string name { get; } = "Brazen Def/Res";
 
 
-    public override BaseCondition Condition { get; } = new OnPlayerLowHP(80);
+    public override BaseCondition condition { get; } = new OnPlayerLowHP(80);
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

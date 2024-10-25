@@ -3,10 +3,10 @@
 using Fire_Emblem;
 
 class BracingBlow : BaseSkill {
-    public override string Name { get; } = "Bracing Blow";
+    public override string name { get; } = "Bracing Blow";
 
 
-    public override BaseCondition Condition { get; } = new OnPlayersTurn();
+    public override BaseCondition condition { get; } = new OnPlayersTurn();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

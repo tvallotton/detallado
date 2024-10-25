@@ -5,9 +5,9 @@ using Fire_Emblem;
 
 
 public class Dragonskin : BaseSkill {
-    public override string Name { get; } = "Dragonskin";
+    public override string name { get; } = "Dragonskin";
 
-    public override BaseCondition Condition { get; } = new OnRivalsTurn().Or(new OnHighRivalHP(75));
+    public override BaseCondition condition { get; } = new OnRivalsTurn().Or(new OnHighRivalHP(75));
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

@@ -3,12 +3,12 @@ using Fire_Emblem;
 
 public class UnimplementedSkill : BaseSkill {
 
-    public override string Name { get; }
+    public override string name { get; }
 
     public UnimplementedSkill(string name) {
-        Name = name;
+        this.name = name;
     }
 
 
-    public override BaseCondition Condition { get; } = new Always().Not();
+    public override BaseCondition condition { get; } = new Never();
 }

@@ -14,8 +14,6 @@ public abstract class BaseCondition {
         return new And(this, condition);
     }
 
-    public BaseCondition Not() {
-        return new Not(this);
-    }
+
 }
 

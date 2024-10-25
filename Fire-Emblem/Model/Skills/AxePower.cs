@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class AxePower : BaseSkill {
-    public override string Name { get; } = "Axe Power";
+    public override string name { get; } = "Axe Power";
 
-    public override BaseCondition Condition { get; } = new OnFighterWeapon(Weapon.Axe);
+    public override BaseCondition condition { get; } = new OnFighterWeapon(Weapon.Axe);
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

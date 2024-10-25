@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class SturdyBow : BaseSkill {
-    public override string Name { get; } = "Sturdy Blow";
+    public override string name { get; } = "Sturdy Blow";
 
-    public override BaseCondition Condition { get; } = new OnPlayersTurn();
+    public override BaseCondition condition { get; } = new OnPlayersTurn();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

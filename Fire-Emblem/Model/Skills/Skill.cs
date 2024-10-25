@@ -63,15 +63,19 @@ public class Skill {
 
     public Skill(string name) {
         skill = SKILLS
-            .FirstOrDefault((skill) => skill.Name == name)
+            .FirstOrDefault((skill) => skill.name == name)
             ?? new UnimplementedSkill(name);
     }
 
     public string Name() {
-        return skill.Name;
+        return skill.name;
     }
 
-    public string? Install(Game game, int player) {
-        return skill.Install(game, player);
+    public void InstallOnStats(Game game, int player) {
+        skill.InstallOnStats(game, player);
+    }
+
+    public void InstallOnDamage(Game game, int player) {
+        skill.InstallOnDamage(game, player);
     }
 }

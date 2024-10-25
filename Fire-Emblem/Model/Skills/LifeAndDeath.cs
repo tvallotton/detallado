@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class LifeAndDeath : BaseSkill {
-    public override string Name { get; } = "Life and Death";
+    public override string name { get; } = "Life and Death";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class SwordAgility : BaseSkill {
-    public override string Name { get; } = "Sword Agility";
+    public override string name { get; } = "Sword Agility";
 
-    public override BaseCondition Condition { get; } = new OnFighterWeapon(Weapon.Sword);
+    public override BaseCondition condition { get; } = new OnFighterWeapon(Weapon.Sword);
 
     public override Effect PlayerEffect(Game game, int player) {
         return new Effect {

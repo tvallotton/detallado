@@ -3,9 +3,9 @@
 using Fire_Emblem;
 
 class LullAtkSpd : BaseSkill {
-    public override string Name { get; } = "Lull Atk/Spd";
+    public override string name { get; } = "Lull Atk/Spd";
 
-    public override BaseCondition Condition { get; } = new Always();
+    public override BaseCondition condition { get; } = new Always();
 
     public override Effect RivalEffect(Game game, int player) {
 
