@@ -11,7 +11,11 @@ class AegisShield : BaseSkill {
                 Def = 6,
                 Res = 3,
             },
-            scope = Scope.FIRST_ATTACK
+        };
+
+        yield return new Effect {
+            percentDamageReduction = 50,
+            scope = Scope.FIRST_ATTACK,
         };
     }
 }
