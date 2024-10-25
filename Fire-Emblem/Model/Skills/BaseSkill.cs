@@ -15,11 +15,11 @@ public abstract class BaseSkill {
 
 
     public virtual IEnumerable<Effect> PlayerEffects(Game game, int player) {
-        yield return new Effect();
+        return [];
     }
 
     public virtual IEnumerable<Effect> RivalEffects(Game game, int player) {
-        yield return new Effect();
+        return [];
     }
 
     public void Install(Game game, int player, EffectDependency dependencies) {
@@ -29,10 +29,13 @@ public abstract class BaseSkill {
 
     void AddEffects(Game game, int player) {
         foreach (var effect in PlayerEffects(game, player)) {
+            effect.name = $"{game.Fighter(player)} {name}";
+            Console.WriteLine($"add effects {effect}");
             game.Fighter(player).AddEffect(effect);
         }
 
         foreach (var effect in RivalEffects(game, player)) {
+            effect.name = name;
             game.Fighter(player + 1).AddEffect(effect);
         }
 

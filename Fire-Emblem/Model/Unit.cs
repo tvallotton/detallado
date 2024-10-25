@@ -45,11 +45,12 @@ public class Unit {
 
 
     private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
-        var effects = defender.GetEffectsByScope(scope).ToList();
+        var defenderEffects = defender.GetEffectsByScope(scope).ToList();
+        var attackerEffects = attacker.GetEffectsByScope(scope);
         int damage = ComputeBaseDamage(attacker, defender, scope);
-        damage += attacker.GetExtraDamage(scope);
-        damage = defender.ReduceDamagePercentwise(damage, effects);
-        damage -= defender.GetDamageReduction(effects);
+        damage += attacker.GetExtraDamage(attackerEffects);
+        damage = defender.ReduceDamagePercentwise(damage, defenderEffects);
+        damage -= defender.GetDamageReduction(defenderEffects);
         return Math.Max(damage, 0);
     }
 

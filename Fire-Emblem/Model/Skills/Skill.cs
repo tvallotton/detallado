@@ -65,6 +65,8 @@ public class Skill {
         new AegisShield(),
         new BlueSkies(),
         new BracingStance(),
+        new Bushido(),
+        new Chivalry(),
 };
 
     public Skill(string name) {
