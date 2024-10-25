@@ -14,10 +14,10 @@ public class Tests {
     // public void TestE1_InvalidTeams(string teamsFolder, string testFile)
     //     => RunTest(teamsFolder, testFile);
 
-    [Theory]
-    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2")]
-    public void TestE2(string teamsFolder, string testFile)
-        => RunTest(teamsFolder, testFile);
+    // [Theory]
+    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2")]
+    // public void TestE2(string teamsFolder, string testFile)
+    //     => RunTest(teamsFolder, testFile);
 
     // [Theory]
     // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2-Random")]
@@ -29,10 +29,10 @@ public class Tests {
     // public void TestE2_Mix(string teamsFolder, string testFile)
     //     => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3")]
-    // public void TestE3(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3")]
+    public void TestE3(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
     // [Theory]
     // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3-Random")]
