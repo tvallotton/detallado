@@ -7,8 +7,8 @@ class AgneasArrow : BaseSkill {
 
     public override BaseCondition condition { get; } = new Always();
 
-    public override Effect PlayerEffect(Game game, int player) {
-        return new Effect {
+    public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
+        yield return new Effect {
             neutralizedPenalty = Stats<bool>.All(),
         };
     }

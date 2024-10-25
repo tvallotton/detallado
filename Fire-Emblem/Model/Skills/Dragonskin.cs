@@ -9,8 +9,8 @@ public class Dragonskin : BaseSkill {
 
     public override BaseCondition condition { get; } = new OnRivalsTurn().Or(new OnHighRivalHP(75));
 
-    public override Effect PlayerEffect(Game game, int player) {
-        return new Effect {
+    public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
+        yield return new Effect {
             difference = new Stats<int> {
                 Atk = 6,
                 Spd = 6,
@@ -19,8 +19,8 @@ public class Dragonskin : BaseSkill {
             }
         };
     }
-    public override Effect RivalEffect(Game game, int player) {
-        return new Effect {
+    public override IEnumerable<Effect> RivalEffects(Game game, int player) {
+        yield return new Effect {
             neutralizedBonus = Stats<bool>.All(),
         };
     }

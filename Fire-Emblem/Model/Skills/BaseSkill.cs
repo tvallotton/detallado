@@ -14,12 +14,12 @@ public abstract class BaseSkill {
     public virtual BaseCondition condition { get; } = new Always();
 
 
-    public virtual Effect PlayerEffect(Game game, int player) {
-        return new Effect();
+    public virtual IEnumerable<Effect> PlayerEffects(Game game, int player) {
+        yield return new Effect();
     }
 
-    public virtual Effect RivalEffect(Game game, int player) {
-        return new Effect();
+    public virtual IEnumerable<Effect> RivalEffects(Game game, int player) {
+        yield return new Effect();
     }
 
     public void Install(Game game, int player, EffectDependency dependencies) {
@@ -28,12 +28,13 @@ public abstract class BaseSkill {
     }
 
     void AddEffects(Game game, int player) {
-        var playerEff = PlayerEffect(game, player);
-        game.Fighter(player).AddEffect(playerEff);
+        foreach (var effect in PlayerEffects(game, player)) {
+            game.Fighter(player).AddEffect(effect);
+        }
 
-
-        var rivalEff = RivalEffect(game, player);
-        game.Fighter(player + 1).AddEffect(rivalEff);
+        foreach (var effect in RivalEffects(game, player)) {
+            game.Fighter(player + 1).AddEffect(effect);
+        }
 
     }
 }

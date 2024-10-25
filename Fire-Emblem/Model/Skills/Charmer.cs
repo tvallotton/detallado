@@ -7,8 +7,8 @@ class Charmer : BaseSkill {
 
     public override BaseCondition condition { get; } = new OnRivalIsLatestOpponent();
 
-    public override Effect RivalEffect(Game game, int player) {
-        return new Effect {
+    public override IEnumerable<Effect> RivalEffects(Game game, int player) {
+        yield return new Effect {
             difference = new Stats<int> {
                 Atk = -3,
                 Spd = -3,

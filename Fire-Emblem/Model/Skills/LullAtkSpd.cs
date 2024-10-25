@@ -7,9 +7,9 @@ class LullAtkSpd : BaseSkill {
 
     public override BaseCondition condition { get; } = new Always();
 
-    public override Effect RivalEffect(Game game, int player) {
+    public override IEnumerable<Effect> RivalEffects(Game game, int player) {
 
-        return new Effect {
+        yield return new Effect {
             difference = new Stats<int> {
                 Spd = -3,
                 Atk = -3,

@@ -7,13 +7,17 @@ class LullAtkRes : BaseSkill {
 
     public override BaseCondition condition { get; } = new Always();
 
-    public override Effect RivalEffect(Game game, int player) {
-        var effect = new Effect();
-        effect.difference.Res = -3;
-        effect.difference.Atk = -3;
-        effect.neutralizedBonus.Res = true;
-        effect.neutralizedBonus.Atk = true;
-        return effect;
+    public override IEnumerable<Effect> RivalEffects(Game game, int player) {
+        yield return new Effect {
+            difference = new Stats<int> {
+                Res = -3,
+                Atk = -3
+            },
+            neutralizedBonus = new Stats<bool> {
+                Res = true,
+                Atk = true
+            }
+        };
     }
 
 }
