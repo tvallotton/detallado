@@ -20,9 +20,14 @@ public class View {
         WriteLine($"{attacker} ataca a {defender} con {damage} de daño");
     }
 
-    public void AnounceEffect(object unit, object stat, int value) {
+    public void AnounceStatEffect(object unit, object stat, int value) {
         if (value == 0) return;
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")}");
+    }
+
+    public void AnouncePercentEffect(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} reducirá el daño de los ataques del rival en un {value}%");
     }
 
     public void AnounceNeutralizedEffect(object unit, object stat, object effectType) {

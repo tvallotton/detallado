@@ -142,14 +142,20 @@ public class Game {
             AnounceEfectForPlayer(i, EffectType.Penalty);
             AnounceNeutralizedEffectsForPlayer(i, EffectType.Bonus);
             AnounceNeutralizedEffectsForPlayer(i, EffectType.Penalty);
+            AnounceDamageEffectsForPlayer(i);
         }
+    }
+
+    void AnounceDamageEffectsForPlayer(int player) {
+        var fighter = Fighter(player);
+        _view.AnouncePercentEffect(fighter, fighter.TotalPercentDamageReduction());
     }
 
     void AnounceEfectForPlayer(int player, EffectType effectType) {
         var unit = Fighter(player);
         foreach (var stat in StatConstants.ORDERED) {
             var value = unit.GetEffectFor(stat, effectType);
-            _view.AnounceEffect(unit, stat, value);
+            _view.AnounceStatEffect(unit, stat, value);
         }
     }
 

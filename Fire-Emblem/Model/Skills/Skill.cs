@@ -60,6 +60,7 @@ public class Skill {
         new Charmer(),
         new Perceptive(),
         new Dodge(),
+        new DragonWall(),
 };
 
     public Skill(string name) {

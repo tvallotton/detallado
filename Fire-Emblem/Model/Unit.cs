@@ -97,6 +97,10 @@ public class Unit {
         return 100 * HP() / _character.HP;
     }
 
+    public int TotalPercentDamageReduction() {
+        return 100 - ReduceDamagePercentwise(100);
+    }
+
     public int Get(Stat stat) {
         return (
             GetBaseStat(stat) +
@@ -165,7 +169,7 @@ public class Unit {
     private int ReduceDamagePercentwise(int initialDamage) {
         double damage = initialDamage;
         foreach (var effect in _effects) {
-            damage = damage * (1 - effect.percentDamageReduction);
+            damage = damage * (100.0 - effect.percentDamageReduction) / 100.0;
             damage = Math.Round(damage, 9);
         }
         return Convert.ToInt32(Math.Floor(damage));
