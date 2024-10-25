@@ -45,11 +45,11 @@ public class Unit {
 
 
     private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
+        var effects = defender.GetEffectsByScope(scope);
         int damage = ComputeBaseDamage(attacker, defender, scope);
         damage += attacker.GetExtraDamage(scope);
-
-        damage = defender.ReduceDamagePercentwise(damage, defender.GetEffectsByScope(scope));
-        damage -= defender.GetDamageReduction(scope);
+        damage = defender.ReduceDamagePercentwise(damage, effects);
+        damage -= defender.GetDamageReduction(effects);
         return Math.Max(damage, 0);
     }
 
@@ -97,6 +97,13 @@ public class Unit {
 
     public int GetTotalPercentDamageReduction(Scope scope) {
         return 100 - ReduceDamagePercentwise(100, GetEffectByScopeExact(scope));
+    }
+
+    public int GetExtraDamage(Scope scope) {
+        return GetExtraDamage(GetEffectByScopeExact(scope));
+    }
+    public int GetAbsoluteDamageReduction(Scope scope) {
+        return GetDamageReduction(GetEffectByScopeExact(scope));
     }
 
     public int Get(Stat stat) {
@@ -169,12 +176,12 @@ public class Unit {
         return Convert.ToInt32(Math.Floor(damage));
     }
 
-    private int GetExtraDamage(Scope scope) {
-        return GetEffectsByScope(scope).Select(e => e.extraDamage).Sum();
+    private int GetExtraDamage(IEnumerable<Effect> effects) {
+        return effects.Select(e => e.extraDamage).Sum();
     }
 
-    private int GetDamageReduction(Scope scope) {
-        return GetEffectsByScope(scope).Select(e => e.absoluteDamageReduction).Sum();
+    private int GetDamageReduction(IEnumerable<Effect> effects) {
+        return effects.Select(e => e.absoluteDamageReduction).Sum();
     }
 
     private IEnumerable<Effect> GetEffectsByScope(Scope scope) {

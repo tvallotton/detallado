@@ -152,14 +152,35 @@ public class Game {
         AnounceNeutralizedEffectsForPlayer(player, EffectType.Bonus);
         AnounceNeutralizedEffectsForPlayer(player, EffectType.Penalty);
         AnounceDamageEffectsForPlayer(player);
+
     }
 
     private void AnounceDamageEffectsForPlayer(int player) {
         var fighter = Fighter(player);
-        var reduction = fighter.GetTotalPercentDamageReduction(Scope.ALL);
-        _view.AnouncePercentEffect(fighter, reduction);
-        reduction = fighter.GetTotalPercentDamageReduction(Scope.FIRST_ATTACK);
-        _view.AnouncePercentEffectFirstAttack(fighter, reduction);
+        AnounceExtraDamageEffects(fighter);
+        AnouncePercentDamageReduction(fighter);
+        AnounceAbsoluteDamageReductionEffects(fighter);
+    }
+
+    private void AnouncePercentDamageReduction(Unit fighter) {
+        foreach (var scope in Enum.GetValues<Scope>()) {
+            var reduction = fighter.GetTotalPercentDamageReduction(scope);
+            _view.AnouncePercentEffect(fighter, reduction, scope);
+        }
+    }
+
+    private void AnounceExtraDamageEffects(Unit fighter) {
+        foreach (var scope in Enum.GetValues<Scope>()) {
+            var damage = fighter.GetExtraDamage(scope);
+            _view.AnounceExtraDamageEffect(fighter, damage, scope);
+        }
+    }
+
+    private void AnounceAbsoluteDamageReductionEffects(Unit fighter) {
+        foreach (var scope in Enum.GetValues<Scope>()) {
+            var reduction = fighter.GetAbsoluteDamageReduction(scope);
+            _view.AnounceAbsoluteDamageReduction(fighter, reduction, scope);
+        }
     }
 
     private void AnounceStatEffectsForPlayer(int player, EffectType effectType) {
