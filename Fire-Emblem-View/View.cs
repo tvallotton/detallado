@@ -16,6 +16,10 @@ public class View {
         _view = newView;
     }
 
+    public void AnounceAttack(object attacker, object defender, int damage) {
+        WriteLine($"{attacker} ataca a {defender} con {damage} de daño");
+    }
+
     public void AnounceEffect(object unit, object stat, int value) {
         if (value == 0) return;
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")}");
@@ -37,6 +41,11 @@ public class View {
     public void AnounceWinner(int unit) {
         WriteLine($"Player {unit} ganó");
     }
+
+    public void AnounceFightStarts(int round, object attacker, int turn) {
+        WriteLine($"Round {round}: {attacker} (Player {turn}) comienza");
+    }
+
 
     public string ReadLine() => _view.ReadLine();
 

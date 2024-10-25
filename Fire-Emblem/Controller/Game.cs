@@ -115,15 +115,17 @@ public class Game {
     }
 
     void LaunchAttack() {
-        _view.WriteLine($"{Attacker()} ataca a {Defender()} con {Attacker().Attack(Defender())} de daño");
+        int damage = Attacker().Attack(Defender());
+        _view.AnounceAttack(Attacker(), Defender(), damage);
     }
 
     void RetailateAttack() {
-        _view.WriteLine($"{Defender()} ataca a {Attacker()} con {Defender().Attack(Attacker())} de daño");
+        int damage = Defender().Attack(Attacker());
+        _view.AnounceAttack(Defender(), Attacker(), damage);
     }
 
     void AnounceFightStarts() {
-        _view.WriteLine($"Round {_round}: {Attacker()} (Player {_turn + 1}) comienza");
+        _view.AnounceFightStarts(_round, Attacker(), _turn + 1);
     }
 
     void SetupEffects() {
@@ -160,19 +162,24 @@ public class Game {
 
 
     void SetupStatEffectsForPlayer(int player) {
-        var fighter = players[player].GetFighter();
-        foreach (var skill in fighter.GetSkills()) {
+        foreach (var skill in ForSkillInFighter(player)) {
             skill.InstallOnStats(this, player);
         }
     }
 
     void SetupDamageEffectsForPlayer(int player) {
-        var fighter = players[player].GetFighter();
-        foreach (var skill in fighter.GetSkills()) {
+        foreach (var skill in ForSkillInFighter(player)) {
             skill.InstallOnDamage(this, player);
         }
     }
 
+
+    private IEnumerable<Skill> ForSkillInFighter(int player) {
+        var fighter = players[player].GetFighter();
+        foreach (var skill in fighter.GetSkills()) {
+            yield return skill;
+        }
+    }
 
     public Unit Fighter(int player) {
         return players[player & 1].GetFighter();
