@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-public class CharacterDto {
+public class Character {
     public string Name { get; set; }
     public Weapon Weapon { get; set; }
     public string Gender { get; set; }

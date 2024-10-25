@@ -13,17 +13,17 @@ static class Utils {
         }
     }
 
-    public static CharacterDto GetCharacterByName(string name) {
-        CharacterDto? character = ReadCharacterJSON().Find(character => character.Name == name);
+    public static Character GetCharacterByName(string name) {
+        Character? character = ReadCharacterJSON().Find(character => character.Name == name);
 
         Trace.Assert(character != null);
 
         return character!;
     }
 
-    static List<CharacterDto> ReadCharacterJSON() {
+    static List<Character> ReadCharacterJSON() {
         string json = File.ReadAllText("characters.json");
-        var characters = JsonSerializer.Deserialize<List<CharacterDto>>(json);
+        var characters = JsonSerializer.Deserialize<List<Character>>(json);
         Trace.Assert(characters != null);
         return characters;
     }

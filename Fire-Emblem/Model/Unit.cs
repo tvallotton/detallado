@@ -8,7 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 
 public class Unit {
-    private CharacterDto _character;
+    private Character _character;
 
     private int _accumulatedDamage;
 
@@ -34,7 +34,7 @@ public class Unit {
     }
 
     public int Attack(Unit rival) {
-        int damage = Damage(this, rival);
+        int damage = ComputeDamage(this, rival);
         rival.TakeDamage(damage);
         return damage;
     }
@@ -44,11 +44,22 @@ public class Unit {
     }
 
 
-    private static int Damage(Unit attacker, Unit defender) {
+    private static int ComputeDamage(Unit attacker, Unit defender) {
+        int damage = ComputeBaseDamage(attacker, defender);
+        damage += attacker.GetExtraDamage();
+        damage = defender.ReduceDamagePercentwise(damage);
+        damage -= defender.GetDamageReduction();
+        return Math.Max(damage, 0);
+    }
+
+    private static int ComputeBaseDamage(Unit attacker, Unit defender) {
         int attack = (int)(attacker.Get(Stat.Atk) * GetWTB(attacker, defender));
         int defense = GetDefense(attacker, defender);
         return Math.Max(attack - defense, 0);
     }
+
+
+
 
     private static double GetWTB(Unit attacker, Unit defender) {
         return attacker.GetWeapon().WTB(defender.GetWeapon());
@@ -149,6 +160,23 @@ public class Unit {
 
     public IEnumerable<Skill> GetSkills() {
         return _skills;
+    }
+
+    private int ReduceDamagePercentwise(int initialDamage) {
+        double damage = initialDamage;
+        foreach (var effect in _effects) {
+            damage = damage * (1 - effect.percentDamageReduction);
+            damage = Math.Round(damage, 9);
+        }
+        return Convert.ToInt32(Math.Floor(damage));
+    }
+
+    private int GetExtraDamage() {
+        return _effects.Select(e => e.extraDamage).Sum();
+    }
+
+    private int GetDamageReduction() {
+        return _effects.Select(e => e.absoluteDamageReduction).Sum();
     }
 }
 

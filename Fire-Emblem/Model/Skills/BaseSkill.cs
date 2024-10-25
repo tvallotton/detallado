@@ -13,8 +13,6 @@ public abstract class BaseSkill {
 
     public virtual BaseCondition condition { get; } = new Always();
 
-    public virtual EffectDependency dependency { get; } = EffectDependency.None;
-
 
     public virtual Effect PlayerEffect(Game game, int player) {
         return new Effect();
@@ -25,7 +23,7 @@ public abstract class BaseSkill {
     }
 
     public void Install(Game game, int player, EffectDependency dependencies) {
-        if (dependency == dependencies && condition.Check(game, player))
+        if (condition.Holds(game, player, dependencies))
             AddEffects(game, player);
     }
 

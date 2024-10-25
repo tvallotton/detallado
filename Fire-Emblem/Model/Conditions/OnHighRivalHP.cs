@@ -8,7 +8,7 @@ public class OnHighRivalHP : BaseCondition {
         _hp = hp;
     }
 
-    public override bool Check(Game game, int player) {
+    protected internal override bool Check(Game game, int player) {
         return game.Fighter(player + 1).PercentageHP() <= _hp;
     }
 }

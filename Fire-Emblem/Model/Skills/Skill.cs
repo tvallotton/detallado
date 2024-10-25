@@ -58,7 +58,8 @@ public class Skill {
         new Wrath(),
         new SingleMinded(),
         new Charmer(),
-        new Perceptive()
+        new Perceptive(),
+        new Dodge(),
 };
 
     public Skill(string name) {

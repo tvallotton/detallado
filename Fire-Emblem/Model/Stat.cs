@@ -15,5 +15,4 @@ public class StatConstants {
             Stat.Def,
             Stat.Res,
     };
-
 }

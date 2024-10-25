@@ -5,14 +5,14 @@ using Fire_Emblem;
 class Dodge : BaseSkill {
     public override string name { get; } = "Dodge";
 
-    public override BaseCondition condition { get; } = new OnDistantDef();
+    public override BaseCondition condition { get; } = new OnGreaterPlayerStat(Stat.Spd);
 
     public override Effect PlayerEffect(Game game, int player) {
+        var unitSpd = game.Fighter(player).Get(Stat.Spd);
+        var rivalSpd = game.Fighter(player).Get(Stat.Spd);
+        var percentage = unitSpd - rivalSpd;
         return new Effect {
-            difference = new Stats<int> {
-                Def = 8,
-                Res = 8
-            }
+            percentDamageReduction = Math.Min(percentage, 40),
         };
     }
     public override Effect RivalEffect(Game game, int player) {
