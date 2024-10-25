@@ -35,15 +35,63 @@ public class View {
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")} en su Follow-Up");
     }
 
-    public void AnouncePercentEffect(object unit, int value) {
+    public void AnouncePercentEffect(object unit, int value, Scope scope) {
         if (value == 0) return;
-        WriteLine($"{unit} reducirá el daño de los ataques del rival en un {value}%");
+        switch (scope) {
+            case Scope.ALL:
+                WriteLine($"{unit} reducirá el daño de los ataques del rival en un {value}%");
+                break;
+            case Scope.FIRST_ATTACK:
+                WriteLine($"{unit} reducirá el daño del primer ataque del rival en un {value}%");
+                break;
+            case Scope.FOLLOW_UP:
+                WriteLine($"{unit} reducirá el daño del Follow-Up del rival en un {value}%");
+                break;
+        }
+
+    }
+
+    public void AnounceExtraDamageEffect(object unit, int value, Scope scope) {
+        if (value == 0) return;
+        switch (scope) {
+            case Scope.ALL: WriteLine($"{unit} realizará +{value} daño extra en cada ataque"); break;
+            case Scope.FIRST_ATTACK: WriteLine($"{unit} realizará +{value} daño extra en su primer ataque"); break;
+            case Scope.FOLLOW_UP: WriteLine($"{unit} realizará +{value} daño extra en su follow up"); break;
+        }
+    }
+
+
+    public void AnounceExtraDamageEffectFollowUp(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} realizará +{value} daño extra en su Follow-UP");
+    }
+
+    public void AnounceAbsoluteDamageReduction(object unit, int value, Scope scope) {
+        if (value == 0) return;
+
+        WriteLine($"{unit} recibirá -{value} daño en cada ataque");
+    }
+
+    public void AnounceAbsoluteDamageReductionFirstAttack(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} recibirá +{value} daño en su primer ataque");
+    }
+
+    public void AnounceAbsoluteDamageReductionFollowUp(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} recibirá +{value} daño en su Follow-UP");
     }
 
 
     public void AnouncePercentEffectFirstAttack(object unit, int value) {
         if (value == 0) return;
         WriteLine($"{unit} reducirá el daño del primer ataque del rival en un {value}%");
+    }
+
+
+    public void AnouncePercentEffectFollowUp(object unit, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} reducirá el daño del Follow-Up del rival en un {value}%");
     }
 
     public void AnounceNeutralizedEffect(object unit, object stat, object effectType) {
