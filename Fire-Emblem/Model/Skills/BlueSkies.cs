@@ -1,5 +1,6 @@
 
 
+using System.Diagnostics;
 using Fire_Emblem;
 
 class BlueSkies : BaseSkill {
@@ -8,10 +9,13 @@ class BlueSkies : BaseSkill {
     public override BaseCondition condition { get; } = new Always();
 
     public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
-        yield return new Effect {
+        var effect = new Effect {
+            name = "blue skies",
             absoluteDamageReduction = 5,
             extraDamage = 5
         };
+        Trace.Assert(effect.absoluteDamageReduction == 5);
+        yield return effect;
     }
 
 }

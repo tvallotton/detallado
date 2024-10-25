@@ -45,7 +45,7 @@ public class Unit {
 
 
     private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
-        var effects = defender.GetEffectsByScope(scope);
+        var effects = defender.GetEffectsByScope(scope).ToList();
         int damage = ComputeBaseDamage(attacker, defender, scope);
         damage += attacker.GetExtraDamage(scope);
         damage = defender.ReduceDamagePercentwise(damage, effects);
@@ -153,7 +153,7 @@ public class Unit {
         return (_skills.Count() < 3) && AreSkillsDistinct();
     }
 
-    bool AreSkillsDistinct() {
+    private bool AreSkillsDistinct() {
         var skillNames = _skills.Select(skill => skill.Name());
         return skillNames.Count() == skillNames.Distinct().Count();
     }

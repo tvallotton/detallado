@@ -64,6 +64,7 @@ public class Skill {
         new GoldenLotus(),
         new AegisShield(),
         new BlueSkies(),
+        new BracingStance(),
 };
 
     public Skill(string name) {
