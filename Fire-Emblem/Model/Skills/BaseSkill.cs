@@ -1,5 +1,6 @@
 
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using Fire_Emblem;
 
 enum SkillType {
@@ -10,9 +11,9 @@ public abstract class BaseSkill {
 
     public virtual string name { get; } = "";
 
-    public virtual BaseCondition? condition { get; } = null;
+    public virtual BaseCondition condition { get; } = new Always();
 
-    public virtual BaseCondition? postCondition { get; } = null;
+    public virtual EffectDependency dependency { get; } = EffectDependency.None;
 
 
     public virtual Effect PlayerEffect(Game game, int player) {
@@ -23,17 +24,10 @@ public abstract class BaseSkill {
         return new Effect();
     }
 
-    public void InstallOnStats(Game game, int player) {
-        if (condition != null && condition.Check(game, player))
+    public void Install(Game game, int player, EffectDependency dependencies) {
+        if (dependency == dependencies && condition.Check(game, player))
             AddEffects(game, player);
     }
-
-
-    public void InstallOnDamage(Game game, int player) {
-        if (postCondition != null && postCondition.Check(game, player))
-            AddEffects(game, player);
-    }
-
 
     void AddEffects(Game game, int player) {
         var playerEff = PlayerEffect(game, player);

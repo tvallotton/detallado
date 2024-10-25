@@ -71,11 +71,7 @@ public class Skill {
         return skill.name;
     }
 
-    public void InstallOnStats(Game game, int player) {
-        skill.InstallOnStats(game, player);
-    }
-
-    public void InstallOnDamage(Game game, int player) {
-        skill.InstallOnDamage(game, player);
+    public void Install(Game game, int player, EffectDependency dependency) {
+        skill.Install(game, player, dependency);
     }
 }

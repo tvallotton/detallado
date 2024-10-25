@@ -130,10 +130,11 @@ public class Game {
 
     void SetupEffects() {
         foreach (var i in TurnIter()) {
-            SetupStatEffectsForPlayer(i);
+            SetupEffectsForPlayer(i, EffectDependency.None);
         }
+
         foreach (var i in TurnIter()) {
-            SetupDamageEffectsForPlayer(i);
+            SetupEffectsForPlayer(i, EffectDependency.Stats);
         }
 
         foreach (var i in TurnIter()) {
@@ -161,15 +162,9 @@ public class Game {
     }
 
 
-    void SetupStatEffectsForPlayer(int player) {
+    void SetupEffectsForPlayer(int player, EffectDependency dependency) {
         foreach (var skill in ForSkillInFighter(player)) {
-            skill.InstallOnStats(this, player);
-        }
-    }
-
-    void SetupDamageEffectsForPlayer(int player) {
-        foreach (var skill in ForSkillInFighter(player)) {
-            skill.InstallOnDamage(this, player);
+            skill.Install(this, player, dependency);
         }
     }
 
