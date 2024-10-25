@@ -165,7 +165,7 @@ public class Game {
     private void AnounceStatEfectForPlayer(int player, EffectType effectType) {
         var unit = Fighter(player);
         foreach (var stat in StatConstants.ORDERED) {
-            var value = unit.GetEffectFor(stat, effectType);
+            var value = unit.GetEffectFor(stat, effectType, (effect) => effect.scope == Scope.ALL);
             _view.AnounceStatEffect(unit, stat, value);
         }
     }

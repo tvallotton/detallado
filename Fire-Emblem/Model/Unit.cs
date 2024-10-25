@@ -45,7 +45,7 @@ public class Unit {
 
 
     private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
-        int damage = ComputeBaseDamage(attacker, defender);
+        int damage = ComputeBaseDamage(attacker, defender, scope);
         damage += attacker.GetExtraDamage(scope);
 
         damage = defender.ReduceDamagePercentwise(damage, defender.GetEffectsByScope(scope));
@@ -53,9 +53,9 @@ public class Unit {
         return Math.Max(damage, 0);
     }
 
-    private static int ComputeBaseDamage(Unit attacker, Unit defender) {
-        int attack = (int)(attacker.Get(Stat.Atk) * GetWTB(attacker, defender));
-        int defense = GetDefense(attacker, defender);
+    private static int ComputeBaseDamage(Unit attacker, Unit defender, Scope scope) {
+        int attack = (int)(attacker.Get(Stat.Atk, scope) * GetWTB(attacker, defender));
+        int defense = GetDefense(attacker, defender, scope);
         return Math.Max(attack - defense, 0);
     }
 
@@ -63,11 +63,11 @@ public class Unit {
         return attacker.GetWeapon().WTB(defender.GetWeapon());
     }
 
-    private static int GetDefense(Unit attacker, Unit defender) {
+    private static int GetDefense(Unit attacker, Unit defender, Scope scope) {
         if (attacker.GetWeapon() == global::Weapon.Magic) {
-            return defender.Get(Stat.Res);
+            return defender.Get(Stat.Res, scope);
         }
-        return defender.Get(Stat.Def);
+        return defender.Get(Stat.Def, scope);
     }
 
     public bool HasAdvantageOver(Unit rival) {
@@ -100,21 +100,26 @@ public class Unit {
     }
 
     public int Get(Stat stat) {
+        return Get(stat, Scope.ALL);
+    }
+
+    public int Get(Stat stat, Scope scope) {
         return (
             GetBaseStat(stat) +
-            GetTotalEffectFor(stat, EffectType.Bonus) +
-            GetTotalEffectFor(stat, EffectType.Penalty)
+            GetTotalEffectFor(stat, EffectType.Bonus, scope) +
+            GetTotalEffectFor(stat, EffectType.Penalty, scope)
         );
     }
 
-    private int GetTotalEffectFor(Stat stat, EffectType effectType) {
+    private int GetTotalEffectFor(Stat stat, EffectType effectType, Scope scope) {
         if (IsNeutralized(stat, effectType))
             return 0;
-        return GetEffectFor(stat, effectType);
+        return GetEffectFor(stat, effectType, (effect) => effect.scope.Includes(scope));
     }
 
-    public int GetEffectFor(Stat stat, EffectType effectType) {
+    public int GetEffectFor(Stat stat, EffectType effectType, Func<Effect, bool> filter) {
         return _effects
+             .Where(filter)
              .Select(effect => effect.difference.Get(stat))
              .Where(value => value != 0)
              .Where(value => value > 0 ^ effectType == EffectType.Penalty)
@@ -150,15 +155,6 @@ public class Unit {
         _effects.Add(effect);
     }
 
-    public int GetBaseStat(Stat stat) {
-        switch (stat) {
-            case Stat.Atk: return _character.Atk;
-            case Stat.Spd: return _character.Spd;
-            case Stat.Def: return _character.Def;
-            case Stat.Res: return _character.Res;
-        }
-        throw new UnreachableException();
-    }
 
     public IEnumerable<Skill> GetSkills() {
         return _skills;
@@ -188,5 +184,16 @@ public class Unit {
     private IEnumerable<Effect> GetEffectByScopeExact(Scope scope) {
         return _effects.Where(effect => effect.scope == scope);
     }
+
+    public int GetBaseStat(Stat stat) {
+        switch (stat) {
+            case Stat.Atk: return _character.Atk;
+            case Stat.Spd: return _character.Spd;
+            case Stat.Def: return _character.Def;
+            case Stat.Res: return _character.Res;
+        }
+        throw new UnreachableException();
+    }
+
 }
 
