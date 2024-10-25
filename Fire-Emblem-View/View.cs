@@ -25,6 +25,16 @@ public class View {
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")}");
     }
 
+    public void AnounceStatEffectFirstAttack(object unit, object stat, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")} en su primer ataque");
+    }
+
+    public void AnounceStatEffectFollowUp(object unit, object stat, int value) {
+        if (value == 0) return;
+        WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")} en su Follow-Up");
+    }
+
     public void AnouncePercentEffect(object unit, int value) {
         if (value == 0) return;
         WriteLine($"{unit} reducirá el daño de los ataques del rival en un {value}%");

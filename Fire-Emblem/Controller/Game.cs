@@ -147,8 +147,8 @@ public class Game {
     }
 
     private void AnounceEffectsForPlayer(int player) {
-        AnounceStatEfectForPlayer(player, EffectType.Bonus);
-        AnounceStatEfectForPlayer(player, EffectType.Penalty);
+        AnounceStatEffectsForPlayer(player, EffectType.Bonus);
+        AnounceStatEffectsForPlayer(player, EffectType.Penalty);
         AnounceNeutralizedEffectsForPlayer(player, EffectType.Bonus);
         AnounceNeutralizedEffectsForPlayer(player, EffectType.Penalty);
         AnounceDamageEffectsForPlayer(player);
@@ -162,11 +162,22 @@ public class Game {
         _view.AnouncePercentEffectFirstAttack(fighter, reduction);
     }
 
-    private void AnounceStatEfectForPlayer(int player, EffectType effectType) {
+    private void AnounceStatEffectsForPlayer(int player, EffectType effectType) {
         var unit = Fighter(player);
+        foreach (var scope in Enum.GetValues<Scope>()) {
+            AnounceStatEffectsForScope(unit, effectType, scope);
+        }
+    }
+
+    private void AnounceStatEffectsForScope(Unit unit, EffectType effectType, Scope scope) {
         foreach (var stat in StatConstants.ORDERED) {
-            var value = unit.GetEffectFor(stat, effectType, (effect) => effect.scope == Scope.ALL);
-            _view.AnounceStatEffect(unit, stat, value);
+            var value = unit.GetEffectFor(stat, effectType, (effect) => effect.scope == scope);
+            Console.WriteLine($"{unit} {stat} {value} {scope} {effectType}");
+            switch (scope) {
+                case Scope.ALL: _view.AnounceStatEffect(unit, stat, value); break;
+                case Scope.FIRST_ATTACK: _view.AnounceStatEffectFirstAttack(unit, stat, value); break;
+                case Scope.FOLLOW_UP: _view.AnounceStatEffectFollowUp(unit, stat, value); break;
+            };
         }
     }
 
