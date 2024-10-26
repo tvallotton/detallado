@@ -70,6 +70,9 @@ public class Unit {
         }
         return defender.Get(Stat.Def, scope);
     }
+    public string GetGender() {
+        return _character.Gender;
+    }
 
     public bool HasAdvantageOver(Unit rival) {
         return GetWeapon().HasAdvantageOver(rival.GetWeapon());

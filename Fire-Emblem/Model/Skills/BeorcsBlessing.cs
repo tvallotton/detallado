@@ -11,7 +11,6 @@ class BeorcsBlessing : BaseSkill {
         yield return new Effect {
             neutralizedBonus = Stats<bool>.All(),
         };
-
     }
 
 }

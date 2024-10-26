@@ -11,6 +11,12 @@ class SimpleSkill : BaseSkill {
         this.condition = condition;
         _effect = playerEffect;
     }
+
+    public SimpleSkill(string name, BaseCondition condition, Effect playerEffect) {
+        this.name = name;
+        this.condition = condition;
+        _effect = [playerEffect];
+    }
     public override string name { get; } = "Simple Skill";
 
     public override BaseCondition condition { get; } = new Always();

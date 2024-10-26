@@ -1,4 +1,6 @@
-﻿namespace Fire_Emblem_View;
+﻿using System.Security;
+
+namespace Fire_Emblem_View;
 
 public class View {
     private readonly AbstractView _view;
@@ -60,34 +62,11 @@ public class View {
         }
     }
 
-
-    public void AnounceExtraDamageEffectFollowUp(object unit, int value) {
-        if (value == 0) return;
-        WriteLine($"{unit} realizará +{value} daño extra en su Follow-UP");
-    }
-
     public void AnounceAbsoluteDamageReduction(object unit, int value, Scope scope) {
         if (value == 0) return;
 
         WriteLine($"{unit} recibirá -{value} daño en cada ataque");
     }
-
-    public void AnounceAbsoluteDamageReductionFirstAttack(object unit, int value) {
-        if (value == 0) return;
-        WriteLine($"{unit} recibirá +{value} daño en su primer ataque");
-    }
-
-    public void AnounceAbsoluteDamageReductionFollowUp(object unit, int value) {
-        if (value == 0) return;
-        WriteLine($"{unit} recibirá +{value} daño en su Follow-UP");
-    }
-
-
-    public void AnouncePercentEffectFirstAttack(object unit, int value) {
-        if (value == 0) return;
-        WriteLine($"{unit} reducirá el daño del primer ataque del rival en un {value}%");
-    }
-
 
     public void AnouncePercentEffectFollowUp(object unit, int value) {
         if (value == 0) return;
@@ -99,14 +78,6 @@ public class View {
         WriteLine($"Los {type} de {stat} de {unit} fueron neutralizados");
     }
 
-    public void AnounceNeutralizedBonus(object unit, object stat) {
-        WriteLine($"Los bonus de {stat} de {unit} fueron neutralizados");
-    }
-
-    public void AnounceNeutralizedPenalty(object unit, object stat) {
-        WriteLine($"Los penalty de {stat} de {unit} fueron neutralizados");
-    }
-
     public void AnounceWinner(int unit) {
         WriteLine($"Player {unit} ganó");
     }
@@ -114,7 +85,13 @@ public class View {
     public void AnounceFightStarts(int round, object attacker, int turn) {
         WriteLine($"Round {round}: {attacker} (Player {turn}) comienza");
     }
+    public int AskToSelectAnOption(int player, IEnumerable<object> options) {
+        WriteLine($"Player {player + 1} selecciona una opción");
+        var optionsText = string.Join('\n', options.Select((opt, i) => $"{i}: {opt}"));
+        WriteLine(optionsText);
+        return Int32.Parse(_view.ReadLine());
 
+    }
 
     public string ReadLine() => _view.ReadLine();
 

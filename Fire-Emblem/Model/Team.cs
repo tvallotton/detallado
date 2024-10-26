@@ -42,11 +42,6 @@ class Team {
     }
 
 
-    public IEnumerable<string> unitOptions() {
-        foreach (var (i, unit) in LivingUnits().Enumerate()) {
-            yield return $"{i}: {unit.GetName()}";
-        }
-    }
 
     public IEnumerable<Unit> LivingUnits() {
         return units.Where((unit) => unit.IsAlive());

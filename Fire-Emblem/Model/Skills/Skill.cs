@@ -53,7 +53,6 @@ public class Skill {
         new SolidGround(),
         new SturdyBow(),
         new EarthBoost(),
-        new WardingBlow(),
         new DeadlyBlade(),
         new Wrath(),
         new SingleMinded(),
@@ -205,6 +204,104 @@ public class Skill {
                 new Effect { scope =Scope.FIRST_ATTACK , percentDamageReduction=30 },
             ]
         ),
+        new SimpleSkill(
+            "Will to win",
+            new OnPlayerLowHP(50),
+            new Effect { difference = new Stats<int> { Atk = 8 } }
+        ),
+
+        new SimpleSkill(
+            "Tome Precision",
+            new OnPlayerWeapon(Weapon.Magic),
+            new Effect { difference = new Stats<int> { Atk = 6, Spd = 6 } }
+        ),
+
+        new SimpleSkill(
+            "Death Blow",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Atk = 8 } }
+        ),
+
+        new SimpleSkill(
+            "Darting Blow",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Spd = 8 } }
+        ),
+        new SimpleSkill(
+            "Warding Blow",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Res = 8 } }
+        ),
+        new SimpleSkill(
+            "Mirror Strike",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Atk = 6, Res = 6 } }
+        ),
+        new SimpleSkill(
+            "Steady Blow",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Spd = 6, Def = 6 } }
+        ),
+        new SimpleSkill(
+            "Swift Strike",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Spd = 6, Res = 6 } }
+        ),
+        new SimpleSkill(
+            "Fire Boost",
+            new OnHigherPlayerHP(3),
+            new Effect { difference = new Stats<int> { Atk = 6 } }
+        ),
+        new SimpleSkill(
+            "Wind Boost",
+            new OnHigherPlayerHP(3),
+            new Effect { difference = new Stats<int> { Spd = 6 } }
+        ),
+        new SimpleSkill(
+            "Earth Boost",
+            new OnHigherPlayerHP(3),
+            new Effect { difference = new Stats<int> { Def = 6 } }
+        ),
+        new SimpleSkill(
+            "Water Boost",
+            new OnHigherPlayerHP(3),
+            new Effect { difference = new Stats<int> { Res = 6 } }
+        ),
+        new SimpleSkill(
+            "Chaos Style",
+            new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
+            new Effect { difference = new Stats<int> { Spd = 3 } }
+        ),
+        new SimpleSkill(
+            "Chaos Style",
+            new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
+            new Effect { difference = new Stats<int> { Spd = 3 } }
+        ),
+
+        new SimplePenalty(
+            "Blinding Flash",
+            new OnPlayersTurn(),
+            new Effect { difference = new Stats<int> { Spd = -4 } }
+        ),
+
+        new SimplePenalty(
+            "Not *Quite*",
+            new OnRivalsTurn(),
+            new Effect { difference = new Stats<int> { Atk = -4 } }
+        ),
+
+        new SimplePenalty(
+            "Stunning Smile",
+            new OnMaleRival(),
+            new Effect { difference = new Stats<int> { Spd = -8 } }
+        ),
+
+        new SimplePenalty(
+            "Disarming Sight",
+            new OnMaleRival(),
+            new Effect { difference = new Stats<int> { Atk = -8 } }
+        ),
+
 
 
 

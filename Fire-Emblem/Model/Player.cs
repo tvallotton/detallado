@@ -35,8 +35,8 @@ public class Player {
         return team.IsValid();
     }
 
-    public string UnitOptions() {
-        return string.Join("\n", team.unitOptions());
+    public IEnumerable<Unit> LivingUnits() {
+        return team.LivingUnits();
     }
 
     public bool HasLost() {

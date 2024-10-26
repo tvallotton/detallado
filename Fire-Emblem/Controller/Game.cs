@@ -7,6 +7,7 @@ using System.Reflection.Metadata;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using System.IO.Pipes;
+using System.Xml.Serialization;
 namespace Fire_Emblem;
 
 public class Game {
@@ -67,9 +68,8 @@ public class Game {
 
     void SelectPlayers() {
         foreach (var i in TurnIter()) {
-            _view.WriteLine($"Player {i + 1} selecciona una opción");
-            _view.WriteLine(players[i].UnitOptions());
-            players[i].SetFighter(Int32.Parse(_view.ReadLine()));
+            var choice = _view.AskToSelectAnOption(i, players[i].LivingUnits());
+            players[i].SetFighter(choice);
         }
     }
 
@@ -193,7 +193,6 @@ public class Game {
     private void AnounceStatEffectsForScope(Unit unit, EffectType effectType, Scope scope) {
         foreach (var stat in StatConstants.ORDERED) {
             var value = unit.GetEffectFor(stat, effectType, (effect) => effect.scope == scope);
-            Console.WriteLine($"{unit} {stat} {value} {scope} {effectType}");
             switch (scope) {
                 case Scope.ALL: _view.AnounceStatEffect(unit, stat, value); break;
                 case Scope.FIRST_ATTACK: _view.AnounceStatEffectFirstAttack(unit, stat, value); break;
