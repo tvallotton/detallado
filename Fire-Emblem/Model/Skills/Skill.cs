@@ -67,6 +67,149 @@ public class Skill {
         new BracingStance(),
         new Bushido(),
         new Chivalry(),
+        new DartingStance(),
+        new DragonsWrath(),
+        new SimpleSkill(
+            "Remote Mirror",
+            new OnPlayersTurn(),
+            [
+                new Effect { difference = new Stats<int> {Atk = 7, Res = 10} },
+                new Effect { percentDamageReduction = 30, scope = Scope.FIRST_ATTACK }
+            ]
+        ),
+        new SimpleSkill(
+            "Magic Guard",
+            new OnRivalWeapon(Weapon.Magic),
+            [new Effect { absoluteDamageReduction = 5, }]
+        ),
+        new SimpleSkill(
+            "Lance Guard",
+            new OnRivalWeapon(Weapon.Lance),
+            [new Effect { absoluteDamageReduction = 5, }]
+        ),
+        new SimpleSkill(
+            "Axe Guard",
+            new OnRivalWeapon(Weapon.Axe),
+            [new Effect { absoluteDamageReduction = 5, }]
+        ),
+
+        new SimpleSkill(
+            "Bow Guard",
+            new OnRivalWeapon(Weapon.Bow),
+            [new Effect { absoluteDamageReduction = 5 }]
+        ),
+
+        new SimpleSkill(
+            "Gentility",
+            new Always(),
+            [new Effect { absoluteDamageReduction = 5 }]
+        ),
+        new SimpleSkill(
+            "Sympathetic",
+            new OnPlayerLowHP(50),
+            [new Effect { absoluteDamageReduction = 5 }]
+        ),
+
+        new SimpleSkill(
+            "Sympathetic",
+            new OnPlayerLowHP(50),
+            [new Effect { absoluteDamageReduction = 5 }]
+        ),
+
+        new SimpleSkill(
+            "Bravery",
+            new Always(),
+            [new Effect { extraDamage = 5 }]
+        ),
+
+         new SimpleSkill(
+            "Swift Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Spd = 6, Res=6} },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Steady Posture",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Spd = 6, Def=6} },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Mirror Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 6, Res=6} },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Sturdy Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 6, Def=6} },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Kestrel Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 6, Spd=6} },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+
+        new SimpleSkill(
+            "Warding Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Res = 8 } },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+
+
+        new SimpleSkill(
+            "Steady Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Def = 8 } },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Fierce Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 8 } },
+                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+            ]
+        ),
+        new SimpleSkill(
+            "Remote Sturdy",
+            new OnPlayersTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 7, Def= 10 } },
+                new Effect { scope =Scope.FIRST_ATTACK , percentDamageReduction=30 },
+            ]
+        ),
+        new SimpleSkill(
+            "Remote Sparrow",
+            new OnPlayersTurn(),
+            [
+                new Effect { difference = new Stats<int> { Atk = 7, Spd= 7 } },
+                new Effect { scope =Scope.FIRST_ATTACK , percentDamageReduction=30 },
+            ]
+        ),
+
+
+
+
+
 };
 
     public Skill(string name) {
@@ -82,4 +225,6 @@ public class Skill {
     public void Install(Game game, int player, EffectDependency dependency) {
         skill.Install(game, player, dependency);
     }
+
+
 }

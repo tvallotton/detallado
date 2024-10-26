@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 
 public class Effect {
-    public string name = "";
     public Stats<int> difference = new Stats<int>();
 
     public Stats<bool> neutralizedBonus = new Stats<bool>();

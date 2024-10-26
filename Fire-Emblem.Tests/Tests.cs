@@ -34,15 +34,15 @@ public class Tests {
     public void TestE3(string teamsFolder, string testFile)
         => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3-Random")]
-    // public void TestE3_Random(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3-Random")]
+    public void TestE3_Random(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3-Mix")]
-    // public void TestE3_Mix(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3-Mix")]
+    public void TestE3_Mix(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
     // [Theory]
     // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1")]
