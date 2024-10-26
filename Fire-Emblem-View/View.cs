@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System.Runtime.ExceptionServices;
+using System.Security;
 
 namespace Fire_Emblem_View;
 
@@ -93,6 +94,28 @@ public class View {
 
     }
 
+
+    public List<string> WriteSelectTeamOptions(string teamsFolder) {
+        WriteLine("Elige un archivo para cargar los equipos");
+        var list = Directory.EnumerateFiles(teamsFolder, "*.txt").ToList();
+        list.Sort();
+        list.Select((file, index) => {
+            WriteLine($"{index}: {Path.GetFileName(file)}");
+            return index;
+        }).Last();
+        return list;
+    }
+
+    public void AnounceNoFollowUp() {
+        WriteLine("Ninguna unidad puede hacer un follow up");
+    }
+
+    public void AnounceNoAdvantage() {
+        WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
+    }
+    public void AnounceAdvantage(string first, string second) {
+        WriteLine($"{first} tiene ventaja con respecto a {second}");
+    }
     public string ReadLine() => _view.ReadLine();
 
     public void WriteLine(string message) {

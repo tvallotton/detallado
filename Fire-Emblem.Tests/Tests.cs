@@ -4,15 +4,15 @@ namespace Fire_Emblem.Tests;
 using Fire_Emblem;
 
 public class Tests {
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-BasicCombat")]
-    // public void TestE1_BasicCombat(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-BasicCombat")]
+    public void TestE1_BasicCombat(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-InvalidTeams")]
-    // public void TestE1_InvalidTeams(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-InvalidTeams")]
+    public void TestE1_InvalidTeams(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
     [Theory]
     [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2")]
@@ -44,35 +44,35 @@ public class Tests {
     public void TestE3_Mix(string teamsFolder, string testFile)
         => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1")]
-    // public void TestE4_1(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1")]
+    public void TestE4_1(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1-Random")]
-    // public void TestE4_1_Random(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1-Random")]
+    public void TestE4_1_Random(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1-Mix")]
-    // public void TestE4_1_Mix(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-1-Mix")]
+    public void TestE4_1_Mix(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2")]
-    // public void TestE4_2(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2")]
+    public void TestE4_2(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2-Random")]
-    // public void TestE4_2_Random(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2-Random")]
+    public void TestE4_2_Random(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2-Mix")]
-    // public void TestE4_2_Mix(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E4-2-Mix")]
+    public void TestE4_2_Mix(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
     public static IEnumerable<object[]> GetTestsAssociatedWithThisFolder(string teamsFolder) {
         teamsFolder = Path.Combine("data", teamsFolder);

@@ -110,7 +110,7 @@ public class Game {
         } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
             RetaliateAttack();
         } else {
-            _view.WriteLine("Ninguna unidad puede hacer un follow up");
+            _view.AnounceNoFollowUp();
         }
     }
 
@@ -229,14 +229,13 @@ public class Game {
     }
 
 
-
     void AnounceAdvantage() {
         if (Attacker().HasAdvantageOver(Defender())) {
-            _view.WriteLine($"{Attacker()} ({Attacker().GetWeapon()}) tiene ventaja con respecto a {Defender()} ({Defender().GetWeapon()})");
+            _view.AnounceAdvantage($"{Attacker()} ({Attacker().GetWeapon()})", $"{Defender()} ({Defender().GetWeapon()})");
         } else if (Defender().HasAdvantageOver(Attacker())) {
-            _view.WriteLine($"{Defender()} ({Defender().GetWeapon()}) tiene ventaja con respecto a {Attacker()} ({Attacker().GetWeapon()})");
+            _view.AnounceAdvantage($"{Defender()} ({Defender().GetWeapon()})", $"{Attacker()} ({Attacker().GetWeapon()})");
         } else {
-            _view.WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
+            _view.AnounceNoAdvantage();
         }
     }
 
@@ -250,20 +249,12 @@ public class Game {
 
 
     void SelectTeam() {
-        List<string> options = WriteSelectTreamOptions();
+        List<string> options = _view.WriteSelectTeamOptions(_teamsFolder);
         int answer = Int32.Parse(_view.ReadLine());
         LoadTeams(options[answer]);
     }
 
-    List<string> WriteSelectTreamOptions() {
-        _view.WriteLine("Elige un archivo para cargar los equipos");
-        var list = Directory.EnumerateFiles(_teamsFolder, "*.txt").ToList();
-        list.Sort();
-        foreach (var (index, file) in list.Enumerate()) {
-            _view.WriteLine($"{index}: {Path.GetFileName(file)}");
-        }
-        return list;
-    }
+
 
     static Regex PLAYER_LINE = new Regex(@"Player [12] Team");
 
