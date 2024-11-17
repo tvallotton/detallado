@@ -24,6 +24,12 @@ class SimpleSkill : BaseSkill {
         _effect = playerEffects;
     }
 
+    public SimpleSkill(string name, BaseCondition condition, Func<Game, int, Effect> playerEffects) {
+        this.name = name;
+        this.condition = condition;
+        _effect = (game, player) => [playerEffects(game, player)];
+    }
+
 
     public override string name { get; } = "Simple Skill";
 

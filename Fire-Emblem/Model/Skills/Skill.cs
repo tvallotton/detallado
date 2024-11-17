@@ -48,115 +48,154 @@ public class Skill {
             "Defense +5",
             new Always(),
             new Effect {
-                    difference = new Stats<int> {
-                Def = 5
+                difference = new Stats<int> {
+                    Def = 5
+                }
             }
-        }),
+        ),
         new SimpleSkill(
             "Resistance +5",
             new Always(),
             new Effect {
-            difference = new Stats<int> {
-                Res = 5
+                difference = new Stats<int> {
+                    Res = 5
+                }
             }
-        }),
+        ),
         new SimpleSkill(
             "Attack +6",
             new Always(),
             new Effect {
-            difference = new Stats<int> {
-                Atk = 6
+                difference = new Stats<int> {
+                    Atk = 6
+                }
             }
-        }),
-        
+        ),
         new FairFight(),
-        
         new SimpleSkill(
             "Bracing Blow",
             new OnPlayersTurn(),
             new Effect {
-                    difference = new Stats<int> {
-                        Def = 6,
-                        Res = 6
-                    }
+                difference = new Stats<int> {
+                    Def = 6,
+                    Res = 6
                 }
+            }
         ),
-        
-        
-
         new SimpleSkill(
             "Brazen Atk/Res",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Res = 10,
-                        Atk = 10
-                    }
+                difference = new Stats<int> {
+                    Res = 10,
+                    Atk = 10
                 }
+            }
         ),
         new SimpleSkill(
             "Brazen Atk/Def",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Def = 10,
-                        Atk = 10
-                    }
+                difference = new Stats<int> {
+                    Def = 10,
+                    Atk = 10
                 }
+            }
         ),
 
         new SimpleSkill(
             "Brazen Atk/Spd",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Spd = 10,
-                        Atk = 10
-                    }
+                difference = new Stats<int> {
+                    Spd = 10,
+                    Atk = 10
                 }
+            }
         ),    
         new SimpleSkill(
             "Brazen Spd/Res",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Res = 10,
-                        Spd = 10
-                    }
+                difference = new Stats<int> {
+                    Res = 10,
+                    Spd = 10
                 }
+            }
         ),
         new SimpleSkill(
             "Brazen Spd/Def",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Def = 10,
-                        Spd = 10
-                    }
+                difference = new Stats<int> {
+                    Def = 10,
+                    Spd = 10
                 }
+            }
         ), 
         new SimpleSkill(
             "Brazen Def/Res",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Res = 10,
-                        Def = 10
-                    }
+                difference = new Stats<int> {
+                    Res = 10,
+                    Def = 10
                 }
+            }
         ),
         new SimpleSkill(
             "Brazen Atk/Spd",
             new OnPlayerLowHP(80),
             new Effect {
-                    difference = new Stats<int> {
-                        Spd = 10,
-                        Atk = 10
-                    }
+                difference = new Stats<int> {
+                    Spd = 10,
+                    Atk = 10
                 }
+            }
         ),
         new Resolve(),
-        new SwiftSparrow(),
+        new SimpleSkill(
+            "Swift Sparrow",
+            new OnPlayersTurn(),
+            new Effect {
+                    difference = new Stats<int> {
+                    Atk = 6,
+                    Spd = 6,
+                }
+            }
+        ),
+
+        new SimpleSkill(
+            "Darting Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect {
+                    difference = new Stats<int> {
+                        Spd = 8
+                    },
+                },
+                new Effect {
+                    percentDamageReduction = 10,
+                    scope = Scope.FOLLOW_UP,
+                }
+            ]
+        ),
+        new SimpleSkill(
+            "Bracing Stance",
+            new OnRivalsTurn(),
+            [
+                new Effect {
+                    difference = new Stats<int> {
+                        Def = 6,
+                        Res = 6
+                    }
+                },
+                new Effect {
+                    percentDamageReduction = 10,
+                    scope = Scope.FOLLOW_UP
+                }
+            ]
+        ),
         new CloseDef(),
         new DistantDef(),
         new LullAtkSpd(),
@@ -387,7 +426,6 @@ public class Skill {
                     }
                 }
         ),
-        new Wrath(),
         new SimpleSkill(
             "Single-Minded",
             new OnRivalIsLatestOpponent(),
@@ -398,13 +436,48 @@ public class Skill {
             }
         ),
         new Charmer(),
-        new Dodge(),
-        new DragonWall(),
+        
+        new SimpleSkill(
+            "Dodge",
+            new OnGreaterPlayerStat(Stat.Spd),
+            (game, player) => {
+                var unitSpd = game.Fighter(player).Get(Stat.Spd);
+                var rivalSpd = game.Fighter(player + 1).Get(Stat.Spd);
+                var percentage = 4 * (unitSpd - rivalSpd);
+                return new Effect {
+                    percentDamageReduction = Math.Min(percentage, 40),
+                };
+            }
+        ),
+        new SimpleSkill(
+            "Dragon Wall",
+            new OnGreaterPlayerStat(Stat.Res),
+            (game, player) => {
+                var unitStat = game.Fighter(player).Get(Stat.Res);
+                var rivalStat = game.Fighter(player + 1).Get(Stat.Res);
+                var percentage = 4 * (unitStat - rivalStat);
+                return new Effect {
+                        percentDamageReduction = Math.Min(percentage, 40),
+                };
+            }
+        ),
+        new SimpleSkill(
+            "Wrath",
+            new Always(),
+            (game, player) => {
+                var damage = Math.Min(game.Fighter(player).GetAccumulatedDamage(), 30);
+                return new Effect {
+                    difference = new Stats<int> {
+                        Atk = damage,
+                        Spd = damage,
+                    }
+                };
+            }
+        ),
         new AegisShield(),
         new BlueSkies(),
         new Bushido(),
         new Chivalry(),
-        new DartingStance(),
         new DragonsWrath(),
         new SimpleSkill(
             "Remote Mirror",
