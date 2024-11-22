@@ -10,14 +10,14 @@ class FairFight : BaseSkill {
     public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
         yield return new Effect {
             difference = new Stats<int> {
-                Atk = 5
+                Atk = 6
             }
         };
     }
     public override IEnumerable<Effect> RivalEffects(Game game, int player) {
         yield return new Effect {
             difference = new Stats<int> {
-                Atk = 5
+                Atk = 6
             }
         };
     }

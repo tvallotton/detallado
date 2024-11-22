@@ -147,16 +147,18 @@ public class Game {
     }
 
     private void AnounceEffectsForPlayer(int player) {
-        AnounceStatEffectsForPlayer(player, EffectType.Bonus);
-        AnounceStatEffectsForPlayer(player, EffectType.Penalty);
-        AnounceNeutralizedEffectsForPlayer(player, EffectType.Bonus);
-        AnounceNeutralizedEffectsForPlayer(player, EffectType.Penalty);
+        Action<int, EffectType>[] anouncements = [AnounceStatEffectsForPlayer, AnounceNeutralizedEffectsForPlayer];
+        foreach (var func in anouncements) {
+            func(player, EffectType.Bonus);
+            func(player, EffectType.Penalty);
+        }
         AnounceDamageEffectsForPlayer(player);
 
     }
 
     private void AnounceDamageEffectsForPlayer(int player) {
         var fighter = Fighter(player);
+        Console.WriteLine($"{fighter} {fighter.GetPercentageHP()}");
         AnounceExtraDamageEffects(fighter);
         AnouncePercentDamageReduction(fighter);
         AnounceAbsoluteDamageReductionEffects(fighter);
@@ -193,6 +195,7 @@ public class Game {
     private void AnounceStatEffectsForScope(Unit unit, EffectType effectType, Scope scope) {
         foreach (var stat in StatConstants.ORDERED) {
             var value = unit.GetEffectFor(stat, effectType, (effect) => effect.scope == scope);
+            Console.WriteLine($"debug: {unit} {effectType} {scope} {stat} value={value}");
             switch (scope) {
                 case Scope.ALL: _view.AnounceStatEffect(unit, stat, value); break;
                 case Scope.FIRST_ATTACK: _view.AnounceStatEffectFirstAttack(unit, stat, value); break;
@@ -206,6 +209,8 @@ public class Game {
         foreach (var stat in StatConstants.ORDERED) {
             if (unit.IsNeutralized(stat, effectType))
                 _view.AnounceNeutralizedEffect(unit, stat, effectType);
+            else
+                Console.WriteLine($"debug: {unit}'s {stat} is not neutralized");
         }
     }
 

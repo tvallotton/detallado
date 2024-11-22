@@ -465,15 +465,7 @@ public class Skill {
                     }
                 }
         ),
-        new SimpleSkill(
-            "Earth Boost",
-            new OnHigherPlayerHP(byHowMuch: 3),
-            new Effect {
-                    difference = new Stats<int> {
-                        Def = 6,
-                    }
-                }
-        ),
+
         new SimpleSkill(
             "Defense +5",
             new Always(),
@@ -485,7 +477,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Deadly Blade",
-            new OnPlayerWeapon(Weapon.Sword),
+            new OnPlayerWeapon(Weapon.Sword).And(new OnPlayersTurn()),
             new Effect {
                     difference = new Stats<int> {
                         Atk = 8,
@@ -873,8 +865,8 @@ public class Skill {
         new SimplePenalty(
             "Luna", new Always(),
             (game, player) => {
-                var def = game.Fighter(+player).GetBaseStat(Stat.Def) / 2;
-                var res = game.Fighter(+player).GetBaseStat(Stat.Res) / 2;
+                var def = game.Fighter(1+player).GetBaseStat(Stat.Def) / 2;
+                var res = game.Fighter(1+player).GetBaseStat(Stat.Res) / 2;
                 return new Effect {
                     difference = new Stats<int> { Def = -def, Res = -res },
                     scope = Scope.FIRST_ATTACK
@@ -883,7 +875,7 @@ public class Skill {
         ),
         new SimplePenalty(
             "Belief in Love",
-            new OnPlayerLowHP(99).Not().And(new OnPlayersTurn()),
+            new OnHighRivalHP(100).Or(new OnRivalsTurn()),
             new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
         ),
         new SimplePenalty(
@@ -891,12 +883,6 @@ public class Skill {
             new OnMaleRival(),
             new Effect { difference = new Stats<int> { Atk = -8 } }
         ),
-
-
-
-
-
-
 };
 
     public Skill(string name) {
