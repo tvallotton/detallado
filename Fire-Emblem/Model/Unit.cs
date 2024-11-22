@@ -88,7 +88,8 @@ public class Unit {
 
 
     public int GetHP() {
-        return Math.Max(_character.HP - _accumulatedDamage, 0);
+        int hpBonus = GetTotalEffectFor(Stat.HP, EffectType.Bonus, Scope.ALL);
+        return Math.Max(_character.HP - _accumulatedDamage + hpBonus, 0);
     }
 
     public int GetAccumulatedDamage() {

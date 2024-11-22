@@ -832,10 +832,11 @@ public class Skill {
             new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Res = 6 } }
         ),
-
         new SimpleSkill(
             "Chaos Style",
-            new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
+            new Not(new OnPlayerWeapon(Weapon.Magic)).And(new OnRivalWeapon(Weapon.Magic)).Or(
+                new OnPlayerWeapon(Weapon.Magic).And(new Not(new OnRivalWeapon(Weapon.Magic)))
+            ),
             new Effect { difference = new Stats<int> { Spd = 3 } }
         ),
 
