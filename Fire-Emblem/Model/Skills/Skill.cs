@@ -112,7 +112,7 @@ public class Skill {
                     Atk = 10
                 }
             }
-        ),    
+        ),
         new SimpleSkill(
             "Brazen Spd/Res",
             new OnPlayerLowHP(80),
@@ -132,7 +132,7 @@ public class Skill {
                     Spd = 10
                 }
             }
-        ), 
+        ),
         new SimpleSkill(
             "Brazen Def/Res",
             new OnPlayerLowHP(80),
@@ -153,7 +153,16 @@ public class Skill {
                 }
             }
         ),
-        new Resolve(),
+        new SimpleSkill(
+            "Resolve",
+            new OnPlayerLowHP(75),
+            new Effect {
+                difference = new Stats<int> {
+                    Def = 7,
+                    Res = 7,
+                }
+            }
+        ),
         new SimpleSkill(
             "Swift Sparrow",
             new OnPlayersTurn(),
@@ -198,14 +207,104 @@ public class Skill {
         ),
         new CloseDef(),
         new DistantDef(),
-        new LullAtkSpd(),
-        new LullAtkDef(),
-        new LullAtkRes(),
-        new LullSpdRes(),
-        new LullDefRes(),
+        new SimplePenalty(
+            "Lull Atk/Def",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Def = -3,
+                    Atk = -3,
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Def = true,
+                    Atk = true,
+                }
+            }
+        ),
+        new SimplePenalty(
+            "Lull Atk/Res",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Res = -3,
+                    Atk = -3
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Res = true,
+                    Atk = true
+                }
+            }
+        ),new SimplePenalty(
+            "Lull Atk/Spd",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Spd = -3,
+                    Atk = -3,
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Spd = true,
+                    Atk = true
+                }
+            }
+        ),new SimplePenalty(
+            "Lull Def/Res",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Def = -3,
+                    Res = -3,
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Def = true,
+                    Res = true,
+                }
+            }
+        ),new SimplePenalty(
+            "Lull Spd/Def",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Def = -3,
+                    Spd = -3
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Spd = true,
+                    Def = true
+                }
+            }
+        ),new SimplePenalty(
+            "Lull Spd/Res",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Spd = -3,
+                    Res = -3
+                },
+                neutralizedBonus = new Stats<bool> {
+                    Spd = true,
+                    Res = true
+                }
+            }
+        ),
+        new SimplePenalty(
+            "Beorc's Blessing",
+            new Always(),
+            new Effect {
+                neutralizedBonus = Stats<bool>.All(),
+            }
+        ),
+        new SimplePenalty(
+            "Charmer",
+            new OnRivalIsLatestOpponent(),
+            new Effect {
+                difference = new Stats<int> {
+                    Atk = -3,
+                    Spd = -3,
+                }
+            }
+         ),
         new LightAndDark(),
-        new LullSpdDef(),
-        new BeorcsBlessing(),
         new SimpleSkill(
             "Agnea's Arrow",
             new Always(),
@@ -214,7 +313,7 @@ public class Skill {
                 }
         ),
         new Dragonskin(),
-        
+
         new SimpleSkill(
             "Sword Power",
             new OnPlayerWeapon(Weapon.Sword),
@@ -263,7 +362,7 @@ public class Skill {
                     difference = new Stats<int> {
                         Atk = 6,
                         Res = 6,
-                        Def = -2
+                        Def = -5
                     }
                 }
         ),
@@ -404,7 +503,7 @@ public class Skill {
                     }
                 }
         ),
-        
+
         new SimpleSkill(
             "Bow Agility",
             new OnPlayerWeapon(Weapon.Bow),
@@ -415,7 +514,7 @@ public class Skill {
                     }
                 }
         ),
-        
+
         new SimpleSkill(
             "Bow Focus",
             new OnPlayerWeapon(Weapon.Bow),
@@ -435,8 +534,14 @@ public class Skill {
                 }
             }
         ),
-        new Charmer(),
-        
+        new SimpleSkill(
+            "Blue Skies",
+            new Always(),
+            new Effect {
+                absoluteDamageReduction = 5,
+                extraDamage = 5
+            }
+        ),
         new SimpleSkill(
             "Dodge",
             new OnGreaterPlayerStat(Stat.Spd),
@@ -474,11 +579,68 @@ public class Skill {
                 };
             }
         ),
-        new AegisShield(),
-        new BlueSkies(),
-        new Bushido(),
-        new Chivalry(),
+        new SimplePenalty(
+            "Soulblade",
+            new OnPlayerWeapon(Weapon.Sword),
+            (game, player) => {
+                var rival = game.Fighter(player+1);
+                var def = rival.GetBaseStat(Stat.Def);
+                var res = rival.GetBaseStat(Stat.Res);
+                var z = (def + res)/2;
+                return new Effect {
+                    difference = new Stats<int> {
+                        Def = z - def, Res = z - res
+                    }
+                };
+            }
+        ),
+        new SimpleSkill(
+            "Chivalry",
+            new OnPlayersTurn().And(new OnHighRivalHP(100)),
+            new Effect {
+                extraDamage = 2,
+                absoluteDamageReduction = 2,
+            }
+        ),
+        new SimpleSkill(
+            "Aegis Shield",
+            new Always(),
+            [
+                new Effect {
+                    difference = new Stats<int> {
+                        Def = 6,
+                        Res = 3,
+                    },
+                },
+                new Effect {
+                    percentDamageReduction = 50,
+                    scope = Scope.FIRST_ATTACK,
+                }
+            ]
+        ),
+        new SimpleSkill(
+            "Bushido",
+            new Always(),
+            (game, player) => {
+                var unit = game.Fighter(player);
+                var rival = game.Fighter(player);
+                var difference = Math.Max(unit.Get(Stat.Spd) - rival.Get(Stat.Spd), 0);
+                return new Effect {
+                    extraDamage = 7,
+                    percentDamageReduction = Math.Min(difference * 4, 40),
+                };
+            }
+        ),
         new DragonsWrath(),
+        new SimpleSkill(
+            "Ignis",
+            new Always(),
+            (game, player) =>
+                new Effect {
+                    difference = new Stats<int> {Atk = game.Fighter(player).Get(Stat.Atk)/2 },
+                    scope = Scope.FIRST_ATTACK
+                }
+        ),
         new SimpleSkill(
             "Remote Mirror",
             new OnPlayersTurn(),
@@ -660,29 +822,31 @@ public class Skill {
         ),
         new SimpleSkill(
             "Fire Boost",
-            new OnHigherPlayerHP(3),
+            new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Atk = 6 } }
         ),
         new SimpleSkill(
             "Wind Boost",
-            new OnHigherPlayerHP(3),
+            new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Spd = 6 } }
         ),
         new SimpleSkill(
             "Earth Boost",
-            new OnHigherPlayerHP(3),
+            new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Def = 6 } }
         ),
         new SimpleSkill(
             "Water Boost",
-            new OnHigherPlayerHP(3),
+            new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Res = 6 } }
         ),
-        new SimpleSkill(
-            "Chaos Style",
-            new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
-            new Effect { difference = new Stats<int> { Spd = 3 } }
-        ),
+        // new SimpleSkill(
+        //     "Chaos Style",
+        //     (new Not(new OnPlayerWeapon(Weapon.Magic)).And(new OnRivalWeapon(Weapon.Magic))).Or(
+        //         new OnPlayerWeapon(Weapon.Magic).And(new Not(new OnRivalWeapon(Weapon.Magic)))
+        //     ),
+        //     new Effect { difference = new Stats<int> { Spd = 3 } }
+        // ),
         new SimpleSkill(
             "Chaos Style",
             new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
@@ -706,7 +870,22 @@ public class Skill {
             new OnMaleRival(),
             new Effect { difference = new Stats<int> { Spd = -8 } }
         ),
-
+        new SimplePenalty(
+            "Luna", new Always(),
+            (game, player) => {
+                var def = game.Fighter(+player).GetBaseStat(Stat.Def) / 2;
+                var res = game.Fighter(+player).GetBaseStat(Stat.Res) / 2;
+                return new Effect {
+                    difference = new Stats<int> { Def = -def, Res = -res },
+                    scope = Scope.FIRST_ATTACK
+                };
+            }
+        ),
+        new SimplePenalty(
+            "Belief in Love",
+            new OnPlayerLowHP(99).Not().And(new OnPlayersTurn()),
+            new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
+        ),
         new SimplePenalty(
             "Disarming Sight",
             new OnMaleRival(),
