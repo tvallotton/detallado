@@ -210,7 +210,7 @@ public class Game {
             if (unit.IsNeutralized(stat, effectType))
                 _view.AnounceNeutralizedEffect(unit, stat, effectType);
             else
-                Console.WriteLine($"debug: {unit}'s {stat} is not neutralized");
+                Console.WriteLine($"debug: {unit}'s {effectType} for {stat} is not neutralized");
         }
     }
 

@@ -1,6 +1,7 @@
 
 
 
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Fire_Emblem;
 
@@ -309,11 +310,10 @@ public class Skill {
             "Agnea's Arrow",
             new Always(),
             new Effect {
-                    neutralizedPenalty = Stats<bool>.All(),
-                }
+                neutralizedPenalty = Stats<bool>.All(),
+            }
         ),
         new Dragonskin(),
-
         new SimpleSkill(
             "Sword Power",
             new OnPlayerWeapon(Weapon.Sword),
@@ -770,7 +770,7 @@ public class Skill {
             ]
         ),
         new SimpleSkill(
-            "Will to win",
+            "Will to Win",
             new OnPlayerLowHP(50),
             new Effect { difference = new Stats<int> { Atk = 8 } }
         ),
@@ -832,13 +832,7 @@ public class Skill {
             new OnHigherPlayerHP(2),
             new Effect { difference = new Stats<int> { Res = 6 } }
         ),
-        // new SimpleSkill(
-        //     "Chaos Style",
-        //     (new Not(new OnPlayerWeapon(Weapon.Magic)).And(new OnRivalWeapon(Weapon.Magic))).Or(
-        //         new OnPlayerWeapon(Weapon.Magic).And(new Not(new OnRivalWeapon(Weapon.Magic)))
-        //     ),
-        //     new Effect { difference = new Stats<int> { Spd = 3 } }
-        // ),
+
         new SimpleSkill(
             "Chaos Style",
             new OnPlayerWeapon(Weapon.Magic).Not().And(new OnRivalWeapon(Weapon.Magic)),
@@ -879,10 +873,32 @@ public class Skill {
             new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
         ),
         new SimplePenalty(
-            "Disarming Sight",
+            "Disarming Sigh",
             new OnMaleRival(),
             new Effect { difference = new Stats<int> { Atk = -8 } }
         ),
+        new SimpleSkill(
+            "Sandstorm",
+            new Always(),
+            (game, player) => {
+                var unit = game.Fighter(player);
+                return new Effect {
+                    difference = new Stats<int> {
+                        Atk = unit.Get(Stat.Def) * 3/2 - unit.Get(Stat.Atk),
+                    },
+                    scope = Scope.FOLLOW_UP
+                };
+            }
+        ),
+        new SimpleSkill(
+            "HP+15",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    HP = 15
+                }
+            }
+        )
 };
 
     public Skill(string name) {

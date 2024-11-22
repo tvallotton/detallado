@@ -19,7 +19,8 @@ class LightAndDark : BaseSkill {
             difference = new Stats<int> {
                 Atk = -5,
                 Spd = -5,
-                Def = -5
+                Def = -5,
+                Res = -5,
             },
             neutralizedBonus = Stats<bool>.All(),
         };
