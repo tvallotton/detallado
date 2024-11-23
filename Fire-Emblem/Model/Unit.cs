@@ -30,7 +30,7 @@ public class Unit {
 
 
     public bool IsAlive() {
-        return 0 < GetHP();
+        return 0 < GetRawHP();
     }
 
     public int Attack(Unit rival, Scope scope) {
@@ -92,6 +92,10 @@ public class Unit {
         return Math.Max(_character.HP - _accumulatedDamage + hpBonus, 0);
     }
 
+    public int GetRawHP() {
+        return Math.Max(_character.HP - _accumulatedDamage, 0);
+    }
+
     public int GetAccumulatedDamage() {
         return _accumulatedDamage;
     }
@@ -143,6 +147,7 @@ public class Unit {
     }
 
     public void ClearEffects() {
+        _accumulatedDamage -= GetTotalEffectFor(Stat.HP, EffectType.Bonus, Scope.ALL);
         _effects.Clear();
     }
 
