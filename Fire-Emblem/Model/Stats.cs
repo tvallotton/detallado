@@ -37,4 +37,15 @@ public struct Stats<T> where T : new() {
         }
         throw new UnreachableException();
     }
+
+    public void Set(Stat stat, T value) {
+        switch (stat) {
+            case Stat.Atk: Atk = value; break;
+            case Stat.Spd: Spd = value; break;
+            case Stat.Res: Res = value; break;
+            case Stat.Def: Def = value; break;
+            case Stat.HP: HP = value; break;
+        }
+        throw new UnreachableException();
+    }
 }

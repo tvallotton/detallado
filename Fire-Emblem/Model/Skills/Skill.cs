@@ -6,8 +6,8 @@ using System.Diagnostics;
 using Fire_Emblem;
 
 public class Skill {
-
-    BaseSkill skill;
+    private string _name;
+    IEnumerable<BaseSkill> skills;
 
     static BaseSkill[] SKILLS = {
         new SimpleSkill(
@@ -36,33 +36,6 @@ public class Skill {
                     Atk = 5
                 }
         }),
-        new SimpleSkill(
-            "Spd/Res +5",
-            new Always(),
-            new Effect {
-            difference = new Stats<int> {
-                Spd = 5,
-                Res = 5,
-            }
-        }),
-        new SimpleSkill(
-            "Defense +5",
-            new Always(),
-            new Effect {
-                difference = new Stats<int> {
-                    Def = 5
-                }
-            }
-        ),
-        new SimpleSkill(
-            "Resistance +5",
-            new Always(),
-            new Effect {
-                difference = new Stats<int> {
-                    Res = 5
-                }
-            }
-        ),
         new SimpleSkill(
             "Attack +6",
             new Always(),
@@ -99,17 +72,6 @@ public class Skill {
             new Effect {
                 difference = new Stats<int> {
                     Def = 10,
-                    Atk = 10
-                }
-            }
-        ),
-
-        new SimpleSkill(
-            "Brazen Atk/Spd",
-            new OnPlayerLowHP(80),
-            new Effect {
-                difference = new Stats<int> {
-                    Spd = 10,
                     Atk = 10
                 }
             }
@@ -534,30 +496,8 @@ public class Skill {
                 extraDamage = 5
             }
         ),
-        new SimpleSkill(
-            "Dodge",
-            new OnGreaterPlayerStat(Stat.Spd),
-            (game, player) => {
-                var unitSpd = game.Fighter(player).Get(Stat.Spd);
-                var rivalSpd = game.Fighter(player + 1).Get(Stat.Spd);
-                var percentage = 4 * (unitSpd - rivalSpd);
-                return new Effect {
-                    percentDamageReduction = Math.Min(percentage, 40),
-                };
-            }
-        ),
-        new SimpleSkill(
-            "Dragon Wall",
-            new OnGreaterPlayerStat(Stat.Res),
-            (game, player) => {
-                var unitStat = game.Fighter(player).Get(Stat.Res);
-                var rivalStat = game.Fighter(player + 1).Get(Stat.Res);
-                var percentage = 4 * (unitStat - rivalStat);
-                return new Effect {
-                        percentDamageReduction = Math.Min(percentage, 40),
-                };
-            }
-        ),
+        new DiffStatX4DamageReduction("Dodge", Stat.Spd),
+        new DiffStatX4DamageReduction("Dragon Wall", Stat.Res),
         new SimpleSkill(
             "Wrath",
             new Always(),
@@ -610,18 +550,11 @@ public class Skill {
                 }
             ]
         ),
+        new DiffStatX4DamageReduction("Bushido", Stat.Spd),
         new SimpleSkill(
             "Bushido",
             new Always(),
-            (game, player) => {
-                var unit = game.Fighter(player);
-                var rival = game.Fighter(player);
-                var difference = Math.Max(unit.Get(Stat.Spd) - rival.Get(Stat.Spd), 0);
-                return new Effect {
-                    extraDamage = 7,
-                    percentDamageReduction = Math.Min(difference * 4, 40),
-                };
-            }
+            new Effect { extraDamage = 7 }
         ),
         new DragonsWrath(),
         new SimpleSkill(
@@ -673,13 +606,6 @@ public class Skill {
             new OnPlayerLowHP(50),
             [new Effect { absoluteDamageReduction = 5 }]
         ),
-
-        new SimpleSkill(
-            "Sympathetic",
-            new OnPlayerLowHP(50),
-            [new Effect { absoluteDamageReduction = 5 }]
-        ),
-
         new SimpleSkill(
             "Bravery",
             new Always(),
@@ -901,21 +827,51 @@ public class Skill {
                     fighter.TakeDamage(-15);
                 return [];
             }
-        )
+        ),
+        new SimpleSkill(
+            "Arms Shield",
+            new OnWeaponAdvantage(),
+            new Effect {
+                absoluteDamageReduction = 7
+            }
+        ),
+        new SimpleSkill(
+            "Back at You",
+            new OnRivalsTurn(),
+            (game, player) => new Effect {
+                extraDamage = game.Fighter(player).GetAccumulatedDamage() / 2
+            }
+        ),
+        new SimpleSkill(
+            "Lunar Brace",
+            new OnRivalsTurn().And(new OnRivalWeapon(Weapon.Magic).Not()),
+            (game, player) => new Effect {
+                extraDamage = game.Fighter(1+player).GetBaseStat(Stat.Def)*3/10,
+            }
+        ),
+        new SimplePenalty(
+            "Moon-Twin Wing",
+            new OnPlayerHighHP(25),
+            new Effect {
+                difference = new Stats<int> { Atk = -5, Spd = -5}
+            }
+        ),
+        new DiffStatX4DamageReduction("Moon-Twin Wing", Stat.Spd),
+
 };
 
     public Skill(string name) {
-        skill = SKILLS
-            .FirstOrDefault((skill) => skill.name == name)
-            ?? new UnimplementedSkill(name);
+        _name = name;
+        skills = SKILLS.Where((skill) => skill.name == name);
     }
 
     public string Name() {
-        return skill.name;
+        return _name;
     }
 
     public void Install(Game game, int player, EffectDependency dependency) {
-        skill.Install(game, player, dependency);
+        foreach (var skill in skills)
+            skill.Install(game, player, dependency);
     }
 
 
