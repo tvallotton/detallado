@@ -14,9 +14,13 @@ public class Unit {
 
     private List<Effect> _effects;
 
+
     private List<Skill> _skills;
 
     private Unit _latestOpponent;
+
+    private bool hpEffect;
+
 
     public Unit(string name, IEnumerable<string> skills) {
         _character = Utils.GetCharacterByName(name);
@@ -39,7 +43,7 @@ public class Unit {
         return damage;
     }
 
-    private void TakeDamage(int damage) {
+    public void TakeDamage(int damage) {
         _accumulatedDamage += damage;
     }
 
@@ -88,8 +92,7 @@ public class Unit {
 
 
     public int GetHP() {
-        int hpBonus = GetTotalEffectFor(Stat.HP, EffectType.Bonus, Scope.ALL);
-        return Math.Max(_character.HP - _accumulatedDamage + hpBonus, 0);
+        return Math.Max(_character.HP - _accumulatedDamage, 0);
     }
 
     public int GetRawHP() {
@@ -99,6 +102,8 @@ public class Unit {
     public int GetAccumulatedDamage() {
         return _accumulatedDamage;
     }
+
+
 
     public int GetPercentageHP() {
         return 100 * GetHP() / _character.HP;
@@ -147,7 +152,6 @@ public class Unit {
     }
 
     public void ClearEffects() {
-        _accumulatedDamage -= GetTotalEffectFor(Stat.HP, EffectType.Bonus, Scope.ALL);
         _effects.Clear();
     }
 

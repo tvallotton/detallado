@@ -399,7 +399,7 @@ public class Skill {
             new OnPlayersTurn(),
             (game, player) => [new Effect {
                 difference = new Stats<int> {
-                    Spd = 12 + game.Fighter(player).Get(Stat.Spd) / 4,
+                    Spd = 12 + game.Fighter(player).GetBaseStat(Stat.Spd) / 4,
                 }
             }]
         ),
@@ -629,7 +629,7 @@ public class Skill {
             new Always(),
             (game, player) =>
                 new Effect {
-                    difference = new Stats<int> {Atk = game.Fighter(player).Get(Stat.Atk)/2 },
+                    difference = new Stats<int> {Atk = game.Fighter(player).GetBaseStat(Stat.Atk)/2 },
                     scope = Scope.FIRST_ATTACK
                 }
         ),
@@ -886,7 +886,7 @@ public class Skill {
                 var unit = game.Fighter(player);
                 return new Effect {
                     difference = new Stats<int> {
-                        Atk = unit.Get(Stat.Def) * 3/2 - unit.Get(Stat.Atk),
+                        Atk = unit.GetBaseStat(Stat.Def) * 3/2 - unit.GetBaseStat(Stat.Atk),
                     },
                     scope = Scope.FOLLOW_UP
                 };
@@ -895,10 +895,11 @@ public class Skill {
         new SimpleSkill(
             "HP +15",
             new Always(),
-            new Effect {
-                difference = new Stats<int> {
-                    HP = 15
-                }
+            (game, player) => {
+                var fighter = game.Fighter(player);
+                if (fighter.GetPercentageHP() == 100)
+                    fighter.TakeDamage(-15);
+                return [];
             }
         )
 };
