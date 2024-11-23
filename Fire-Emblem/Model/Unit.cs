@@ -19,7 +19,7 @@ public class Unit {
 
     private Unit _latestOpponent;
 
-    private bool hpEffect;
+    private bool hasStartedACombat = false;
 
 
     public Unit(string name, IEnumerable<string> skills) {
@@ -34,7 +34,7 @@ public class Unit {
 
 
     public bool IsAlive() {
-        return 0 < GetRawHP();
+        return 0 < GetHP();
     }
 
     public int Attack(Unit rival, Scope scope) {
@@ -95,8 +95,8 @@ public class Unit {
         return Math.Max(_character.HP - _accumulatedDamage, 0);
     }
 
-    public int GetRawHP() {
-        return Math.Max(_character.HP - _accumulatedDamage, 0);
+    public int GetMaxHP() {
+        return _character.HP;
     }
 
     public int GetAccumulatedDamage() {
@@ -106,7 +106,7 @@ public class Unit {
 
 
     public int GetPercentageHP() {
-        return 100 * GetHP() / _character.HP;
+        return (int)Math.Round(100.0 * GetHP() / _character.HP);
     }
 
     public int GetTotalPercentDamageReduction(Scope scope) {

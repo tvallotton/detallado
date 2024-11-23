@@ -496,8 +496,7 @@ public class Skill {
                 extraDamage = 5
             }
         ),
-        new DiffStatX4DamageReduction("Dodge", Stat.Spd),
-        new DiffStatX4DamageReduction("Dragon Wall", Stat.Res),
+
         new SimpleSkill(
             "Wrath",
             new Always(),
@@ -844,19 +843,112 @@ public class Skill {
         ),
         new SimpleSkill(
             "Lunar Brace",
-            new OnRivalsTurn().And(new OnRivalWeapon(Weapon.Magic).Not()),
+            new OnPlayersTurn().And(new OnPlayerWeapon(Weapon.Magic).Not()),
             (game, player) => new Effect {
                 extraDamage = game.Fighter(1+player).GetBaseStat(Stat.Def)*3/10,
             }
         ),
-        new SimplePenalty(
+        new DiffStatX4DamageReduction("Dodge", Stat.Spd),
+        new DiffStatX4DamageReduction("Dragon Wall", Stat.Res),
+        new DiffStatX4DamageReduction("Moon-Twin Wing", Stat.Spd),
+           new SimplePenalty(
             "Moon-Twin Wing",
             new OnPlayerHighHP(25),
             new Effect {
                 difference = new Stats<int> { Atk = -5, Spd = -5}
             }
         ),
-        new DiffStatX4DamageReduction("Moon-Twin Wing", Stat.Spd),
+        new SimplePenalty(
+            "Poetic Justice",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> { Spd = -4 }
+            }
+        ),
+        new SimpleSkill(
+            "Poetic Justice",
+            new Always(),
+            (game, player ) => {
+                var fighter = game.Fighter(1+player);
+                var atk = fighter.GetBaseStat(Stat.Atk);
+                return new Effect { extraDamage = atk*15/100 };
+            }
+        ),
+
+        new SimpleSkill(
+            "Laguz Friend",
+            new Always(),
+            (game, player) => {
+                var fighter = game.Fighter(player);
+                var res = fighter.GetBaseStat(Stat.Res);
+                var def = fighter.GetBaseStat(Stat.Def);
+                return new Effect {
+                    percentDamageReduction = 50,
+                    difference = new Stats<int> {
+                        Res = -res/2,
+                        Def = -def/2,
+                    },
+                    neutralizedBonus = new Stats<bool> {
+                        Def = true,
+                        Res = true,
+                    }
+                };
+            }
+        ),
+        new SimplePenalty(
+            "Prescience",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Atk = -5,
+                    Res = -5,
+                }
+            }
+        ),
+        new SimpleSkill(
+            "Prescience",
+            new OnPlayersTurn()
+                .Or(new OnRivalWeapon(Weapon.Magic))
+                .Or(new OnRivalWeapon(Weapon.Bow)),
+            new Effect {
+                percentDamageReduction = 30,
+                scope = Scope.FIRST_ATTACK
+            }
+        ),
+        new SimplePenalty(
+            "Guard Bearing",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> {
+                    Spd = -4,
+                    Def = -4
+                }
+            }
+        ),
+        new SimpleSkill(
+            "Guard Bearing",
+            new OnPlayerHighHP(100),
+            new Effect {
+                percentDamageReduction = 60,
+            }
+        ),
+        new SimpleSkill(
+            "Guard Bearing",
+            new Not(new OnPlayerHighHP(100)),
+            new Effect {
+                percentDamageReduction = 30
+            }
+        ),
+        new SimplePenalty(
+            "Extra Chivalry",
+            new OnHighRivalHP(50),
+            new Effect {
+                difference = new Stats<int> {
+                    Atk = -5, Def = -5, Spd = -5
+                }
+            }
+        ),
+        new ExtraChivalry(),
 
 };
 
