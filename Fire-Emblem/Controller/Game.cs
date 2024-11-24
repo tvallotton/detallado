@@ -22,7 +22,7 @@ public class Game {
         while (!_gameState.IsGameOver()) {
             PlayRound();
         }
-        AnounceWinner();
+        AnnounceWinner();
     }
 
     void PlayRound() {
@@ -33,10 +33,10 @@ public class Game {
 
 
 
-    void AnounceWinner() {
+    void AnnounceWinner() {
         Player firstPlayer = _gameState.GetPlayer(0);
         int winner = firstPlayer.HasLost() ? 2 : 1;
-        _view.AnounceWinner(winner);
+        _view.AnnounceWinner(winner);
     }
 
     void SelectPlayers() {

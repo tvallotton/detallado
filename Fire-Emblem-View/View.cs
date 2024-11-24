@@ -19,26 +19,26 @@ public class View {
         _view = newView;
     }
 
-    public void AnounceAttack(object attacker, object defender, int damage) {
+    public void AnnounceAttack(object attacker, object defender, int damage) {
         WriteLine($"{attacker} ataca a {defender} con {damage} de daño");
     }
 
-    public void AnounceStatEffect(object unit, object stat, int value) {
+    public void AnnounceStatEffect(object unit, object stat, int value) {
         if (value == 0) return;
         WriteLine($"{unit} obtiene {stat}{value:+#;-#;0}");
     }
 
-    public void AnounceStatEffectFirstAttack(object unit, object stat, int value) {
+    public void AnnounceStatEffectFirstAttack(object unit, object stat, int value) {
         if (value == 0) return;
         WriteLine($"{unit} obtiene {stat}{value:+#;-#;0} en su primer ataque");
     }
 
-    public void AnounceStatEffectFollowUp(object unit, object stat, int value) {
+    public void AnnounceStatEffectFollowUp(object unit, object stat, int value) {
         if (value == 0) return;
         WriteLine($"{unit} obtiene {stat}{value.ToString("+#;-#;0")} en su Follow-Up");
     }
 
-    public void AnouncePercentEffect(object unit, int value, Scope scope) {
+    public void AnnouncePercentEffect(object unit, int value, Scope scope) {
         if (value == 0) return;
         switch (scope) {
             case Scope.ALL:
@@ -54,7 +54,7 @@ public class View {
 
     }
 
-    public void AnounceExtraDamageEffect(object unit, int value, Scope scope) {
+    public void AnnounceExtraDamageEffect(object unit, int value, Scope scope) {
         if (value == 0) return;
         switch (scope) {
             case Scope.ALL: WriteLine($"{unit} realizará +{value} daño extra en cada ataque"); break;
@@ -63,27 +63,27 @@ public class View {
         }
     }
 
-    public void AnounceAbsoluteDamageReduction(object unit, int value, Scope scope) {
+    public void AnnounceAbsoluteDamageReduction(object unit, int value, Scope scope) {
         if (value == 0) return;
 
         WriteLine($"{unit} recibirá -{value} daño en cada ataque");
     }
 
-    public void AnouncePercentEffectFollowUp(object unit, int value) {
+    public void AnnouncePercentEffectFollowUp(object unit, int value) {
         if (value == 0) return;
         WriteLine($"{unit} reducirá el daño del Follow-Up del rival en un {value}%");
     }
 
-    public void AnounceNeutralizedEffect(object unit, object stat, object effectType) {
+    public void AnnounceNeutralizedEffect(object unit, object stat, object effectType) {
         var type = effectType.ToString()!.ToLower();
         WriteLine($"Los {type} de {stat} de {unit} fueron neutralizados");
     }
 
-    public void AnounceWinner(int unit) {
+    public void AnnounceWinner(int unit) {
         WriteLine($"Player {unit} ganó");
     }
 
-    public void AnounceFightStarts(int round, object attacker, int turn) {
+    public void AnnounceFightStarts(int round, object attacker, int turn) {
         WriteLine($"Round {round}: {attacker} (Player {turn}) comienza");
     }
     public int AskToSelectAnOption(int player, IEnumerable<object> options) {
@@ -106,14 +106,14 @@ public class View {
         return list;
     }
 
-    public void AnounceNoFollowUp() {
+    public void AnnounceNoFollowUp() {
         WriteLine("Ninguna unidad puede hacer un follow up");
     }
 
-    public void AnounceNoAdvantage() {
+    public void AnnounceNoAdvantage() {
         WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
     }
-    public void AnounceAdvantage(string first, string second) {
+    public void AnnounceAdvantage(string first, string second) {
         WriteLine($"{first} tiene ventaja con respecto a {second}");
     }
     public string ReadLine() => _view.ReadLine();

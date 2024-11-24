@@ -8,8 +8,8 @@ class FightController(GameState _game, View _view) {
 
     public void Fight() {
         _scope = Scope.FIRST_ATTACK;
-        AnounceFightStarts();
-        AnounceAdvantage();
+        AnnounceFightStarts();
+        AnnounceAdvantage();
         SetupEffects();
         LaunchAttack();
         if (Defender().IsAlive()) {
@@ -35,7 +35,7 @@ class FightController(GameState _game, View _view) {
         } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
             RetaliateAttack();
         } else {
-            _view.AnounceNoFollowUp();
+            _view.AnnounceNoFollowUp();
         }
     }
     public bool IsPlayersTurn(int player) {
@@ -44,16 +44,16 @@ class FightController(GameState _game, View _view) {
 
     void LaunchAttack() {
         int damage = Attacker().Attack(Defender(), _scope);
-        _view.AnounceAttack(Attacker(), Defender(), damage);
+        _view.AnnounceAttack(Attacker(), Defender(), damage);
     }
 
     void RetaliateAttack() {
         int damage = Defender().Attack(Attacker(), _scope);
-        _view.AnounceAttack(Defender(), Attacker(), damage);
+        _view.AnnounceAttack(Defender(), Attacker(), damage);
     }
 
-    void AnounceFightStarts() {
-        _view.AnounceFightStarts(_game.round, Attacker(), _game.turn + 1);
+    void AnnounceFightStarts() {
+        _view.AnnounceFightStarts(_game.round, Attacker(), _game.turn + 1);
     }
 
     void SetupEffects() {
@@ -66,7 +66,7 @@ class FightController(GameState _game, View _view) {
         }
 
         foreach (var player in IterOverTurns()) {
-            new EffectAnnouncer(_view, _game.GetFighter(player)).AnounceEffectsForPlayer();
+            new EffectAnnouncer(_view, _game.GetFighter(player)).AnnounceEffectsForPlayer();
         }
     }
 
@@ -85,13 +85,13 @@ class FightController(GameState _game, View _view) {
     }
 
 
-    void AnounceAdvantage() {
+    void AnnounceAdvantage() {
         if (Attacker().HasAdvantageOver(Defender())) {
-            _view.AnounceAdvantage($"{Attacker()} ({Attacker().GetWeapon()})", $"{Defender()} ({Defender().GetWeapon()})");
+            _view.AnnounceAdvantage($"{Attacker()} ({Attacker().GetWeapon()})", $"{Defender()} ({Defender().GetWeapon()})");
         } else if (Defender().HasAdvantageOver(Attacker())) {
-            _view.AnounceAdvantage($"{Defender()} ({Defender().GetWeapon()})", $"{Attacker()} ({Attacker().GetWeapon()})");
+            _view.AnnounceAdvantage($"{Defender()} ({Defender().GetWeapon()})", $"{Attacker()} ({Attacker().GetWeapon()})");
         } else {
-            _view.AnounceNoAdvantage();
+            _view.AnnounceNoAdvantage();
         }
     }
 
