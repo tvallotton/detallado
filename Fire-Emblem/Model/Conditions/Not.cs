@@ -11,7 +11,7 @@ public class Not : BaseCondition {
 
     }
 
-    protected internal override bool Check(Game game, int player) {
+    protected internal override bool Check(GameState game, int player) {
         return !_first.Check(game, player);
     }
 

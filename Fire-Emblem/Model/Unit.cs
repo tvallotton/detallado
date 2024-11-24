@@ -17,7 +17,7 @@ public class Unit {
 
     private List<Skill> _skills;
 
-    private Unit _latestOpponent;
+    private Unit? _latestOpponent;
 
     private bool hasStartedACombat = false;
 

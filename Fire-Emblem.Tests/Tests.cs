@@ -4,30 +4,30 @@ namespace Fire_Emblem.Tests;
 using Fire_Emblem;
 
 public class Tests {
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-BasicCombat")]
-    // public void TestE1_BasicCombat(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-BasicCombat")]
+    public void TestE1_BasicCombat(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-InvalidTeams")]
-    // public void TestE1_InvalidTeams(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E1-InvalidTeams")]
+    public void TestE1_InvalidTeams(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2")]
-    // public void TestE2(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2")]
+    public void TestE2(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2-Random")]
-    // public void TestE2_Random(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2-Random")]
+    public void TestE2_Random(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
-    // [Theory]
-    // [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2-Mix")]
-    // public void TestE2_Mix(string teamsFolder, string testFile)
-    //     => RunTest(teamsFolder, testFile);
+    [Theory]
+    [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E2-Mix")]
+    public void TestE2_Mix(string teamsFolder, string testFile)
+        => RunTest(teamsFolder, testFile);
 
     [Theory]
     [MemberData(nameof(GetTestsAssociatedWithThisFolder), parameters: "E3")]

@@ -7,14 +7,14 @@ class LightAndDark : BaseSkill {
 
     public override BaseCondition condition { get; } = new Always();
 
-    public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
+    public override IEnumerable<Effect> PlayerEffects(GameState game, int player) {
         yield return new Effect {
             neutralizedPenalty = Stats<bool>.All(),
         };
 
     }
 
-    public override IEnumerable<Effect> RivalEffects(Game game, int player) {
+    public override IEnumerable<Effect> RivalEffects(GameState game, int player) {
         yield return new Effect {
             difference = new Stats<int> {
                 Atk = -5,

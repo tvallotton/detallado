@@ -8,7 +8,7 @@ public class OnPlayerWeapon : BaseCondition {
         _weapon = weapon;
     }
 
-    protected internal override bool Check(Game game, int player) {
-        return game.Fighter(player).GetWeapon() == _weapon;
+    protected internal override bool Check(GameState game, int player) {
+        return game.GetFighter(player).GetWeapon() == _weapon;
     }
 }

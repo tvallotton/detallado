@@ -361,7 +361,7 @@ public class Skill {
             new OnPlayersTurn(),
             (game, player) => [new Effect {
                 difference = new Stats<int> {
-                    Spd = 12 + game.Fighter(player).GetBaseStat(Stat.Spd) / 4,
+                    Spd = 12 + game.GetFighter(player).GetBaseStat(Stat.Spd) / 4,
                 }
             }]
         ),
@@ -501,7 +501,7 @@ public class Skill {
             "Wrath",
             new Always(),
             (game, player) => {
-                var damage = Math.Min(game.Fighter(player).GetAccumulatedDamage(), 30);
+                var damage = Math.Min(game.GetFighter(player).GetAccumulatedDamage(), 30);
                 return new Effect {
                     difference = new Stats<int> {
                         Atk = damage,
@@ -514,7 +514,7 @@ public class Skill {
             "Soulblade",
             new OnPlayerWeapon(Weapon.Sword),
             (game, player) => {
-                var rival = game.Fighter(player+1);
+                var rival = game.GetFighter(player+1);
                 var def = rival.GetBaseStat(Stat.Def);
                 var res = rival.GetBaseStat(Stat.Res);
                 var z = (def + res)/2;
@@ -561,7 +561,7 @@ public class Skill {
             new Always(),
             (game, player) =>
                 new Effect {
-                    difference = new Stats<int> {Atk = game.Fighter(player).GetBaseStat(Stat.Atk)/2 },
+                    difference = new Stats<int> {Atk = game.GetFighter(player).GetBaseStat(Stat.Atk)/2 },
                     scope = Scope.FIRST_ATTACK
                 }
         ),
@@ -786,8 +786,8 @@ public class Skill {
         new SimplePenalty(
             "Luna", new Always(),
             (game, player) => {
-                var def = game.Fighter(1+player).GetBaseStat(Stat.Def) / 2;
-                var res = game.Fighter(1+player).GetBaseStat(Stat.Res) / 2;
+                var def = game.GetFighter(1+player).GetBaseStat(Stat.Def) / 2;
+                var res = game.GetFighter(1+player).GetBaseStat(Stat.Res) / 2;
                 return new Effect {
                     difference = new Stats<int> { Def = -def, Res = -res },
                     scope = Scope.FIRST_ATTACK
@@ -808,7 +808,7 @@ public class Skill {
             "Sandstorm",
             new Always(),
             (game, player) => {
-                var unit = game.Fighter(player);
+                var unit = game.GetFighter(player);
                 return new Effect {
                     difference = new Stats<int> {
                         Atk = unit.GetBaseStat(Stat.Def) * 3/2 - unit.GetBaseStat(Stat.Atk),
@@ -821,7 +821,7 @@ public class Skill {
             "HP +15",
             new Always(),
             (game, player) => {
-                var fighter = game.Fighter(player);
+                var fighter = game.GetFighter(player);
                 if (fighter.GetPercentageHP() == 100)
                     fighter.TakeDamage(-15);
                 return [];
@@ -838,14 +838,14 @@ public class Skill {
             "Back at You",
             new OnRivalsTurn(),
             (game, player) => new Effect {
-                extraDamage = game.Fighter(player).GetAccumulatedDamage() / 2
+                extraDamage = game.GetFighter(player).GetAccumulatedDamage() / 2
             }
         ),
         new SimpleSkill(
             "Lunar Brace",
             new OnPlayersTurn().And(new OnPlayerWeapon(Weapon.Magic).Not()),
             (game, player) => new Effect {
-                extraDamage = game.Fighter(1+player).GetBaseStat(Stat.Def)*3/10,
+                extraDamage = game.GetFighter(1+player).GetBaseStat(Stat.Def)*3/10,
             }
         ),
         new DiffStatX4DamageReduction("Dodge", Stat.Spd),
@@ -869,7 +869,7 @@ public class Skill {
             "Poetic Justice",
             new Always(),
             (game, player ) => {
-                var fighter = game.Fighter(1+player);
+                var fighter = game.GetFighter(1+player);
                 var atk = fighter.GetBaseStat(Stat.Atk);
                 return new Effect { extraDamage = atk*15/100 };
             }
@@ -879,7 +879,7 @@ public class Skill {
             "Laguz Friend",
             new Always(),
             (game, player) => {
-                var fighter = game.Fighter(player);
+                var fighter = game.GetFighter(player);
                 var res = fighter.GetBaseStat(Stat.Res);
                 var def = fighter.GetBaseStat(Stat.Def);
                 return new Effect {
@@ -961,7 +961,7 @@ public class Skill {
         return _name;
     }
 
-    public void Install(Game game, int player, EffectDependency dependency) {
+    public void Install(GameState game, int player, EffectDependency dependency) {
         foreach (var skill in skills)
             skill.Install(game, player, dependency);
     }

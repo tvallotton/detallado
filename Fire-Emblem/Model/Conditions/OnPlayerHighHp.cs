@@ -8,9 +8,9 @@ public class OnPlayerHighHP : BaseCondition {
         _hp = hp;
     }
 
-    protected internal override bool Check(Game game, int player) {
-        Console.WriteLine($"DEBUG: {game.Fighter(player)} {game.Fighter(player).GetPercentageHP()}");
-        return game.Fighter(player).GetPercentageHP() >= _hp;
+    protected internal override bool Check(GameState game, int player) {
+        Console.WriteLine($"DEBUG: {game.GetFighter(player)} {game.GetFighter(player).GetPercentageHP()}");
+        return game.GetFighter(player).GetPercentageHP() >= _hp;
     }
 }
 

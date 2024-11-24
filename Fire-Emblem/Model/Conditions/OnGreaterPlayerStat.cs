@@ -10,9 +10,9 @@ public class OnGreaterPlayerStat : BaseCondition {
         _stat = stat;
     }
 
-    protected internal override bool Check(Game game, int player) {
-        var unitStat = game.Fighter(player).Get(_stat);
-        var rivalStat = game.Fighter(player + 1).Get(_stat);
+    protected internal override bool Check(GameState game, int player) {
+        var unitStat = game.GetFighter(player).Get(_stat);
+        var rivalStat = game.GetFighter(player + 1).Get(_stat);
         return unitStat > rivalStat;
     }
 }

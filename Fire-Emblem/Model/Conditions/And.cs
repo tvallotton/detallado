@@ -11,7 +11,7 @@ public class And : BaseCondition {
         _second = second;
     }
 
-    protected internal override bool Check(Game game, int player) {
+    protected internal override bool Check(GameState game, int player) {
         return _first.Check(game, player) && _second.Check(game, player);
     }
 

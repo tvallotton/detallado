@@ -8,8 +8,8 @@ public class OnHigherPlayerHP : BaseCondition {
         _byHowMuch = byHowMuch;
     }
 
-    protected internal override bool Check(Game game, int player) {
-        return game.Fighter(player).GetHP() > game.Fighter(player + 1).GetHP() + _byHowMuch;
+    protected internal override bool Check(GameState game, int player) {
+        return game.GetFighter(player).GetHP() > game.GetFighter(player + 1).GetHP() + _byHowMuch;
     }
 }
 

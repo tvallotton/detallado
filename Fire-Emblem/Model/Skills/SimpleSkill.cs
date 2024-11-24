@@ -4,7 +4,7 @@ using Fire_Emblem;
 
 class SimpleSkill : BaseSkill {
 
-    private Func<Game, int, Effect[]> _effect;
+    private Func<GameState, int, Effect[]> _effect;
 
     public SimpleSkill(string name, BaseCondition condition, Effect[] playerEffect) {
         this.name = name;
@@ -18,13 +18,13 @@ class SimpleSkill : BaseSkill {
         _effect = (_game, _player) => [playerEffect];
     }
 
-    public SimpleSkill(string name, BaseCondition condition, Func<Game, int, Effect[]> playerEffects) {
+    public SimpleSkill(string name, BaseCondition condition, Func<GameState, int, Effect[]> playerEffects) {
         this.name = name;
         this.condition = condition;
         _effect = playerEffects;
     }
 
-    public SimpleSkill(string name, BaseCondition condition, Func<Game, int, Effect> playerEffects) {
+    public SimpleSkill(string name, BaseCondition condition, Func<GameState, int, Effect> playerEffects) {
         this.name = name;
         this.condition = condition;
         _effect = (game, player) => [playerEffects(game, player)];
@@ -35,7 +35,7 @@ class SimpleSkill : BaseSkill {
 
     public override BaseCondition condition { get; } = new Always();
 
-    public override IEnumerable<Effect> PlayerEffects(Game game, int player) {
+    public override IEnumerable<Effect> PlayerEffects(GameState game, int player) {
         return _effect(game, player);
     }
 
