@@ -1,13 +1,11 @@
 
-// using System.ComponentModel;
-// using System.Runtime.InteropServices;
 
-// public enum Scope {
+public enum Scope {
 
-//     ALL,
-//     FIRST_ATTACK,
-//     FOLLOW_UP,
-// }
+    ALL,
+    FIRST_ATTACK,
+    FOLLOW_UP,
+}
 
 
 public static class ScopeHelper {

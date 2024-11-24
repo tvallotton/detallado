@@ -1,23 +1,27 @@
 using Fire_Emblem_View;
 
-public class EffectAnnouncer(View _view, Unit fighter) {
+public class EffectAnnouncer(FireEmblemView _view, Unit fighter) {
 
-    public void AnnounceEffectsForPlayer() {
-        Action<EffectType>[] announcements = [AnnounceStatEffectsForPlayer, AnnounceNeutralizedEffectsForPlayer];
+    public void AnnounceEffects() {
+        Action<EffectType>[] announcements = [AnnounceStatEffects, AnnounceNeutralizedEffects];
         foreach (var func in announcements) {
             func(EffectType.Bonus);
             func(EffectType.Penalty);
         }
-        AnnounceDamageEffectsForPlayer();
+        AnnounceAllDamageEffects();
+        AnnounceHealingEffects();
 
     }
 
-    private void AnnounceDamageEffectsForPlayer() {
+    private void AnnounceAllDamageEffects() {
         AnnounceExtraDamageEffects();
         AnnouncePercentDamageReduction();
         AnnounceAbsoluteDamageReductionEffects();
     }
 
+    private void AnnounceHealingEffects() {
+        _view.AnnounceHealingEffect(fighter, fighter.GetTotalHealingEffect());
+    }
 
     private void AnnouncePercentDamageReduction() {
         foreach (var scope in Enum.GetValues<Scope>()) {
@@ -39,7 +43,7 @@ public class EffectAnnouncer(View _view, Unit fighter) {
         }
     }
 
-    private void AnnounceStatEffectsForPlayer(EffectType effectType) {
+    private void AnnounceStatEffects(EffectType effectType) {
 
         foreach (var scope in Enum.GetValues<Scope>()) {
             AnnounceStatEffectsForScope(fighter, effectType, scope);
@@ -56,7 +60,7 @@ public class EffectAnnouncer(View _view, Unit fighter) {
         }
     }
 
-    private void AnnounceNeutralizedEffectsForPlayer(EffectType effectType) {
+    private void AnnounceNeutralizedEffects(EffectType effectType) {
         foreach (var stat in StatConstants.ORDERED) {
             if (fighter.IsNeutralized(stat, effectType))
                 _view.AnnounceNeutralizedEffect(fighter, stat, effectType);

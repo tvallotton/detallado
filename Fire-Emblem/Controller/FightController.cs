@@ -1,7 +1,7 @@
 using Fire_Emblem;
 using Fire_Emblem_View;
 
-class FightController(GameState _game, View _view) {
+class FightController(GameState _game, FireEmblemView _view) {
 
     private Scope _scope = Scope.FIRST_ATTACK;
 
@@ -18,6 +18,7 @@ class FightController(GameState _game, View _view) {
             FightResults();
             return;
         }
+
         if (Attacker().IsAlive()) {
             _scope = Scope.FOLLOW_UP;
             FollowUp();
@@ -25,11 +26,15 @@ class FightController(GameState _game, View _view) {
         FightResults();
     }
 
-    void FightResults() {
+    private void FightResults() {
         _view.WriteLine($"{Attacker()} ({Attacker().GetHP()}) : {Defender()} ({Defender().GetHP()})");
     }
 
-    void FollowUp() {
+    private void HealFighter(Unit fighter) {
+        _view.AnnounceHealedFighter(fighter, fighter.Heal());
+    }
+
+    private void FollowUp() {
         if (Defender().Get(Stat.Spd) + 5 <= Attacker().Get(Stat.Spd)) {
             LaunchAttack();
         } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
@@ -38,25 +43,27 @@ class FightController(GameState _game, View _view) {
             _view.AnnounceNoFollowUp();
         }
     }
-    public bool IsPlayersTurn(int player) {
+    private bool IsPlayersTurn(int player) {
         return _game.turn == (player & 1);
     }
 
-    void LaunchAttack() {
+    private void LaunchAttack() {
         int damage = Attacker().Attack(Defender(), _scope);
         _view.AnnounceAttack(Attacker(), Defender(), damage);
+        HealFighter(Attacker());
     }
 
-    void RetaliateAttack() {
+    private void RetaliateAttack() {
         int damage = Defender().Attack(Attacker(), _scope);
         _view.AnnounceAttack(Defender(), Attacker(), damage);
+        HealFighter(Defender());
     }
 
-    void AnnounceFightStarts() {
+    private void AnnounceFightStarts() {
         _view.AnnounceFightStarts(_game.round, Attacker(), _game.turn + 1);
     }
 
-    void SetupEffects() {
+    private void SetupEffects() {
         foreach (var player in IterOverTurns()) {
             SetupEffectsForPlayer(player, EffectDependency.None);
         }
@@ -66,11 +73,11 @@ class FightController(GameState _game, View _view) {
         }
 
         foreach (var player in IterOverTurns()) {
-            new EffectAnnouncer(_view, _game.GetFighter(player)).AnnounceEffectsForPlayer();
+            new EffectAnnouncer(_view, _game.GetFighter(player)).AnnounceEffects();
         }
     }
 
-    void SetupEffectsForPlayer(int player, EffectDependency dependency) {
+    private void SetupEffectsForPlayer(int player, EffectDependency dependency) {
         foreach (var skill in ForSkillInFighter(player)) {
             skill.Install(_game, player, dependency);
         }
@@ -85,7 +92,7 @@ class FightController(GameState _game, View _view) {
     }
 
 
-    void AnnounceAdvantage() {
+    private void AnnounceAdvantage() {
         if (Attacker().HasAdvantageOver(Defender())) {
             _view.AnnounceAdvantage($"{Attacker()} ({Attacker().GetWeapon()})", $"{Defender()} ({Defender().GetWeapon()})");
         } else if (Defender().HasAdvantageOver(Attacker())) {
@@ -95,11 +102,11 @@ class FightController(GameState _game, View _view) {
         }
     }
 
-    public Unit Attacker() {
+    private Unit Attacker() {
         return _game.GetFighter(_game.turn);
     }
 
-    public Unit Defender() {
+    private Unit Defender() {
         return _game.GetFighter(_game.turn + 1);
     }
 

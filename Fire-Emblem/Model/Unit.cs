@@ -8,7 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 
 public class Unit {
-    private Character _character;
+    private UnitInfo _character;
 
     private int _accumulatedDamage;
 
@@ -20,6 +20,10 @@ public class Unit {
     private Unit? _latestOpponent;
 
     private bool hasStartedACombat = false;
+
+
+    private List<int> _damageCaused = new List<int>();
+
 
 
     public Unit(string name, IEnumerable<string> skills) {
@@ -39,6 +43,7 @@ public class Unit {
 
     public int Attack(Unit rival, Scope scope) {
         int damage = ComputeDamage(this, rival, scope);
+        _damageCaused.Add(damage);
         rival.TakeDamage(damage);
         return damage;
     }
@@ -47,6 +52,12 @@ public class Unit {
         _accumulatedDamage += damage;
     }
 
+    public int Heal() {
+        int damage = _damageCaused.LastOrDefault();
+        var healing = damage * GetTotalHealingEffect() / 100;
+        _accumulatedDamage = Math.Max(_accumulatedDamage - healing, 0);
+        return healing;
+    }
 
     private static int ComputeDamage(Unit attacker, Unit defender, Scope scope) {
         var defenderEffects = defender.GetEffectsByScope(scope).ToList();
@@ -216,5 +227,9 @@ public class Unit {
         throw new UnreachableException();
     }
 
+    public int GetTotalHealingEffect() {
+        return _effects.Select(effect => effect.healing).Sum();
+    }
 }
+
 

@@ -949,7 +949,21 @@ public class Skill {
             }
         ),
         new ExtraChivalry(),
-
+        new SimpleSkill(
+            "Sol",
+            new Always(),
+            new Effect { healing = 25 }
+        ),
+        new SimpleSkill(
+            "Nosferatu",
+            new Always(),
+            new Effect { healing = 50 }
+        ),
+        new SimpleSkill(
+            "Solar Brace",
+            new OnPlayersTurn(),
+            new Effect { healing = 50 }
+        ),
 };
 
     public Skill(string name) {

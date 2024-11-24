@@ -7,7 +7,8 @@ using System.Diagnostics;
 
 
 
-public class Effect {
+public class Effect
+{
     public Stats<int> difference = new Stats<int>();
 
     public Stats<bool> neutralizedBonus = new Stats<bool>();
@@ -21,9 +22,12 @@ public class Effect {
 
     public int absoluteDamageReduction = 0;
 
+    public int healing = 0;
 
-    public Stats<bool> GetNeutralized(EffectType effectType) {
-        switch (effectType) {
+    public Stats<bool> GetNeutralized(EffectType effectType)
+    {
+        switch (effectType)
+        {
             case EffectType.Bonus: return neutralizedBonus;
             case EffectType.Penalty: return neutralizedPenalty;
         }
