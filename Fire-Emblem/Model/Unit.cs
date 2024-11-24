@@ -25,7 +25,6 @@ public class Unit {
     private List<int> _damageCaused = new List<int>();
 
 
-
     public Unit(string name, IEnumerable<string> skills) {
         _character = Utils.GetCharacterByName(name);
         _skills = skills.Select(skill => new Skill(skill)).ToList();
@@ -202,7 +201,7 @@ public class Unit {
     }
 
     private int GetExtraDamage(IEnumerable<Effect> effects) {
-        return SumEffects(EffectName.ExtraDamage);
+        return effects.Select(effect => effect.extraDamage).Sum();
     }
 
     private int GetDamageReduction(IEnumerable<Effect> effects) {
@@ -227,15 +226,15 @@ public class Unit {
         throw new UnreachableException();
     }
 
-    public bool HasCounterAttackNegation() {
-        return SumEffects(EffectName.CounterAttackNegation) != 0;
+    public bool HasEffect(EffectName effectName) {
+        return SumEffects(effectName) != 0;
     }
 
     public int GetTotalHealingEffect() {
         return SumEffects(EffectName.Healing);
     }
 
-    private int SumEffects(EffectName effectName) {
+    public int SumEffects(EffectName effectName) {
         return _effects.Select(effect => effect.GetByName(effectName)).Sum();
     }
 }

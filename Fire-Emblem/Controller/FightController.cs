@@ -7,15 +7,19 @@ class FightController(GameState _game, FireEmblemView _view) {
 
 
     public void Fight() {
-        _scope = Scope.FIRST_ATTACK;
         AnnounceFightStarts();
         AnnounceAdvantage();
         SetupEffects();
+        LaunchAttacks();
+        _view.AnnounceFightResults(Attacker(), Defender());
+    }
+
+    public void LaunchAttacks() {
+        _scope = Scope.FIRST_ATTACK;
         LaunchAttack();
         if (CanCounterAttack()) {
             LaunchCounterAttack();
         } else if (!Defender().IsAlive()) {
-            FightResults();
             return;
         }
 
@@ -23,15 +27,26 @@ class FightController(GameState _game, FireEmblemView _view) {
             _scope = Scope.FOLLOW_UP;
             FollowUp();
         }
-        FightResults();
+        ApplyAfterCombatDamage();
+
     }
 
-    private void FightResults() {
-        _view.WriteLine($"{Attacker()} ({Attacker().GetHP()}) : {Defender()} ({Defender().GetHP()})");
-    }
+
 
     private void HealFighter(Unit fighter) {
         _view.AnnounceHealedFighter(fighter, fighter.Heal());
+    }
+
+    public void ApplyAfterCombatDamage() {
+        foreach (var player in IterOverTurns()) {
+            var unit = _game.GetFighter(player);
+            var rival = _game.GetFighter(player + 1);
+            var damage = unit.SumEffects(EffectName.DamageAfterCombat);
+            if (damage != 0) {
+                rival.TakeDamage(unit.SumEffects(EffectName.DamageAfterCombat));
+                _view.AnnounceAfterCombatDamage(rival, damage);
+            }
+        }
     }
 
     private void FollowUp() {
@@ -46,9 +61,6 @@ class FightController(GameState _game, FireEmblemView _view) {
         }
     }
 
-    private bool IsPlayersTurn(int player) {
-        return _game.turn == (player & 1);
-    }
 
     private void LaunchAttack() {
         int damage = Attacker().Attack(Defender(), _scope);
@@ -57,7 +69,11 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private bool CanCounterAttack() {
-        return Defender().IsAlive() && !Attacker().HasCounterAttackNegation();
+        return (
+            Defender().IsAlive() &&
+            !Attacker().HasEffect(EffectName.CounterAttackNegation) &&
+            !Defender().HasEffect(EffectName.CounterAttacKNegationBlocker)
+        );
     }
 
     private bool CanFollowUp(Unit unit, Unit against) {

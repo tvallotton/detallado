@@ -3,6 +3,7 @@ using Fire_Emblem_View;
 public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameState) {
 
     Unit unit = _gameState.GetFighter(player);
+    Unit rival = _gameState.GetFighter(player + 1);
 
     public void AnnounceEffects() {
         Action<EffectType>[] announcements = [AnnounceStatEffects, AnnounceNeutralizedEffects];
@@ -13,6 +14,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         AnnounceAllDamageEffects();
         AnnounceHealingEffects();
         AnnounceCounterAttackNegation();
+        AnnounceCounterAttackNegationBlocker();
     }
 
     private void AnnounceAllDamageEffects() {
@@ -23,8 +25,21 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
     }
 
     private void AnnounceCounterAttackNegation() {
-        if (_gameState.IsPlayersTurn(player) && unit.HasCounterAttackNegation())
+        var isPlayersTurn = _gameState.IsPlayersTurn(player);
+        var hasCounterAttackNegation = unit.HasEffect(EffectName.CounterAttackNegation);
+        var rivalHasCounterAttackNegationBlocker = !rival.HasEffect(EffectName.CounterAttacKNegationBlocker);
+        if (isPlayersTurn && hasCounterAttackNegation && rivalHasCounterAttackNegationBlocker)
             _view.AnnounceCounterAttackNegation(_gameState.GetFighter(player + 1));
+    }
+
+
+    private void AnnounceCounterAttackNegationBlocker() {
+        var isPlayersTurn = _gameState.IsPlayersTurn(player);
+        var rivalHasCounterAttackNegation = rival.HasEffect(EffectName.CounterAttackNegation);
+        var hasCounterAttackNegationBlocker = unit.HasEffect(EffectName.CounterAttacKNegationBlocker);
+        if (!isPlayersTurn && rivalHasCounterAttackNegation && hasCounterAttackNegationBlocker)
+            _view.AnnounceCounterAttackNegationBlocker(unit);
+
     }
 
     private void AnnounceHealingEffects() {

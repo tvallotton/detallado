@@ -2,6 +2,7 @@
 
 
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Diagnostics;
 using Fire_Emblem;
 
@@ -979,6 +980,57 @@ public class Skill {
             new OnRivalWeapon(Weapon.Magic).And(new OnPlayerWeapon(Weapon.Magic)),
             new Effect { counterAttackNegation = 1 }
         ),
+        new SimpleSkill(
+            "Null C-Disrupt",
+            new Always(),
+            new Effect { counterAttackNegationBlocker = 1 }
+        ),
+        new SimpleSkill(
+            "Laws of Sacae",
+            new OnPlayersTurn(),
+            new Effect {
+                difference = new Stats<int> { Atk = 6, Def = 6, Res = 6, Spd = 6, }
+            }
+        ),
+        new SimpleSkill(
+            "Laws of Sacae",
+            new OnPlayerWeapon(Weapon.Magic).Or(new OnPlayerWeapon(Weapon.Bow)).Not().And(new OnGreaterPlayerStat(Stat.Spd, 6)),
+            new Effect { counterAttackNegation = 1 }
+        ),
+        new SimplePenalty(
+            "Flare",
+            new OnPlayerWeapon(Weapon.Magic),
+            (game, player ) => {
+                var rival = game.GetFighter(player+1);
+                return new Effect {
+                    difference = new Stats<int> {Res = -rival.GetBaseStat(Stat.Res)/5},
+                };
+            }
+        ),
+        new SimpleSkill(
+            "Flare",
+            new OnPlayerWeapon(Weapon.Magic),
+            new Effect{healing = 50,}
+        ),
+
+         new SimpleSkill(
+            "Eclipse Brace",
+            new OnPlayersTurn(),
+            (game, player) => {
+                var rival = game.GetFighter(player + 1);
+                return new Effect { healing = 50 };
+            }
+        ),
+          new SimpleSkill(
+            "Eclipse Brace",
+            new OnPlayersTurn().And(new OnPlayerWeapon(Weapon.Magic).Not()),
+            (game, player) => {
+                var rival = game.GetFighter(player + 1);
+                return new Effect { extraDamage = 3 * rival.GetBaseStat(Stat.Def) / 10 };
+            }
+        ),
+
+
 };
 
     public Skill(string name) {

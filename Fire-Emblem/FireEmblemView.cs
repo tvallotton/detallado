@@ -104,7 +104,13 @@ public class FireEmblemView(View _view) {
     public void AnnounceCounterAttackNegation(Unit rival) {
         WriteLine($"{rival} no podrá contraatacar");
     }
+    public void AnnounceCounterAttackNegationBlocker(Unit rival) {
+        WriteLine($"{rival} neutraliza los efectos que previenen sus contraataques");
+    }
 
+    public void AnnounceAfterCombatDamage(Unit unit, int damage) {
+        WriteLine($"{unit} recibe {damage} de daño despues del combate");
+    }
 
     public void AnnounceNoAdvantage() {
         WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
@@ -118,6 +124,12 @@ public class FireEmblemView(View _view) {
         WriteLine($"{first} tiene ventaja con respecto a {second}");
     }
     public string ReadLine() => _view.ReadLine();
+
+    public void AnnounceFightResults(Unit attacker, Unit defender) {
+        _view.WriteLine($"{attacker} ({attacker.GetHP()}) : {defender} ({defender.GetHP()})");
+    }
+
+
 
     public void WriteLine(string message) {
         _view.WriteLine(message);

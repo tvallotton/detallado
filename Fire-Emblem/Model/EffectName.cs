@@ -4,5 +4,9 @@ public enum EffectName {
     AbsoluteDamageReduction,
     Healing,
     CounterAttackNegation,
+    CounterAttacKNegationBlocker,
+
+    DamageBeforeCombat,
+    DamageAfterCombat
 
 }

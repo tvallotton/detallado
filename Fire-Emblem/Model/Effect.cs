@@ -29,7 +29,11 @@ public class Effect {
 
     public int counterAttackNegation = 0;
 
-    public int rivalCounterAttackNegation = 0;
+    public int counterAttackNegationBlocker = 0;
+
+    public int damageBeforeCombat = 0;
+
+    public int damageAfterCombat = 0;
 
 
     public Stats<bool> GetNeutralized(EffectType effectType) {
@@ -47,6 +51,9 @@ public class Effect {
             case EffectName.AbsoluteDamageReduction: return absoluteDamageReduction;
             case EffectName.Healing: return healing;
             case EffectName.CounterAttackNegation: return counterAttackNegation;
+            case EffectName.CounterAttacKNegationBlocker: return counterAttackNegationBlocker;
+            case EffectName.DamageAfterCombat: return damageAfterCombat;
+            case EffectName.DamageBeforeCombat: return damageBeforeCombat;
             default: return 0;
         }
     }
