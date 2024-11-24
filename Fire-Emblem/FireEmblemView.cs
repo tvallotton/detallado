@@ -101,10 +101,19 @@ public class FireEmblemView(View _view) {
         if (healed != 0)
             WriteLine($"{unit} recupera {healed} HP luego de atacar y queda con {unit.GetHP()} HP.");
     }
+    public void AnnounceCounterAttackNegation(Unit rival) {
+        WriteLine($"{rival} no podrá contraatacar");
+    }
+
 
     public void AnnounceNoAdvantage() {
         WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
     }
+
+    public void AnnouncePlayerCannotFolowUp(Unit unit) {
+        WriteLine($"{unit} no puede hacer un follow up");
+    }
+
     public void AnnounceAdvantage(string first, string second) {
         WriteLine($"{first} tiene ventaja con respecto a {second}");
     }

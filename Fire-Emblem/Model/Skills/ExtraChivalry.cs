@@ -12,7 +12,7 @@ class ExtraChivalry : BaseSkill {
         var fighter = game.GetFighter(player + 1);
         var percentage = 100 * fighter.GetHP() / fighter.GetMaxHP();
         yield return new Effect {
-            percentDamageReduction = percentage / 2,
+            percentagewiseDamageReduction = percentage / 2,
         };
     }
 }

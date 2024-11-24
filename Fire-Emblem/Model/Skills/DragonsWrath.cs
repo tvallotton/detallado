@@ -8,7 +8,7 @@ class DragonsWrath : BaseSkill {
 
     public override IEnumerable<Effect> PlayerEffects(GameState game, int player) {
         yield return new Effect {
-            percentDamageReduction = 25,
+            percentagewiseDamageReduction = 25,
             scope = Scope.FIRST_ATTACK,
         };
 

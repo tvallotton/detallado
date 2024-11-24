@@ -147,7 +147,7 @@ public class Skill {
                     },
                 },
                 new Effect {
-                    percentDamageReduction = 10,
+                    percentagewiseDamageReduction = 10,
                     scope = Scope.FOLLOW_UP,
                 }
             ]
@@ -163,7 +163,7 @@ public class Skill {
                     }
                 },
                 new Effect {
-                    percentDamageReduction = 10,
+                    percentagewiseDamageReduction = 10,
                     scope = Scope.FOLLOW_UP
                 }
             ]
@@ -412,7 +412,7 @@ public class Skill {
             "Golden Lotus",
             new OnRivalWeapon(Weapon.Magic).Not(),
             new Effect {
-                    percentDamageReduction = 50,
+                    percentagewiseDamageReduction = 50,
                     scope = Scope.FIRST_ATTACK
                 }
         ),
@@ -544,7 +544,7 @@ public class Skill {
                     },
                 },
                 new Effect {
-                    percentDamageReduction = 50,
+                    percentagewiseDamageReduction = 50,
                     scope = Scope.FIRST_ATTACK,
                 }
             ]
@@ -570,7 +570,7 @@ public class Skill {
             new OnPlayersTurn(),
             [
                 new Effect { difference = new Stats<int> {Atk = 7, Res = 10} },
-                new Effect { percentDamageReduction = 30, scope = Scope.FIRST_ATTACK }
+                new Effect { percentagewiseDamageReduction = 30, scope = Scope.FIRST_ATTACK }
             ]
         ),
         new SimpleSkill(
@@ -616,7 +616,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Spd = 6, Res=6} },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -624,7 +624,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Spd = 6, Def=6} },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -632,7 +632,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Res=6} },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -640,7 +640,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Def=6} },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -648,7 +648,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Spd=6} },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
 
@@ -657,7 +657,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Res = 8 } },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
 
@@ -667,7 +667,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Def = 8 } },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -675,7 +675,7 @@ public class Skill {
             new OnRivalsTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 8 } },
-                new Effect { scope =Scope.FOLLOW_UP , percentDamageReduction=10 },
+                new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
             ]
         ),
         new SimpleSkill(
@@ -683,7 +683,7 @@ public class Skill {
             new OnPlayersTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 7, Def= 10 } },
-                new Effect { scope =Scope.FIRST_ATTACK , percentDamageReduction=30 },
+                new Effect { scope =Scope.FIRST_ATTACK , percentagewiseDamageReduction=30 },
             ]
         ),
         new SimpleSkill(
@@ -691,7 +691,7 @@ public class Skill {
             new OnPlayersTurn(),
             [
                 new Effect { difference = new Stats<int> { Atk = 7, Spd= 7 } },
-                new Effect { scope =Scope.FIRST_ATTACK , percentDamageReduction=30 },
+                new Effect { scope =Scope.FIRST_ATTACK , percentagewiseDamageReduction=30 },
             ]
         ),
         new SimpleSkill(
@@ -883,7 +883,7 @@ public class Skill {
                 var res = fighter.GetBaseStat(Stat.Res);
                 var def = fighter.GetBaseStat(Stat.Def);
                 return new Effect {
-                    percentDamageReduction = 50,
+                    percentagewiseDamageReduction = 50,
                     difference = new Stats<int> {
                         Res = -res/2,
                         Def = -def/2,
@@ -911,7 +911,7 @@ public class Skill {
                 .Or(new OnRivalWeapon(Weapon.Magic))
                 .Or(new OnRivalWeapon(Weapon.Bow)),
             new Effect {
-                percentDamageReduction = 30,
+                percentagewiseDamageReduction = 30,
                 scope = Scope.FIRST_ATTACK
             }
         ),
@@ -929,14 +929,14 @@ public class Skill {
             "Guard Bearing",
             new OnPlayerHighHP(100),
             new Effect {
-                percentDamageReduction = 60,
+                percentagewiseDamageReduction = 60,
             }
         ),
         new SimpleSkill(
             "Guard Bearing",
             new Not(new OnPlayerHighHP(100)),
             new Effect {
-                percentDamageReduction = 30
+                percentagewiseDamageReduction = 30
             }
         ),
         new SimplePenalty(
@@ -963,6 +963,21 @@ public class Skill {
             "Solar Brace",
             new OnPlayersTurn(),
             new Effect { healing = 50 }
+        ),
+        new SimpleSkill(
+            "Windsweep",
+            new OnRivalWeapon(Weapon.Sword).And(new OnPlayerWeapon(Weapon.Sword)),
+            new Effect { counterAttackNegation = 1 }
+        ),
+        new SimpleSkill(
+            "Surprise Attack",
+            new OnRivalWeapon(Weapon.Bow).And(new OnPlayerWeapon(Weapon.Bow)),
+            new Effect { counterAttackNegation = 1 }
+        ),
+        new SimpleSkill(
+            "Hliðskjálf",
+            new OnRivalWeapon(Weapon.Magic).And(new OnPlayerWeapon(Weapon.Magic)),
+            new Effect { counterAttackNegation = 1 }
         ),
 };
 

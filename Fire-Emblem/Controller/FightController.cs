@@ -12,9 +12,9 @@ class FightController(GameState _game, FireEmblemView _view) {
         AnnounceAdvantage();
         SetupEffects();
         LaunchAttack();
-        if (Defender().IsAlive()) {
-            RetaliateAttack();
-        } else {
+        if (CanCounterAttack()) {
+            LaunchCounterAttack();
+        } else if (!Defender().IsAlive()) {
             FightResults();
             return;
         }
@@ -35,14 +35,17 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void FollowUp() {
-        if (Defender().Get(Stat.Spd) + 5 <= Attacker().Get(Stat.Spd)) {
+        if (CanFollowUp(Attacker(), against: Defender())) {
             LaunchAttack();
-        } else if (Attacker().Get(Stat.Spd) + 5 <= Defender().Get(Stat.Spd)) {
-            RetaliateAttack();
-        } else {
+        } else if (CanFollowUp(Defender(), against: Attacker()) && CanCounterAttack()) {
+            LaunchCounterAttack();
+        } else if (CanCounterAttack()) {
             _view.AnnounceNoFollowUp();
+        } else {
+            _view.AnnouncePlayerCannotFolowUp(Attacker());
         }
     }
+
     private bool IsPlayersTurn(int player) {
         return _game.turn == (player & 1);
     }
@@ -53,7 +56,16 @@ class FightController(GameState _game, FireEmblemView _view) {
         HealFighter(Attacker());
     }
 
-    private void RetaliateAttack() {
+    private bool CanCounterAttack() {
+        return Defender().IsAlive() && !Attacker().HasCounterAttackNegation();
+    }
+
+    private bool CanFollowUp(Unit unit, Unit against) {
+        return against.Get(Stat.Spd) + 5 <= unit.Get(Stat.Spd);
+
+    }
+
+    private void LaunchCounterAttack() {
         int damage = Defender().Attack(Attacker(), _scope);
         _view.AnnounceAttack(Defender(), Attacker(), damage);
         HealFighter(Defender());
@@ -73,8 +85,9 @@ class FightController(GameState _game, FireEmblemView _view) {
         }
 
         foreach (var player in IterOverTurns()) {
-            new EffectAnnouncer(_view, _game.GetFighter(player)).AnnounceEffects();
+            new EffectAnnouncer(_view, player, _game).AnnounceEffects();
         }
+
     }
 
     private void SetupEffectsForPlayer(int player, EffectDependency dependency) {

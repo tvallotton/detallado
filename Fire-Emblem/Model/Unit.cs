@@ -195,14 +195,14 @@ public class Unit {
     private int ReduceDamagePercentwise(int initialDamage, IEnumerable<Effect> effects) {
         double damage = initialDamage;
         foreach (var effect in effects) {
-            damage = damage * (100.0 - effect.percentDamageReduction) / 100.0;
+            damage = damage * (100.0 - effect.percentagewiseDamageReduction) / 100.0;
             damage = Math.Round(damage, 9);
         }
         return Convert.ToInt32(Math.Floor(damage));
     }
 
     private int GetExtraDamage(IEnumerable<Effect> effects) {
-        return effects.Select(e => e.extraDamage).Sum();
+        return SumEffects(EffectName.ExtraDamage);
     }
 
     private int GetDamageReduction(IEnumerable<Effect> effects) {
@@ -227,8 +227,16 @@ public class Unit {
         throw new UnreachableException();
     }
 
+    public bool HasCounterAttackNegation() {
+        return SumEffects(EffectName.CounterAttackNegation) != 0;
+    }
+
     public int GetTotalHealingEffect() {
-        return _effects.Select(effect => effect.healing).Sum();
+        return SumEffects(EffectName.Healing);
+    }
+
+    private int SumEffects(EffectName effectName) {
+        return _effects.Select(effect => effect.GetByName(effectName)).Sum();
     }
 }
 

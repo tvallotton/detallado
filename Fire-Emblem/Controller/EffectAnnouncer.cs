@@ -1,6 +1,8 @@
 using Fire_Emblem_View;
 
-public class EffectAnnouncer(FireEmblemView _view, Unit fighter) {
+public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameState) {
+
+    Unit unit = _gameState.GetFighter(player);
 
     public void AnnounceEffects() {
         Action<EffectType>[] announcements = [AnnounceStatEffects, AnnounceNeutralizedEffects];
@@ -10,43 +12,49 @@ public class EffectAnnouncer(FireEmblemView _view, Unit fighter) {
         }
         AnnounceAllDamageEffects();
         AnnounceHealingEffects();
-
+        AnnounceCounterAttackNegation();
     }
 
     private void AnnounceAllDamageEffects() {
         AnnounceExtraDamageEffects();
         AnnouncePercentDamageReduction();
         AnnounceAbsoluteDamageReductionEffects();
+
+    }
+
+    private void AnnounceCounterAttackNegation() {
+        if (_gameState.IsPlayersTurn(player) && unit.HasCounterAttackNegation())
+            _view.AnnounceCounterAttackNegation(_gameState.GetFighter(player + 1));
     }
 
     private void AnnounceHealingEffects() {
-        _view.AnnounceHealingEffect(fighter, fighter.GetTotalHealingEffect());
+        _view.AnnounceHealingEffect(unit, unit.GetTotalHealingEffect());
     }
 
     private void AnnouncePercentDamageReduction() {
         foreach (var scope in Enum.GetValues<Scope>()) {
-            var reduction = fighter.GetTotalPercentDamageReduction(scope);
-            _view.AnnouncePercentEffect(fighter, reduction, scope);
+            var reduction = unit.GetTotalPercentDamageReduction(scope);
+            _view.AnnouncePercentEffect(unit, reduction, scope);
         }
     }
     private void AnnounceExtraDamageEffects() {
         foreach (var scope in Enum.GetValues<Scope>()) {
-            var damage = fighter.GetExtraDamage(scope);
-            _view.AnnounceExtraDamageEffect(fighter, damage, scope);
+            var damage = unit.GetExtraDamage(scope);
+            _view.AnnounceExtraDamageEffect(unit, damage, scope);
         }
     }
 
     private void AnnounceAbsoluteDamageReductionEffects() {
         foreach (var scope in Enum.GetValues<Scope>()) {
-            var reduction = fighter.GetAbsoluteDamageReduction(scope);
-            _view.AnnounceAbsoluteDamageReduction(fighter, reduction, scope);
+            var reduction = unit.GetAbsoluteDamageReduction(scope);
+            _view.AnnounceAbsoluteDamageReduction(unit, reduction, scope);
         }
     }
 
     private void AnnounceStatEffects(EffectType effectType) {
 
         foreach (var scope in Enum.GetValues<Scope>()) {
-            AnnounceStatEffectsForScope(fighter, effectType, scope);
+            AnnounceStatEffectsForScope(unit, effectType, scope);
         }
     }
     private void AnnounceStatEffectsForScope(Unit unit, EffectType effectType, Scope scope) {
@@ -62,8 +70,8 @@ public class EffectAnnouncer(FireEmblemView _view, Unit fighter) {
 
     private void AnnounceNeutralizedEffects(EffectType effectType) {
         foreach (var stat in StatConstants.ORDERED) {
-            if (fighter.IsNeutralized(stat, effectType))
-                _view.AnnounceNeutralizedEffect(fighter, stat, effectType);
+            if (unit.IsNeutralized(stat, effectType))
+                _view.AnnounceNeutralizedEffect(unit, stat, effectType);
         }
     }
 }
