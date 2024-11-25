@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Fire_Emblem;
 using Fire_Emblem_View;
 
@@ -42,9 +43,11 @@ class FightController(GameState _game, FireEmblemView _view) {
             var unit = _game.GetFighter(player);
             var rival = _game.GetFighter(player + 1);
             var damage = unit.SumEffects(EffectName.DamageAfterCombat);
-            if (damage != 0) {
-                rival.TakeDamage(unit.SumEffects(EffectName.DamageAfterCombat));
+            damage = Math.Min(damage, rival.GetHP() - 1);
+            if (damage != 0 && rival.IsAlive()) {
+                rival.TakeDamage(damage);
                 _view.AnnounceAfterCombatDamage(rival, damage);
+                Trace.Assert(rival.GetHP() > 0);
             }
         }
     }
@@ -77,7 +80,7 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private bool CanFollowUp(Unit unit, Unit against) {
-        return against.Get(Stat.Spd) + 5 <= unit.Get(Stat.Spd);
+        return against.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd);
 
     }
 
@@ -108,7 +111,7 @@ class FightController(GameState _game, FireEmblemView _view) {
 
     private void SetupEffectsForPlayer(int player, EffectDependency dependency) {
         foreach (var skill in ForSkillInFighter(player)) {
-            skill.Install(_game, player, dependency);
+            skill.Register(_game, player, dependency);
         }
     }
 

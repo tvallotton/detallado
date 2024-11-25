@@ -3,6 +3,8 @@ using System.Reflection.Metadata.Ecma335;
 class Team {
     public List<Unit> units;
 
+    private int _minValidUnitsPerTeam = 1;
+    private int _maxValidUnitsPerTeam = 3;
 
     public Team() {
         units = new List<Unit>();
@@ -28,7 +30,7 @@ class Team {
     }
 
     bool AreQuantitiesValid() {
-        return !(units.Count() < 1 || units.Count() > 3);
+        return !(units.Count() < _minValidUnitsPerTeam || units.Count() > _maxValidUnitsPerTeam);
     }
 
     bool AreUnitsDistinct() {

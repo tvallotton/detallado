@@ -12,8 +12,8 @@ class DragonsWrath : BaseSkill {
             scope = Scope.FIRST_ATTACK,
         };
 
-        int atk = game.GetFighter(player).Get(Stat.Atk);
-        int res = game.GetFighter(player + 1).Get(Stat.Res);
+        int atk = game.GetFighter(player).GetStat(Stat.Atk);
+        int res = game.GetFighter(player + 1).GetStat(Stat.Res);
 
         if (atk > res)
             yield return new Effect {

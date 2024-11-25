@@ -1029,7 +1029,14 @@ public class Skill {
                 return new Effect { extraDamage = 3 * rival.GetBaseStat(Stat.Def) / 10 };
             }
         ),
-
+        new SimpleSkill(
+            "Fury",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> { Atk = 4, Spd = 4,Def = 4,Res = 4 },
+                damageAfterCombat = 8
+            }
+        ),
 
 };
 
@@ -1042,9 +1049,9 @@ public class Skill {
         return _name;
     }
 
-    public void Install(GameState game, int player, EffectDependency dependency) {
+    public void Register(GameState game, int player, EffectDependency dependency) {
         foreach (var skill in skills)
-            skill.Install(game, player, dependency);
+            skill.Register(game, player, dependency);
     }
 
 

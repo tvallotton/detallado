@@ -51,6 +51,8 @@ public class Unit {
         _accumulatedDamage += damage;
     }
 
+
+
     public int Heal() {
         int damage = _damageCaused.LastOrDefault();
         var healing = damage * GetTotalHealingEffect() / 100;
@@ -130,7 +132,7 @@ public class Unit {
         return GetDamageReduction(GetEffectByScopeExact(scope));
     }
 
-    public int Get(Stat stat) {
+    public int GetStat(Stat stat) {
         return Get(stat, Scope.ALL);
     }
 

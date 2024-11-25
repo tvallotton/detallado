@@ -18,7 +18,7 @@ class DiffStatX4DamageReduction(string _name, Stat _stat, BaseCondition? _condit
     public override IEnumerable<Effect> PlayerEffects(GameState game, int player) {
         var unit = game.GetFighter(player);
         var rival = game.GetFighter(1 + player);
-        var difference = Math.Max(unit.Get(_stat) - rival.Get(_stat), 0);
+        var difference = Math.Max(unit.GetStat(_stat) - rival.GetStat(_stat), 0);
         yield return new Effect {
             percentagewiseDamageReduction = Math.Min(difference * 4, 40),
         };
