@@ -957,7 +957,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Nosferatu",
-            new Always(),
+            new OnWeapon(Subject.Self, Weapon.Magic),
             new Effect { healing = 50 }
         ),
         new SimpleSkill(
@@ -1028,6 +1028,9 @@ public class Skill {
                 var rival = game.GetFighter(player + 1);
                 return new Effect { extraDamage = 3 * rival.GetBaseStat(Stat.Def) / 10 };
             }
+        ),
+        new SimpleSkill(
+            "Resonance",
         ),
         new SimpleSkill(
             "Fury",

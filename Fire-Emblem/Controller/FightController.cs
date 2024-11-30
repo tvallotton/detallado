@@ -72,11 +72,11 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private bool CanCounterAttack() {
-        return (
-            Defender().IsAlive() &&
-            !Attacker().HasEffect(EffectName.CounterAttackNegation) &&
+        var counterAttackIsBlocked = (
+            Attacker().HasEffect(EffectName.CounterAttackNegation) &&
             !Defender().HasEffect(EffectName.CounterAttacKNegationBlocker)
         );
+        return Defender().IsAlive() && !counterAttackIsBlocked;
     }
 
     private bool CanFollowUp(Unit unit, Unit against) {
