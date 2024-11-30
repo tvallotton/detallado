@@ -40,7 +40,7 @@ public class GameState {
 
         GetFighter(1).SetLatestOpponent(GetFighter(0));
         GetFighter(0).SetLatestOpponent(GetFighter(1));
-        _players[0].ClearFighter();
-        _players[1].ClearFighter();
+        _players[0].ClearRoundState();
+        _players[1].ClearRoundState();
     }
 }

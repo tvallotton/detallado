@@ -43,8 +43,8 @@ public class Player {
         return !team.units.Any((unit) => unit.IsAlive());
     }
 
-    public void ClearFighter() {
-        GetFighter().ClearEffects();
+    public void ClearRoundState() {
+        GetFighter().ClearRoundState();
         fighter = null;
     }
 }

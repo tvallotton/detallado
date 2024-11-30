@@ -5,7 +5,7 @@ using Fire_Emblem;
 class FairFight : BaseSkill {
     public override string name { get; } = "Fair Fight";
 
-    public override BaseCondition condition { get; } = new OnPlayersTurn();
+    public override BaseCondition condition { get; } = new OnTurn(Subject.Self);
 
     public override IEnumerable<Effect> PlayerEffects(GameState game, int player) {
         yield return new Effect {

@@ -19,10 +19,9 @@ public class Unit {
 
     private Unit? _latestOpponent;
 
-    private bool hasStartedACombat = false;
 
 
-    private List<int> _damageCaused = new List<int>();
+    private HistoryTracker history = new HistoryTracker();
 
 
     public Unit(string name, IEnumerable<string> skills) {
@@ -42,7 +41,7 @@ public class Unit {
 
     public int Attack(Unit rival, Scope scope) {
         int damage = ComputeDamage(this, rival, scope);
-        _damageCaused.Add(damage);
+        history.AddDamageCaused(damage);
         rival.TakeDamage(damage);
         return damage;
     }
@@ -54,7 +53,8 @@ public class Unit {
 
 
     public int Heal() {
-        int damage = _damageCaused.LastOrDefault();
+
+        int damage = history.LastDamageCaused();
         var healing = damage * GetTotalHealingEffect() / 100;
         _accumulatedDamage = Math.Max(_accumulatedDamage - healing, 0);
         return healing;
@@ -92,6 +92,10 @@ public class Unit {
 
     public bool HasAdvantageOver(Unit rival) {
         return GetWeapon().HasAdvantageOver(rival.GetWeapon());
+    }
+
+    public bool HasAttackedThisRound() {
+        return history.HasAttackedThisRound;
     }
 
     public string GetName() {
@@ -163,16 +167,17 @@ public class Unit {
         return _effects.Any(e => e.GetNeutralized(effectType).Get(stat));
     }
 
-    public void ClearEffects() {
+    public void ClearRoundState() {
         _effects.Clear();
+
     }
 
     public void SetLatestOpponent(Unit opponent) {
-        _latestOpponent = opponent;
+        history.LatestOpponent = opponent;
     }
 
     public bool IsLatestOpponent(Unit opponent) {
-        return _latestOpponent == opponent;
+        return history.LatestOpponent == opponent;
     }
 
     public bool IsValid() {

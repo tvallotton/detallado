@@ -13,7 +13,7 @@ public class Skill {
     static BaseSkill[] SKILLS = {
         new SimpleSkill(
             "Armored Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect {
                 difference = new Stats<int> {
                     Def = 8
@@ -49,7 +49,7 @@ public class Skill {
         new FairFight(),
         new SimpleSkill(
             "Bracing Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect {
                 difference = new Stats<int> {
                     Def = 6,
@@ -129,7 +129,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Swift Sparrow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect {
                     difference = new Stats<int> {
                     Atk = 6,
@@ -140,7 +140,7 @@ public class Skill {
 
         new SimpleSkill(
             "Darting Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect {
                     difference = new Stats<int> {
@@ -155,7 +155,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Bracing Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect {
                     difference = new Stats<int> {
@@ -279,7 +279,7 @@ public class Skill {
         new Dragonskin(),
         new SimpleSkill(
             "Sword Power",
-            new OnPlayerWeapon(Weapon.Sword),
+            new OnWeapon(Subject.Self, Weapon.Sword),
             new Effect {
                     difference = new Stats<int> {
                         Def = -10,
@@ -289,7 +289,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Sword Agility",
-            new OnPlayerWeapon(Weapon.Sword),
+            new OnWeapon(Subject.Self, Weapon.Sword),
             new Effect {
                     difference = new Stats<int> {
                         Spd = 12,
@@ -300,7 +300,7 @@ public class Skill {
 
         new SimpleSkill(
             "Sword Focus",
-            new OnPlayerWeapon(Weapon.Sword),
+            new OnWeapon(Subject.Self, Weapon.Sword),
             new Effect {
                     difference = new Stats<int> {
                         Res = -10,
@@ -310,7 +310,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Sturdy Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect {
                     difference = new Stats<int> {
                         Atk = 6,
@@ -359,7 +359,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Perceptive",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             (game, player) => [new Effect {
                 difference = new Stats<int> {
                     Spd = 12 + game.GetFighter(player).GetBaseStat(Stat.Spd) / 4,
@@ -391,7 +391,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Lance Power",
-            new OnPlayerWeapon(Weapon.Lance),
+            new OnWeapon(Subject.Self, Weapon.Lance),
             new Effect {
                     difference = new Stats<int> {
                         Def = -10,
@@ -401,7 +401,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Lance Agility",
-            new OnPlayerWeapon(Weapon.Lance),
+            new OnWeapon(Subject.Self, Weapon.Lance),
             new Effect {
                     difference = new Stats<int> {
                         Spd = 12,
@@ -411,7 +411,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Golden Lotus",
-            new OnRivalWeapon(Weapon.Magic).Not(),
+            new OnWeapon(Subject.Rival, Weapon.Magic).Not(),
             new Effect {
                     percentagewiseDamageReduction = 50,
                     scope = Scope.FIRST_ATTACK
@@ -440,7 +440,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Deadly Blade",
-            new OnPlayerWeapon(Weapon.Sword).And(new OnPlayersTurn()),
+            new OnWeapon(Subject.Self, Weapon.Sword).And(new OnTurn(Subject.Self)),
             new Effect {
                     difference = new Stats<int> {
                         Atk = 8,
@@ -450,7 +450,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Axe Power",
-            new OnPlayerWeapon(Weapon.Axe),
+            new OnWeapon(Subject.Self, Weapon.Axe),
             new Effect {
                     difference = new Stats<int> {
                         Def = -10,
@@ -461,7 +461,7 @@ public class Skill {
 
         new SimpleSkill(
             "Bow Agility",
-            new OnPlayerWeapon(Weapon.Bow),
+            new OnWeapon(Subject.Self, Weapon.Bow),
             new Effect {
                     difference = new Stats<int> {
                         Spd = 12,
@@ -472,7 +472,7 @@ public class Skill {
 
         new SimpleSkill(
             "Bow Focus",
-            new OnPlayerWeapon(Weapon.Bow),
+            new OnWeapon(Subject.Self, Weapon.Bow),
             new Effect {
                     difference = new Stats<int> {
                         Res = -10,
@@ -513,7 +513,7 @@ public class Skill {
         ),
         new SimplePenalty(
             "Soulblade",
-            new OnPlayerWeapon(Weapon.Sword),
+            new OnWeapon(Subject.Self, Weapon.Sword),
             (game, player) => {
                 var rival = game.GetFighter(player+1);
                 var def = rival.GetBaseStat(Stat.Def);
@@ -528,7 +528,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Chivalry",
-            new OnPlayersTurn().And(new OnHighRivalHP(100)),
+            new OnTurn(Subject.Self).And(new OnHighRivalHP(100)),
             new Effect {
                 extraDamage = 2,
                 absoluteDamageReduction = 2,
@@ -568,7 +568,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Remote Mirror",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             [
                 new Effect { difference = new Stats<int> {Atk = 7, Res = 10} },
                 new Effect { percentagewiseDamageReduction = 30, scope = Scope.FIRST_ATTACK }
@@ -576,23 +576,23 @@ public class Skill {
         ),
         new SimpleSkill(
             "Magic Guard",
-            new OnRivalWeapon(Weapon.Magic),
+            new OnWeapon(Subject.Rival, Weapon.Magic),
             [new Effect { absoluteDamageReduction = 5, }]
         ),
         new SimpleSkill(
             "Lance Guard",
-            new OnRivalWeapon(Weapon.Lance),
+            new OnWeapon(Subject.Rival, Weapon.Lance),
             [new Effect { absoluteDamageReduction = 5, }]
         ),
         new SimpleSkill(
             "Axe Guard",
-            new OnRivalWeapon(Weapon.Axe),
+            new OnWeapon(Subject.Rival, Weapon.Axe),
             [new Effect { absoluteDamageReduction = 5, }]
         ),
 
         new SimpleSkill(
             "Bow Guard",
-            new OnRivalWeapon(Weapon.Bow),
+            new OnWeapon(Subject.Rival, Weapon.Bow),
             [new Effect { absoluteDamageReduction = 5 }]
         ),
 
@@ -614,7 +614,7 @@ public class Skill {
 
          new SimpleSkill(
             "Swift Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Spd = 6, Res=6} },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -622,7 +622,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Steady Posture",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Spd = 6, Def=6} },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -630,7 +630,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Mirror Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Res=6} },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -638,7 +638,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Sturdy Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Def=6} },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -646,7 +646,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Kestrel Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Atk = 6, Spd=6} },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -655,7 +655,7 @@ public class Skill {
 
         new SimpleSkill(
             "Warding Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Res = 8 } },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -665,7 +665,7 @@ public class Skill {
 
         new SimpleSkill(
             "Steady Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Def = 8 } },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -673,7 +673,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Fierce Stance",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             [
                 new Effect { difference = new Stats<int> { Atk = 8 } },
                 new Effect { scope =Scope.FOLLOW_UP , percentagewiseDamageReduction=10 },
@@ -681,7 +681,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Remote Sturdy",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             [
                 new Effect { difference = new Stats<int> { Atk = 7, Def= 10 } },
                 new Effect { scope =Scope.FIRST_ATTACK , percentagewiseDamageReduction=30 },
@@ -689,7 +689,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Remote Sparrow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             [
                 new Effect { difference = new Stats<int> { Atk = 7, Spd= 7 } },
                 new Effect { scope =Scope.FIRST_ATTACK , percentagewiseDamageReduction=30 },
@@ -703,39 +703,39 @@ public class Skill {
 
         new SimpleSkill(
             "Tome Precision",
-            new OnPlayerWeapon(Weapon.Magic),
+            new OnWeapon(Subject.Self, Weapon.Magic),
             new Effect { difference = new Stats<int> { Atk = 6, Spd = 6 } }
         ),
 
         new SimpleSkill(
             "Death Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Atk = 8 } }
         ),
 
         new SimpleSkill(
             "Darting Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Spd = 8 } }
         ),
         new SimpleSkill(
             "Warding Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Res = 8 } }
         ),
         new SimpleSkill(
             "Mirror Strike",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Atk = 6, Res = 6 } }
         ),
         new SimpleSkill(
             "Steady Blow",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Spd = 6, Def = 6 } }
         ),
         new SimpleSkill(
             "Swift Strike",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Spd = 6, Res = 6 } }
         ),
         new SimpleSkill(
@@ -760,22 +760,22 @@ public class Skill {
         ),
         new SimpleSkill(
             "Chaos Style",
-            new OnPlayersTurn().And(
-                new OnPlayerWeapon(Weapon.Magic).And(new Not(new OnRivalWeapon(Weapon.Magic)))
-                    .Or(new Not(new OnPlayerWeapon(Weapon.Magic)).And(new OnRivalWeapon(Weapon.Magic)))
+            new OnTurn(Subject.Self).And(
+                new OnWeapon(Subject.Self, Weapon.Magic).And(new Not(new OnWeapon(Subject.Rival, Weapon.Magic)))
+                    .Or(new Not(new OnWeapon(Subject.Self, Weapon.Magic)).And(new OnWeapon(Subject.Rival, Weapon.Magic)))
             ),
             new Effect { difference = new Stats<int> { Spd = 3 } }
         ),
 
         new SimplePenalty(
             "Blinding Flash",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> { Spd = -4 } }
         ),
 
         new SimplePenalty(
             "Not *Quite*",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             new Effect { difference = new Stats<int> { Atk = -4 } }
         ),
 
@@ -797,7 +797,7 @@ public class Skill {
         ),
         new SimplePenalty(
             "Belief in Love",
-            new OnHighRivalHP(100).Or(new OnRivalsTurn()),
+            new OnHighRivalHP(100).Or(new OnTurn(Subject.Rival)),
             new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
         ),
         new SimplePenalty(
@@ -837,14 +837,14 @@ public class Skill {
         ),
         new SimpleSkill(
             "Back at You",
-            new OnRivalsTurn(),
+            new OnTurn(Subject.Rival),
             (game, player) => new Effect {
                 extraDamage = game.GetFighter(player).GetAccumulatedDamage() / 2
             }
         ),
         new SimpleSkill(
             "Lunar Brace",
-            new OnPlayersTurn().And(new OnPlayerWeapon(Weapon.Magic).Not()),
+            new OnTurn(Subject.Self).And(new OnWeapon(Subject.Self, Weapon.Magic).Not()),
             (game, player) => new Effect {
                 extraDamage = game.GetFighter(1+player).GetBaseStat(Stat.Def)*3/10,
             }
@@ -908,9 +908,9 @@ public class Skill {
         ),
         new SimpleSkill(
             "Prescience",
-            new OnPlayersTurn()
-                .Or(new OnRivalWeapon(Weapon.Magic))
-                .Or(new OnRivalWeapon(Weapon.Bow)),
+            new OnTurn(Subject.Self)
+                .Or(new OnWeapon(Subject.Rival, Weapon.Magic))
+                .Or(new OnWeapon(Subject.Rival, Weapon.Bow)),
             new Effect {
                 percentagewiseDamageReduction = 30,
                 scope = Scope.FIRST_ATTACK
@@ -962,22 +962,22 @@ public class Skill {
         ),
         new SimpleSkill(
             "Solar Brace",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect { healing = 50 }
         ),
         new SimpleSkill(
             "Windsweep",
-            new OnRivalWeapon(Weapon.Sword).And(new OnPlayerWeapon(Weapon.Sword)),
+            new OnWeapon(Subject.Rival, Weapon.Sword).And(new OnWeapon(Subject.Self, Weapon.Sword)),
             new Effect { counterAttackNegation = 1 }
         ),
         new SimpleSkill(
             "Surprise Attack",
-            new OnRivalWeapon(Weapon.Bow).And(new OnPlayerWeapon(Weapon.Bow)),
+            new OnWeapon(Subject.Rival, Weapon.Bow).And(new OnWeapon(Subject.Self, Weapon.Bow)),
             new Effect { counterAttackNegation = 1 }
         ),
         new SimpleSkill(
             "Hliðskjálf",
-            new OnRivalWeapon(Weapon.Magic).And(new OnPlayerWeapon(Weapon.Magic)),
+            new OnWeapon(Subject.Rival, Weapon.Magic).And(new OnWeapon(Subject.Self, Weapon.Magic)),
             new Effect { counterAttackNegation = 1 }
         ),
         new SimpleSkill(
@@ -987,19 +987,19 @@ public class Skill {
         ),
         new SimpleSkill(
             "Laws of Sacae",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             new Effect {
                 difference = new Stats<int> { Atk = 6, Def = 6, Res = 6, Spd = 6, }
             }
         ),
         new SimpleSkill(
             "Laws of Sacae",
-            new OnPlayerWeapon(Weapon.Magic).Or(new OnPlayerWeapon(Weapon.Bow)).Not().And(new OnGreaterPlayerStat(Stat.Spd, 6)),
+            new OnWeapon(Subject.Self, Weapon.Magic).Or(new OnWeapon(Subject.Self, Weapon.Bow)).Not().And(new OnGreaterPlayerStat(Stat.Spd, 6)),
             new Effect { counterAttackNegation = 1 }
         ),
         new SimplePenalty(
             "Flare",
-            new OnPlayerWeapon(Weapon.Magic),
+            new OnWeapon(Subject.Self, Weapon.Magic),
             (game, player ) => {
                 var rival = game.GetFighter(player+1);
                 return new Effect {
@@ -1009,13 +1009,13 @@ public class Skill {
         ),
         new SimpleSkill(
             "Flare",
-            new OnPlayerWeapon(Weapon.Magic),
+            new OnWeapon(Subject.Self, Weapon.Magic),
             new Effect{healing = 50,}
         ),
 
          new SimpleSkill(
             "Eclipse Brace",
-            new OnPlayersTurn(),
+            new OnTurn(Subject.Self),
             (game, player) => {
                 var rival = game.GetFighter(player + 1);
                 return new Effect { healing = 50 };
@@ -1023,7 +1023,7 @@ public class Skill {
         ),
           new SimpleSkill(
             "Eclipse Brace",
-            new OnPlayersTurn().And(new OnPlayerWeapon(Weapon.Magic).Not()),
+            new OnTurn(Subject.Self).And(new OnWeapon(Subject.Self, Weapon.Magic).Not()),
             (game, player) => {
                 var rival = game.GetFighter(player + 1);
                 return new Effect { extraDamage = 3 * rival.GetBaseStat(Stat.Def) / 10 };
