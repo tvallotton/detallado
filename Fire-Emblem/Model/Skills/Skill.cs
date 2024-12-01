@@ -1051,7 +1051,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Atk/Spd Push",
-            new OnHasAttacked(Subject.Self),
+            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1066,7 +1066,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Atk/Def Push",
-            new OnHasAttacked(Subject.Self),
+            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1080,7 +1080,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Atk/Res Push",
-            new OnHasAttacked(Subject.Self),
+            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1094,7 +1094,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Spd/Def Push",
-            new OnHasAttacked(Subject.Self),
+           new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1108,11 +1108,28 @@ public class Skill {
         ),
         new SimpleSkill(
             "Def/Res Push",
-            new OnHasAttacked(Subject.Self),
+            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
         ),
+        new SimpleSkill(
+            "Scendscale",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 7
+            }
+        ),
+        new SimpleSkill(
+            "Scendscale",
+            new Always(),
+            (game, player) => {
+                var unit = game.GetFighter(player);
+                return new Effect {
+                    extraDamage = unit.GetBaseStat(Stat.Atk)/4
+                };
+            }
+        )
 };
 
     public Skill(string name) {

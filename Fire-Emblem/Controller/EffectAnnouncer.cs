@@ -113,7 +113,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
         int actualDamage = Math.Min(rawDamage, unit.GetHP() - 1);
 
-        if (actualDamage > 0) {
+        if (unit.IsAlive()) {
             unit.TakeDamage(actualDamage);
             _view.AnnounceAfterCombatDamage(unit, rawDamage);
         }
