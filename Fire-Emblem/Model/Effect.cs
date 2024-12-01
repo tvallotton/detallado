@@ -23,10 +23,6 @@ public class Effect {
 
     public int healing = 0;
 
-    public int startCombatDamage = 0;
-
-    public int endComabtDamage = 0;
-
     public int counterAttackNegation = 0;
 
     public int counterAttackNegationBlocker = 0;
@@ -34,6 +30,8 @@ public class Effect {
     public int damageBeforeCombat = 0;
 
     public int damageAfterCombat = 0;
+
+    public int afterCombatHealing = 0;
 
 
     public Stats<bool> GetNeutralized(EffectType effectType) {

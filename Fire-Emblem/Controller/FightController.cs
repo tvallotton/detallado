@@ -29,8 +29,6 @@ class FightController(GameState _game, FireEmblemView _view) {
             _scope = Scope.FOLLOW_UP;
             FollowUp();
         }
-        // ApplyAfterCombatDamage();
-
     }
 
 

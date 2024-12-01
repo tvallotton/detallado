@@ -1042,7 +1042,20 @@ public class Skill {
                 damageAfterCombat = 8
             }
         ),
-
+        new SimpleSkill(
+            "Atk/Spd Push",
+            new OnHighHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Atk = 7, Spd = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Atk/Spd Push",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
 };
 
     public Skill(string name) {
