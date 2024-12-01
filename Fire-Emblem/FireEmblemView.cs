@@ -120,6 +120,10 @@ public class FireEmblemView(View _view) {
         WriteLine($"{unit} no puede hacer un follow up");
     }
 
+    public void AnnounceBeforeCombatDamage(Unit unit, int damage, int hp) {
+        WriteLine($"{unit} recibe {damage} de daño antes de iniciar el combate y queda con {hp} HP");
+    }
+
     public void AnnounceAdvantage(string first, string second) {
         WriteLine($"{first} tiene ventaja con respecto a {second}");
     }

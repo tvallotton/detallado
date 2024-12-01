@@ -528,7 +528,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Chivalry",
-            new OnTurn(Subject.Self).And(new OnHighRivalHP(100)),
+            new OnTurn(Subject.Self).And(new OnHighHP(Subject.Rival, hp: 100)),
             new Effect {
                 extraDamage = 2,
                 absoluteDamageReduction = 2,
@@ -797,7 +797,7 @@ public class Skill {
         ),
         new SimplePenalty(
             "Belief in Love",
-            new OnHighRivalHP(100).Or(new OnTurn(Subject.Rival)),
+            new OnHighHP(Subject.Rival, 100).Or(new OnTurn(Subject.Rival)),
             new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
         ),
         new SimplePenalty(
@@ -854,7 +854,7 @@ public class Skill {
         new DiffStatX4DamageReduction("Moon-Twin Wing", Stat.Spd),
            new SimplePenalty(
             "Moon-Twin Wing",
-            new OnPlayerHighHP(25),
+            new OnHighHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> { Atk = -5, Spd = -5}
             }
@@ -928,21 +928,21 @@ public class Skill {
         ),
         new SimpleSkill(
             "Guard Bearing",
-            new OnPlayerHighHP(100),
+            new OnHighHP(Subject.Self, 100),
             new Effect {
                 percentagewiseDamageReduction = 60,
             }
         ),
         new SimpleSkill(
             "Guard Bearing",
-            new Not(new OnPlayerHighHP(100)),
+            new Not(new OnHighHP(Subject.Self, 100)),
             new Effect {
                 percentagewiseDamageReduction = 30
             }
         ),
         new SimplePenalty(
             "Extra Chivalry",
-            new OnHighRivalHP(50),
+            new OnHighHP(Subject.Rival, 50),
             new Effect {
                 difference = new Stats<int> {
                     Atk = -5, Def = -5, Spd = -5
@@ -1031,6 +1031,8 @@ public class Skill {
         ),
         new SimpleSkill(
             "Resonance",
+            new OnWeapon(Subject.Self, Weapon.Magic).And(new OnHighHP(Subject.Self, 2)),
+            new Effect { damageBeforeCombat = 1, extraDamage = 3 }
         ),
         new SimpleSkill(
             "Fury",

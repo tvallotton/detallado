@@ -58,7 +58,5 @@ public class Game {
         var players = new TeamLoader(options[answer]).LoadTeams();
         _gameState.AddPlayers(players);
     }
-
-
 }
 

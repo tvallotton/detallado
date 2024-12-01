@@ -5,6 +5,8 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
     Unit unit = _gameState.GetFighter(player);
     Unit rival = _gameState.GetFighter(player + 1);
 
+
+
     public void AnnounceEffects() {
         Action<EffectType>[] announcements = [AnnounceStatEffects, AnnounceNeutralizedEffects];
         foreach (var func in announcements) {
@@ -12,9 +14,14 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
             func(EffectType.Penalty);
         }
         AnnounceAllDamageEffects();
+        AnnounceBeforeCombatDamage();
         AnnounceHealingEffects();
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
+    }
+
+    public void AnnouncePostFightEffects() {
+        AnnounceAfterCombatDamage();
     }
 
     private void AnnounceAllDamageEffects() {
@@ -24,12 +31,13 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
     }
 
+
     private void AnnounceCounterAttackNegation() {
         var isPlayersTurn = _gameState.IsPlayersTurn(player);
         var hasCounterAttackNegation = unit.HasEffect(EffectName.CounterAttackNegation);
         var rivalHasCounterAttackNegationBlocker = !rival.HasEffect(EffectName.CounterAttacKNegationBlocker);
         if (isPlayersTurn && hasCounterAttackNegation && rivalHasCounterAttackNegationBlocker)
-            _view.AnnounceCounterAttackNegation(_gameState.GetFighter(player + 1));
+            _view.AnnounceCounterAttackNegation(rival);
     }
 
 
@@ -87,6 +95,27 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         foreach (var stat in StatConstants.ORDERED) {
             if (unit.IsNeutralized(stat, effectType))
                 _view.AnnounceNeutralizedEffect(unit, stat, effectType);
+        }
+    }
+    private void AnnounceBeforeCombatDamage() {
+        if (unit.HasEffect(EffectName.DamageBeforeCombat)) {
+            int damage = unit.SumEffects(EffectName.DamageBeforeCombat);
+            unit.TakeDamage(damage);
+            _view.AnnounceBeforeCombatDamage(unit, damage, unit.GetHP());
+        }
+    }
+
+    private void AnnounceAfterCombatDamage() {
+        if (!unit.HasEffect(EffectName.DamageAfterCombat)) {
+            return;
+        }
+        int rawDamage = unit.SumEffects(EffectName.DamageAfterCombat);
+
+        int actualDamage = Math.Min(rawDamage, unit.GetHP() - 1);
+
+        if (actualDamage > 0) {
+            unit.TakeDamage(actualDamage);
+            _view.AnnounceAfterCombatDamage(unit, rawDamage);
         }
     }
 }

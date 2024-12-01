@@ -12,6 +12,7 @@ class FightController(GameState _game, FireEmblemView _view) {
         AnnounceAdvantage();
         SetupEffects();
         LaunchAttacks();
+        PostFightEffects();
         _view.AnnounceFightResults(Attacker(), Defender());
     }
 
@@ -28,7 +29,7 @@ class FightController(GameState _game, FireEmblemView _view) {
             _scope = Scope.FOLLOW_UP;
             FollowUp();
         }
-        ApplyAfterCombatDamage();
+        // ApplyAfterCombatDamage();
 
     }
 
@@ -106,7 +107,12 @@ class FightController(GameState _game, FireEmblemView _view) {
         foreach (var player in IterOverTurns()) {
             new EffectAnnouncer(_view, player, _game).AnnounceEffects();
         }
+    }
 
+    private void PostFightEffects() {
+        foreach (var player in IterOverTurns()) {
+            new EffectAnnouncer(_view, player, _game).AnnouncePostFightEffects();
+        }
     }
 
     private void SetupEffectsForPlayer(int player, EffectDependency dependency) {
