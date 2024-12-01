@@ -1056,6 +1056,63 @@ public class Skill {
                 damageAfterCombat = 5
             }
         ),
+
+        new SimpleSkill(
+            "Atk/Def Push",
+            new OnHighHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Atk = 7, Def = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Atk/Def Push",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
+        new SimpleSkill(
+            "Atk/Res Push",
+            new OnHighHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Atk = 7, Res = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Atk/Res Push",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
+        new SimpleSkill(
+            "Spd/Def Push",
+            new OnHighHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Spd = 7, Def = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Spd/Def Push",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
+         new SimpleSkill(
+            "Def/Res Push",
+            new OnHighHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Def = 7, Res = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Def/Res Push",
+            new OnHasAttacked(Subject.Self),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
 };
 
     public Skill(string name) {
