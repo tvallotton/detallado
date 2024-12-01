@@ -244,6 +244,19 @@ public class Unit {
     public int SumEffects(EffectName effectName) {
         return _effects.Select(effect => effect.GetByName(effectName)).Sum();
     }
+
+    public int CountEffects(EffectType type) {
+        var selectedEffects = _effects.Select(effect => {
+            var stats = Enum.GetValues<Stat>();
+            var counts = stats.Any(stat => {
+                var difference = effect.difference.Get(stat);
+                return (difference > 0);//^ (type == EffectType.Penalty);// && (effectOnStat != 0);
+            });
+            if (counts) return 1;
+            else return 0;
+        });
+        return selectedEffects.Sum();
+    }
 }
 
 

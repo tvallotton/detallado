@@ -528,7 +528,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Chivalry",
-            new OnTurn(Subject.Self).And(new OnHighHP(Subject.Rival, hp: 100)),
+            new OnTurn(Subject.Self).And(new OnHighPercentageHP(Subject.Rival, hp: 100)),
             new Effect {
                 extraDamage = 2,
                 absoluteDamageReduction = 2,
@@ -797,7 +797,7 @@ public class Skill {
         ),
         new SimplePenalty(
             "Belief in Love",
-            new OnHighHP(Subject.Rival, 100).Or(new OnTurn(Subject.Rival)),
+            new OnHighPercentageHP(Subject.Rival, 100).Or(new OnTurn(Subject.Rival)),
             new Effect { difference = new Stats<int> { Atk = -5, Def = -5 } }
         ),
         new SimplePenalty(
@@ -854,7 +854,7 @@ public class Skill {
         new DiffStatX4DamageReduction("Moon-Twin Wing", Stat.Spd),
            new SimplePenalty(
             "Moon-Twin Wing",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> { Atk = -5, Spd = -5}
             }
@@ -928,21 +928,21 @@ public class Skill {
         ),
         new SimpleSkill(
             "Guard Bearing",
-            new OnHighHP(Subject.Self, 100),
+            new OnHighPercentageHP(Subject.Self, 100),
             new Effect {
                 percentagewiseDamageReduction = 60,
             }
         ),
         new SimpleSkill(
             "Guard Bearing",
-            new Not(new OnHighHP(Subject.Self, 100)),
+            new Not(new OnHighPercentageHP(Subject.Self, 100)),
             new Effect {
                 percentagewiseDamageReduction = 30
             }
         ),
         new SimplePenalty(
             "Extra Chivalry",
-            new OnHighHP(Subject.Rival, 50),
+            new OnHighPercentageHP(Subject.Rival, 50),
             new Effect {
                 difference = new Stats<int> {
                     Atk = -5, Def = -5, Spd = -5
@@ -1031,7 +1031,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Resonance",
-            new OnWeapon(Subject.Self, Weapon.Magic).And(new OnHighHP(Subject.Self, 2)),
+            new OnWeapon(Subject.Self, Weapon.Magic).And(new OnHighPercentageHP(Subject.Self, 2)),
             new Effect { damageBeforeCombat = 1, extraDamage = 3 }
         ),
         new SimpleSkill(
@@ -1044,14 +1044,14 @@ public class Skill {
         ),
         new SimpleSkill(
             "Atk/Spd Push",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> {Atk = 7, Spd = 7},
             }
         ),
         new SimpleSkill(
             "Atk/Spd Push",
-            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1059,56 +1059,56 @@ public class Skill {
 
         new SimpleSkill(
             "Atk/Def Push",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> {Atk = 7, Def = 7},
             }
         ),
         new SimpleSkill(
             "Atk/Def Push",
-            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
         ),
         new SimpleSkill(
             "Atk/Res Push",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> {Atk = 7, Res = 7},
             }
         ),
         new SimpleSkill(
             "Atk/Res Push",
-            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
         ),
         new SimpleSkill(
             "Spd/Def Push",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> {Spd = 7, Def = 7},
             }
         ),
         new SimpleSkill(
             "Spd/Def Push",
-           new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+           new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
         ),
          new SimpleSkill(
             "Def/Res Push",
-            new OnHighHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect {
                 difference = new Stats<int> {Def = 7, Res = 7},
             }
         ),
         new SimpleSkill(
             "Def/Res Push",
-            new OnHighHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
             new Effect {
                 damageAfterCombat = 5
             }
@@ -1129,7 +1129,16 @@ public class Skill {
                     extraDamage = unit.GetBaseStat(Stat.Atk)/4
                 };
             }
-        )
+        ),
+        new SimpleSkill(
+            "Mastermind",
+            new OnHighAbsoluteHP(Subject.Self, 2),
+            new Effect {
+                damageBeforeCombat = 1,
+            }
+        ),
+
+        new Mastermind(),
 };
 
     public Skill(string name) {

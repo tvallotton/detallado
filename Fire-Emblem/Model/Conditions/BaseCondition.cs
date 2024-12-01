@@ -1,6 +1,7 @@
 
 
 using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 using Fire_Emblem;
 
 public abstract class BaseCondition {
@@ -21,6 +22,10 @@ public abstract class BaseCondition {
     }
     public BaseCondition Not() {
         return new Not(this);
+    }
+
+    public BaseCondition DependsOn(EffectDependency dependency) {
+        return new OnDependency(this, dependency);
     }
 
 }
