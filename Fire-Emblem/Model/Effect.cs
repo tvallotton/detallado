@@ -52,6 +52,7 @@ public class Effect {
             case EffectName.CounterAttacKNegationBlocker: return counterAttackNegationBlocker;
             case EffectName.DamageAfterCombat: return damageAfterCombat;
             case EffectName.DamageBeforeCombat: return damageBeforeCombat;
+            case EffectName.HealingAfterCombat: return afterCombatHealing;
             default: return 0;
         }
     }

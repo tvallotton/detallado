@@ -1099,6 +1099,20 @@ public class Skill {
                 damageAfterCombat = 5
             }
         ),
+        new SimpleSkill(
+            "Spd/Res Push",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {Spd = 7, Res = 7},
+            }
+        ),
+        new SimpleSkill(
+            "Spd/Res Push",
+           new OnHighPercentageHP(Subject.Self, 25).And(new OnHasAttacked(Subject.Self)),
+            new Effect {
+                damageAfterCombat = 5
+            }
+        ),
          new SimpleSkill(
             "Def/Res Push",
             new OnHighPercentageHP(Subject.Self, 25),
@@ -1137,8 +1151,19 @@ public class Skill {
                 damageBeforeCombat = 1,
             }
         ),
-
         new Mastermind(),
+        new SimplePenalty(
+            "Mystic Boost",
+            new Always(),
+            new Effect {difference = new Stats<int> {Atk =-5}}
+        ),
+        new SimpleSkill(
+            "Mystic Boost",
+            new Always(),
+            new Effect {
+                afterCombatHealing = 10,
+            }
+        )
 };
 
     public Skill(string name) {

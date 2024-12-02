@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Fire_Emblem;
 using Fire_Emblem_View;
@@ -34,10 +35,11 @@ class FightController(GameState _game, FireEmblemView _view) {
 
 
     private void HealFighter(Unit fighter) {
-        _view.AnnounceHealedFighter(fighter, fighter.Heal());
+        _view.AnnounceHealedFighter(fighter, fighter.InCombatHeal());
     }
 
     public void ApplyAfterCombatDamage() {
+
         foreach (var player in IterOverTurns()) {
             var unit = _game.GetFighter(player);
             var rival = _game.GetFighter(player + 1);
@@ -108,9 +110,38 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void PostFightEffects() {
+
+
         foreach (var player in IterOverTurns()) {
-            new EffectAnnouncer(_view, player, _game).AnnouncePostFightEffects();
+
+            PerformDamageAfterCombat(player);
+            PerformHealingAftercCombat(player);
+            new EffectAnnouncer(_view, player, _game).AnnounceAfterCombatEffects();
         }
+    }
+
+    private void PerformDamageAfterCombat(int player) {
+        var fighter = _game.GetFighter(player);
+        int rawDamage = fighter.SumEffects(EffectName.DamageAfterCombat);
+
+        int actualDamage = Math.Min(rawDamage, fighter.GetHP() - 1);
+
+        if (fighter.IsAlive()) {
+            fighter.TakeDamage(actualDamage);
+
+        }
+    }
+
+    private void PerformHealingAftercCombat(int player) {
+        var fighter = _game.GetFighter(player);
+        int healing = fighter.SumEffects(EffectName.HealingAfterCombat);
+        Console.WriteLine($"DEBUG healing {healing} {fighter} {fighter.GetHP()}");
+
+        if (fighter.IsAlive())
+            fighter.Heal(healing);
+
+        Console.WriteLine($"DEBUG healing {healing} {fighter} {fighter.GetHP()}");
+
     }
 
     private void SetupEffectsForPlayer(int player, EffectDependency dependency) {

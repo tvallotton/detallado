@@ -3,6 +3,8 @@ public enum EffectName {
     PercentagewiseDamageReduction,
     AbsoluteDamageReduction,
     Healing,
+
+    HealingAfterCombat,
     CounterAttackNegation,
     CounterAttacKNegationBlocker,
 

@@ -112,6 +112,10 @@ public class FireEmblemView(View _view) {
         WriteLine($"{unit} recibe {damage} de daño despues del combate");
     }
 
+    public void AnnounceAfterCombatHealing(Unit unit, int healed) {
+        WriteLine($"{unit} recupera {healed} HP despues del combate");
+    }
+
     public void AnnounceNoAdvantage() {
         WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
     }
@@ -120,8 +124,8 @@ public class FireEmblemView(View _view) {
         WriteLine($"{unit} no puede hacer un follow up");
     }
 
-    public void AnnounceBeforeCombatDamage(Unit unit, int damage, int hp) {
-        WriteLine($"{unit} recibe {damage} de daño antes de iniciar el combate y queda con {hp} HP");
+    public void AnnounceBeforeCombatDamage(Unit unit, int damage) {
+        WriteLine($"{unit} recibe {damage} de daño antes de iniciar el combate y queda con {unit.GetHP()} HP");
     }
 
     public void AnnounceAdvantage(string first, string second) {

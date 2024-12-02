@@ -50,10 +50,12 @@ public class Unit {
         _accumulatedDamage += damage;
     }
 
+    public void Heal(int amount) {
+        _accumulatedDamage = Math.Max(_accumulatedDamage - amount, 0);
+    }
 
 
-    public int Heal() {
-
+    public int InCombatHeal() {
         int damage = history.LastDamageCaused();
         var healing = damage * GetTotalHealingEffect() / 100;
         _accumulatedDamage = Math.Max(_accumulatedDamage - healing, 0);

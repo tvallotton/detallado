@@ -1,3 +1,4 @@
+using System.Collections;
 using Fire_Emblem_View;
 
 public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameState) {
@@ -15,13 +16,16 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         }
         AnnounceAllDamageEffects();
         AnnounceBeforeCombatDamage();
+
         AnnounceHealingEffects();
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
     }
 
-    public void AnnouncePostFightEffects() {
-        AnnounceAfterCombatDamage();
+    public void AnnounceAfterCombatEffects() {
+
+        AnnounceByEffectName(EffectName.DamageAfterCombat);
+        AnnounceByEffectName(EffectName.HealingAfterCombat);
     }
 
     private void AnnounceAllDamageEffects() {
@@ -101,21 +105,23 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         if (unit.HasEffect(EffectName.DamageBeforeCombat)) {
             int damage = unit.SumEffects(EffectName.DamageBeforeCombat);
             unit.TakeDamage(damage);
-            _view.AnnounceBeforeCombatDamage(unit, damage, unit.GetHP());
+            _view.AnnounceBeforeCombatDamage(unit, damage);
         }
     }
 
-    private void AnnounceAfterCombatDamage() {
-        if (!unit.HasEffect(EffectName.DamageAfterCombat)) {
-            return;
-        }
-        int rawDamage = unit.SumEffects(EffectName.DamageAfterCombat);
 
-        int actualDamage = Math.Min(rawDamage, unit.GetHP() - 1);
-
-        if (unit.IsAlive()) {
-            unit.TakeDamage(actualDamage);
-            _view.AnnounceAfterCombatDamage(unit, rawDamage);
+    private void AnnounceByEffectName(EffectName effectName) {
+        int effectValue = unit.SumEffects(effectName);
+        if (effectValue == 0) return;
+        if (!unit.IsAlive()) return;
+        switch (effectName) {
+            case EffectName.DamageAfterCombat:
+                _view.AnnounceAfterCombatDamage(unit, effectValue); break;
+            case EffectName.HealingAfterCombat:
+                _view.AnnounceAfterCombatHealing(unit, effectValue); break;
+            case EffectName.DamageBeforeCombat:
+                _view.AnnounceBeforeCombatDamage(unit, effectValue); break;
         }
     }
+
 }
