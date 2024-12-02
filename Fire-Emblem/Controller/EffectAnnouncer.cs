@@ -14,9 +14,8 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
             func(EffectType.Bonus);
             func(EffectType.Penalty);
         }
-        AnnounceAllDamageEffects();
-        AnnounceBeforeCombatDamage();
 
+        AnnounceAllDamageEffects();
         AnnounceHealingEffects();
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
@@ -101,10 +100,11 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
                 _view.AnnounceNeutralizedEffect(unit, stat, effectType);
         }
     }
-    private void AnnounceBeforeCombatDamage() {
-        if (unit.HasEffect(EffectName.DamageBeforeCombat)) {
+    public void AnnounceBeforeCombatDamage() {
+        if (unit.HasEffect(EffectName.DamageBeforeCombat) && unit.IsAlive()) {
             int damage = unit.SumEffects(EffectName.DamageBeforeCombat);
-            unit.TakeDamage(damage);
+            int realDamage = Math.Min(damage, unit.GetHP() - 1);
+            unit.TakeDamage(realDamage);
             _view.AnnounceBeforeCombatDamage(unit, damage);
         }
     }

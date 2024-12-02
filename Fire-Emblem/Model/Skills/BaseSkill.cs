@@ -22,9 +22,11 @@ public abstract class BaseSkill {
         return [];
     }
 
-    public void Register(GameState game, int player, EffectDependency dependencies) {
-        if (condition.Holds(game, player, dependencies))
+    public bool Register(GameState game, int player, EffectDependency dependencies) {
+        var holds = condition.Holds(game, player, dependencies);
+        if (holds)
             AddEffects(game, player);
+        return holds;
     }
 
     void AddEffects(GameState game, int player) {

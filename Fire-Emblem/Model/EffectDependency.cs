@@ -1,4 +1,8 @@
+
+
 public enum EffectDependency {
-    None,
-    Stats
+    None = 0,
+    Stats = 1,
+    StatsAndModifiesStats = 2,
+
 }

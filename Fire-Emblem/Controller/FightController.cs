@@ -96,16 +96,18 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void SetupEffects() {
-        foreach (var player in IterOverTurns()) {
-            SetupEffectsForPlayer(player, EffectDependency.None);
-        }
-
-        foreach (var player in IterOverTurns()) {
-            SetupEffectsForPlayer(player, EffectDependency.Stats);
+        foreach (var dependency in Enum.GetValues<EffectDependency>()) {
+            foreach (var player in IterOverTurns()) {
+                SetupEffectsForPlayer(player, dependency);
+            }
         }
 
         foreach (var player in IterOverTurns()) {
             new EffectAnnouncer(_view, player, _game).AnnounceEffects();
+        }
+
+        foreach (var player in IterOverTurns()) {
+            new EffectAnnouncer(_view, player, _game).AnnounceBeforeCombatDamage();
         }
     }
 
@@ -145,9 +147,12 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void SetupEffectsForPlayer(int player, EffectDependency dependency) {
+
         foreach (var skill in ForSkillInFighter(player)) {
             skill.Register(_game, player, dependency);
         }
+
+
     }
 
 

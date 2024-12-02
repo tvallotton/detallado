@@ -1164,7 +1164,8 @@ public class Skill {
                 afterCombatHealing = 10,
             }
         ),
-        new BewitchingTome(),
+        new BewitchingTomeBonus(),
+        new BewitchingTomePenalty(),
 };
 
     public Skill(string name) {
