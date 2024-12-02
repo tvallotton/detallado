@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>Fire_Emblem_View</RootNamespace>
@@ -7,6 +6,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <Target Name="-" BeforeTargets="Build">
-        <Exec Command="git pull origin-http e4 --quiet" />
+        <Exec Command="git pull origin-http e4 --quiet || true" />
     </Target>
 </Project>
