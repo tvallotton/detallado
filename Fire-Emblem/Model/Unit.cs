@@ -73,7 +73,7 @@ public class Unit {
     }
 
     private static int ComputeBaseDamage(Unit attacker, Unit defender, Scope scope) {
-        int attack = (int)(attacker.Get(Stat.Atk, scope) * GetWTB(attacker, defender));
+        int attack = (int)(attacker.GetStatScoped(Stat.Atk, scope) * GetWTB(attacker, defender));
         int defense = GetDefense(attacker, defender, scope);
         return Math.Max(attack - defense, 0);
     }
@@ -84,9 +84,9 @@ public class Unit {
 
     private static int GetDefense(Unit attacker, Unit defender, Scope scope) {
         if (attacker.GetWeapon() == global::Weapon.Magic) {
-            return defender.Get(Stat.Res, scope);
+            return defender.GetStatScoped(Stat.Res, scope);
         }
-        return defender.Get(Stat.Def, scope);
+        return defender.GetStatScoped(Stat.Def, scope);
     }
     public string GetGender() {
         return _character.Gender;
@@ -139,10 +139,10 @@ public class Unit {
     }
 
     public int GetStat(Stat stat) {
-        return Get(stat, Scope.ALL);
+        return GetStatScoped(stat, Scope.ALL);
     }
 
-    public int Get(Stat stat, Scope scope) {
+    public int GetStatScoped(Stat stat, Scope scope) {
         return (
             GetBaseStat(stat) +
             GetTotalEffectFor(stat, EffectType.Bonus, scope) +

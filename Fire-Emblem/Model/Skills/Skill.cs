@@ -1163,7 +1163,8 @@ public class Skill {
             new Effect {
                 afterCombatHealing = 10,
             }
-        )
+        ),
+        new BewitchingTome(),
 };
 
     public Skill(string name) {
