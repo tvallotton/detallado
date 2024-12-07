@@ -9,6 +9,8 @@ public enum EffectName {
     CounterAttacKNegationBlocker,
 
     DamageBeforeCombat,
-    DamageAfterCombat
+    DamageAfterCombat,
+
+    FollowUpGuarantee,
 
 }

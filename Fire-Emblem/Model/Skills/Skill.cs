@@ -1166,6 +1166,20 @@ public class Skill {
         ),
         new BewitchingTomeBonus(),
         new BewitchingTomePenalty(),
+        new SimpleSkill(
+            "Quick Riposte",
+            new OnHighPercentageHP(Subject.Self, 60).And(new OnTurn(Subject.Rival)),
+            new Effect {
+                followUpGuarantee = 1
+            }
+        ),
+        new SimpleSkill(
+            "Follow-Up Ring",
+            new OnHighPercentageHP(Subject.Self, 50),
+            new Effect {
+                followUpGuarantee = 1,
+            }
+        )
 };
 
     public Skill(string name) {

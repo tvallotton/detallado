@@ -131,6 +131,10 @@ public class FireEmblemView(View _view) {
     public void AnnounceAdvantage(string first, string second) {
         WriteLine($"{first} tiene ventaja con respecto a {second}");
     }
+    public void AnnounceFollowUpGuarantees(Unit unit, int amount) {
+        WriteLine($"{unit} tiene {amount} efecto(s) que garantiza(n) su follow up activo(s)");
+    }
+
     public string ReadLine() => _view.ReadLine();
 
     public void AnnounceFightResults(Unit attacker, Unit defender) {

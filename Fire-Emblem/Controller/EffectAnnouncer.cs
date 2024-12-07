@@ -19,6 +19,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         AnnounceHealingEffects();
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
+        AnnounceFollowUpGuarantees();
     }
 
     public void AnnounceAfterCombatEffects() {
@@ -34,6 +35,11 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
     }
 
+    private void AnnounceFollowUpGuarantees() {
+        var guarantees = unit.SumEffects(EffectName.FollowUpGuarantee);
+        if (guarantees != 0)
+            _view.AnnounceFollowUpGuarantees(unit, guarantees);
+    }
 
     private void AnnounceCounterAttackNegation() {
         var isPlayersTurn = _gameState.IsPlayersTurn(player);

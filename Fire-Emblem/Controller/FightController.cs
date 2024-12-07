@@ -54,14 +54,22 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void FollowUp() {
-        if (CanFollowUp(Attacker(), against: Defender())) {
+        bool attackerFollowUp = CanFollowUp(Attacker(), against: Defender());
+        if (attackerFollowUp) {
             LaunchAttack();
-        } else if (CanFollowUp(Defender(), against: Attacker()) && CanCounterAttack()) {
+        }
+        bool defenderFollowUp = CanFollowUp(Defender(), against: Attacker()) && CanCounterAttack();
+        if (defenderFollowUp) {
             LaunchCounterAttack();
-        } else if (CanCounterAttack()) {
-            _view.AnnounceNoFollowUp();
-        } else {
-            _view.AnnouncePlayerCannotFolowUp(Attacker());
+        }
+
+        if (!defenderFollowUp && !attackerFollowUp) {
+            if (
+                 CanCounterAttack()) {
+                _view.AnnounceNoFollowUp();
+            } else {
+                _view.AnnouncePlayerCannotFolowUp(Attacker());
+            }
         }
     }
 
@@ -81,7 +89,7 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private bool CanFollowUp(Unit unit, Unit against) {
-        return against.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd);
+        return against.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd) || unit.HasEffect(EffectName.FollowUpGuarantee);
 
     }
 
