@@ -137,12 +137,10 @@ class FightController(GameState _game, FireEmblemView _view) {
     private void PerformHealingAftercCombat(int player) {
         var fighter = _game.GetFighter(player);
         int healing = fighter.SumEffects(EffectName.HealingAfterCombat);
-        Console.WriteLine($"DEBUG healing {healing} {fighter} {fighter.GetHP()}");
 
         if (fighter.IsAlive())
             fighter.Heal(healing);
 
-        Console.WriteLine($"DEBUG healing {healing} {fighter} {fighter.GetHP()}");
 
     }
 

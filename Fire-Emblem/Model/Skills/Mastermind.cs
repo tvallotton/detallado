@@ -14,7 +14,6 @@ class Mastermind : BaseSkill {
         var unit = game.GetFighter(player);
         var X = (9 + unit.CountEffects(EffectType.Bonus)) * 8 / 10;
         var Y = (9 + unit.CountEffects(EffectType.Penalty)) * 8 / 10;
-        Console.WriteLine($"DEBUG: {X + Y}");
         yield return new Effect {
             difference = new Stats<int> { Atk = 9, Spd = 9 },
             extraDamage = X + Y,
