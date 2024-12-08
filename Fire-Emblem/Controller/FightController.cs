@@ -89,7 +89,12 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private bool CanFollowUp(Unit unit, Unit rival) {
-        int netEffect = unit.SumEffects(EffectName.FollowUpGuarantee) - rival.SumEffects(EffectName.FollowUpNegation);
+        int defense = rival.HasEffect(EffectName.DefensiveNullFollowUp) ? 0 : 1;
+        int offense = unit.HasEffect(EffectName.OffensiveNullFollowUp) ? 0 : 1;
+        int guarantees = unit.SumEffects(EffectName.FollowUpGuarantee);
+        int negations = unit.SumEffects(EffectName.FollowUpNegation);
+        int netEffect = defense * guarantees - offense * negations;
+
 
         return rival.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd)
             && (netEffect >= 0)

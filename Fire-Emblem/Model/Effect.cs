@@ -37,6 +37,10 @@ public class Effect {
 
     public int followUpNegation = 0;
 
+    public int defensiveNullFollowUp = 0;
+
+    public int offensiveNullFollowUp = 0;
+
 
     public Stats<bool> GetNeutralized(EffectType effectType) {
         switch (effectType) {
@@ -59,6 +63,8 @@ public class Effect {
             case EffectName.HealingAfterCombat: return afterCombatHealing;
             case EffectName.FollowUpGuarantee: return followUpGuarantee;
             case EffectName.FollowUpNegation: return followUpNegation;
+            case EffectName.DefensiveNullFollowUp: return defensiveNullFollowUp;
+            case EffectName.OffensiveNullFollowUp: return offensiveNullFollowUp;
             default: return 0;
         }
     }

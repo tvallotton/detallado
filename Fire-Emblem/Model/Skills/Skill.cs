@@ -1183,7 +1183,8 @@ public class Skill {
             "Wary Fighter",
             new OnHighPercentageHP(Subject.Self, 50),
             new Effect { followUpNegation = 1 }
-        )
+        ),
+
 
 };
 

@@ -14,5 +14,6 @@ public enum EffectName {
     FollowUpGuarantee,
 
     FollowUpNegation,
-
+    DefensiveNullFollowUp,
+    OffensiveNullFollowUp
 }
