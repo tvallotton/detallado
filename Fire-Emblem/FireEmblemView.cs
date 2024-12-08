@@ -135,6 +135,10 @@ public class FireEmblemView(View _view) {
         WriteLine($"{unit} tiene {amount} efecto(s) que garantiza(n) su follow up activo(s)");
     }
 
+    public void AnnounceFollowUpNegation(Unit unit, int amount) {
+        WriteLine($"{unit} tiene {amount} efecto(s) que neutraliza(n) su follow up activo(s)");
+    }
+
     public string ReadLine() => _view.ReadLine();
 
     public void AnnounceFightResults(Unit attacker, Unit defender) {

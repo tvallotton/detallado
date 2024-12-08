@@ -1155,31 +1155,36 @@ public class Skill {
         new SimplePenalty(
             "Mystic Boost",
             new Always(),
-            new Effect {difference = new Stats<int> {Atk =-5}}
+            new Effect { difference = new Stats<int> { Atk = -5 } }
         ),
         new SimpleSkill(
             "Mystic Boost",
             new Always(),
-            new Effect {
-                afterCombatHealing = 10,
-            }
+            new Effect { afterCombatHealing = 10 }
         ),
         new BewitchingTomeBonus(),
         new BewitchingTomePenalty(),
         new SimpleSkill(
             "Quick Riposte",
             new OnHighPercentageHP(Subject.Self, 60).And(new OnTurn(Subject.Rival)),
-            new Effect {
-                followUpGuarantee = 1
-            }
+            new Effect { followUpGuarantee = 1 }
         ),
         new SimpleSkill(
             "Follow-Up Ring",
             new OnHighPercentageHP(Subject.Self, 50),
-            new Effect {
-                followUpGuarantee = 1,
-            }
+            new Effect { followUpGuarantee = 1 }
+        ),
+        new SimplePenalty(
+            "Wary Fighter",
+            new OnHighPercentageHP(Subject.Self, 50),
+            new Effect { followUpNegation = 1 }
+        ),
+         new SimpleSkill(
+            "Wary Fighter",
+            new OnHighPercentageHP(Subject.Self, 50),
+            new Effect { followUpNegation = 1 }
         )
+
 };
 
     public Skill(string name) {

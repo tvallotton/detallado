@@ -20,6 +20,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
         AnnounceFollowUpGuarantees();
+        AnnounceFollowUpNegation();
     }
 
     public void AnnounceAfterCombatEffects() {
@@ -39,6 +40,12 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         var guarantees = unit.SumEffects(EffectName.FollowUpGuarantee);
         if (guarantees != 0)
             _view.AnnounceFollowUpGuarantees(unit, guarantees);
+    }
+
+    private void AnnounceFollowUpNegation() {
+        var negations = unit.SumEffects(EffectName.FollowUpNegation);
+        if (negations != 0)
+            _view.AnnounceFollowUpNegation(unit, negations);
     }
 
     private void AnnounceCounterAttackNegation() {

@@ -54,11 +54,11 @@ class FightController(GameState _game, FireEmblemView _view) {
     }
 
     private void FollowUp() {
-        bool attackerFollowUp = CanFollowUp(Attacker(), against: Defender());
+        bool attackerFollowUp = CanFollowUp(Attacker(), rival: Defender());
         if (attackerFollowUp) {
             LaunchAttack();
         }
-        bool defenderFollowUp = CanFollowUp(Defender(), against: Attacker()) && CanCounterAttack();
+        bool defenderFollowUp = CanFollowUp(Defender(), rival: Attacker()) && CanCounterAttack();
         if (defenderFollowUp) {
             LaunchCounterAttack();
         }
@@ -88,8 +88,12 @@ class FightController(GameState _game, FireEmblemView _view) {
         return Defender().IsAlive() && !counterAttackIsBlocked;
     }
 
-    private bool CanFollowUp(Unit unit, Unit against) {
-        return against.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd) || unit.HasEffect(EffectName.FollowUpGuarantee);
+    private bool CanFollowUp(Unit unit, Unit rival) {
+        int netEffect = unit.SumEffects(EffectName.FollowUpGuarantee) - rival.SumEffects(EffectName.FollowUpNegation);
+
+        return rival.GetStat(Stat.Spd) + 5 <= unit.GetStat(Stat.Spd)
+            && (netEffect >= 0)
+            || (0 < netEffect);
 
     }
 
