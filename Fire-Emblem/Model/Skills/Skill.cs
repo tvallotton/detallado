@@ -994,7 +994,8 @@ public class Skill {
         ),
         new SimpleSkill(
             "Laws of Sacae",
-            new OnWeapon(Subject.Self, Weapon.Magic).Or(new OnWeapon(Subject.Self, Weapon.Bow)).Not().And(new OnGreaterPlayerStat(Stat.Spd, 6)),
+            new OnWeapon(Subject.Self, Weapon.Magic).Or(new OnWeapon(Subject.Self, Weapon.Bow)).Not()
+            .And(new OnGreaterPlayerStat(Stat.Spd, 6)),
             new Effect { counterAttackNegation = 1 }
         ),
         new SimplePenalty(
@@ -1193,7 +1194,31 @@ public class Skill {
             "Mjölnir",
             new Always(),
             new Effect { offensiveNullFollowUp = 1 }
+        ),
+        new SimpleSkill(
+            "Melee Breaker",
+            new All(
+                new OnHighPercentageHP(Subject.Self, 50),
+                new Any(
+                    new OnWeapon(Subject.Rival, Weapon.Sword),
+                    new OnWeapon(Subject.Rival, Weapon.Lance),
+                    new OnWeapon(Subject.Rival, Weapon.Axe)
+                )
+            ),
+            new Effect { followUpGuarantee = 1, followUpNegation = 1 }
+        ),
+        new SimpleSkill(
+            "Range Breaker",
+            new All(
+                new OnHighPercentageHP(Subject.Self, 50),
+                new Any(
+                    new OnWeapon(Subject.Rival, Weapon.Magic),
+                    new OnWeapon(Subject.Rival, Weapon.Bow)
+                )
+            ),
+            new Effect { followUpGuarantee = 1, followUpNegation = 1 }
         )
+
 
 };
 

@@ -117,6 +117,17 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
 
     private void AnnounceByEffectName(EffectName effectName) {
+        switch (effectName) {
+            case EffectName.FollowUpNegation:
+                int effectValue = rival.SumEffects(effectName);
+                if (effectValue == 0) return;
+                _view.AnnounceFollowUpNegation(unit, effectValue); break;
+            default:
+                AnnounceByEffectNameForUnit(effectName); break;
+        }
+    }
+
+    private void AnnounceByEffectNameForUnit(EffectName effectName) {
         int effectValue = unit.SumEffects(effectName);
         if (effectValue == 0) return;
         if (!unit.IsAlive()) return;
@@ -129,8 +140,6 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
                 _view.AnnounceBeforeCombatDamage(unit, effectValue); break;
             case EffectName.FollowUpGuarantee:
                 _view.AnnounceFollowUpGuarantees(unit, effectValue); break;
-            case EffectName.FollowUpNegation:
-                _view.AnnounceFollowUpNegation(unit, effectValue); break;
             case EffectName.DefensiveNullFollowUp:
                 _view.AnnounceDefensiveNullFollowUp(unit); break;
             case EffectName.Healing:

@@ -92,7 +92,7 @@ class FightController(GameState _game, FireEmblemView _view) {
         int defense = rival.HasEffect(EffectName.DefensiveNullFollowUp) ? 0 : 1;
         int offense = unit.HasEffect(EffectName.OffensiveNullFollowUp) ? 0 : 1;
         int guarantees = unit.SumEffects(EffectName.FollowUpGuarantee);
-        int negations = unit.SumEffects(EffectName.FollowUpNegation);
+        int negations = rival.SumEffects(EffectName.FollowUpNegation);
         int netEffect = defense * guarantees - offense * negations;
 
 

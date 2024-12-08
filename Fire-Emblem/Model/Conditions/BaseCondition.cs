@@ -14,11 +14,11 @@ public abstract class BaseCondition {
     }
 
     public BaseCondition And(BaseCondition condition) {
-        return new And(this, condition);
+        return new All(this, condition);
     }
 
     public BaseCondition Or(BaseCondition condition) {
-        return new Or(this, condition);
+        return new Any(this, condition);
     }
     public BaseCondition Not() {
         return new Not(this);
