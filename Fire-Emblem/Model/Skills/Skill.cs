@@ -1184,7 +1184,11 @@ public class Skill {
             new OnHighPercentageHP(Subject.Self, 50),
             new Effect { followUpNegation = 1 }
         ),
-
+        new SimplePenalty(
+            "Piercing Tribute",
+            new Always(),
+            new Effect { defensiveNullFollowUp = 1 }
+        )
 
 };
 

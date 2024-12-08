@@ -16,11 +16,12 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         }
 
         AnnounceAllDamageEffects();
-        AnnounceHealingEffects();
+        AnnounceByEffectName(EffectName.Healing);
         AnnounceCounterAttackNegation();
         AnnounceCounterAttackNegationBlocker();
-        AnnounceFollowUpGuarantees();
-        AnnounceFollowUpNegation();
+        AnnounceByEffectName(EffectName.FollowUpGuarantee);
+        AnnounceByEffectName(EffectName.FollowUpNegation);
+        AnnounceByEffectName(EffectName.DefensiveNullFollowUp);
     }
 
     public void AnnounceAfterCombatEffects() {
@@ -36,17 +37,9 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
     }
 
-    private void AnnounceFollowUpGuarantees() {
-        var guarantees = unit.SumEffects(EffectName.FollowUpGuarantee);
-        if (guarantees != 0)
-            _view.AnnounceFollowUpGuarantees(unit, guarantees);
-    }
 
-    private void AnnounceFollowUpNegation() {
-        var negations = unit.SumEffects(EffectName.FollowUpNegation);
-        if (negations != 0)
-            _view.AnnounceFollowUpNegation(unit, negations);
-    }
+
+
 
     private void AnnounceCounterAttackNegation() {
         var isPlayersTurn = _gameState.IsPlayersTurn(player);
@@ -57,18 +50,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
     }
 
 
-    private void AnnounceCounterAttackNegationBlocker() {
-        var isPlayersTurn = _gameState.IsPlayersTurn(player);
-        var rivalHasCounterAttackNegation = rival.HasEffect(EffectName.CounterAttackNegation);
-        var hasCounterAttackNegationBlocker = unit.HasEffect(EffectName.CounterAttacKNegationBlocker);
-        if (!isPlayersTurn && rivalHasCounterAttackNegation && hasCounterAttackNegationBlocker)
-            _view.AnnounceCounterAttackNegationBlocker(unit);
 
-    }
-
-    private void AnnounceHealingEffects() {
-        _view.AnnounceHealingEffect(unit, unit.GetTotalHealingEffect());
-    }
 
     private void AnnouncePercentDamageReduction() {
         foreach (var scope in Enum.GetValues<Scope>()) {
@@ -80,6 +62,16 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         foreach (var scope in Enum.GetValues<Scope>()) {
             var damage = unit.GetExtraDamage(scope);
             _view.AnnounceExtraDamageEffect(unit, damage, scope);
+        }
+    }
+
+
+    private void AnnounceCounterAttackNegationBlocker() {
+        var hasCounterAttackNegationBlocker = unit.HasEffect(EffectName.CounterAttacKNegationBlocker);
+        var rivalHasCounterAttackNegation = rival.HasEffect(EffectName.CounterAttackNegation);
+        var isPlayersTurn = _gameState.IsPlayersTurn(player);
+        if (!isPlayersTurn && rivalHasCounterAttackNegation && hasCounterAttackNegationBlocker) {
+            _view.AnnounceCounterAttackNegationBlocker(unit);
         }
     }
 
@@ -134,6 +126,14 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
                 _view.AnnounceAfterCombatHealing(unit, effectValue); break;
             case EffectName.DamageBeforeCombat:
                 _view.AnnounceBeforeCombatDamage(unit, effectValue); break;
+            case EffectName.FollowUpGuarantee:
+                _view.AnnounceFollowUpGuarantees(unit, effectValue); break;
+            case EffectName.FollowUpNegation:
+                _view.AnnounceFollowUpNegation(unit, effectValue); break;
+            case EffectName.DefensiveNullFollowUp:
+                _view.AnnounceDefensiveNullFollowUp(unit); break;
+            case EffectName.Healing:
+                _view.AnnounceHealingEffect(unit, effectValue); break;
         }
     }
 
