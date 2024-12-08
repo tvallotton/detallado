@@ -143,7 +143,9 @@ public class FireEmblemView(View _view) {
         WriteLine($"{unit} es inmune a los efectos que garantizan su follow up");
     }
 
-
+    public void AnnounceOffensiveNullFollowUp(Unit unit) {
+        WriteLine($"{unit} es inmune a los efectos que neutralizan su follow up");
+    }
 
     public string ReadLine() => _view.ReadLine();
 

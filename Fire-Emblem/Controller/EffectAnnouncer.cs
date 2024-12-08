@@ -21,6 +21,7 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
         AnnounceCounterAttackNegationBlocker();
         AnnounceByEffectName(EffectName.FollowUpGuarantee);
         AnnounceByEffectName(EffectName.FollowUpNegation);
+        AnnounceByEffectName(EffectName.OffensiveNullFollowUp);
         AnnounceByEffectName(EffectName.DefensiveNullFollowUp);
     }
 
@@ -134,6 +135,8 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
                 _view.AnnounceDefensiveNullFollowUp(unit); break;
             case EffectName.Healing:
                 _view.AnnounceHealingEffect(unit, effectValue); break;
+            case EffectName.OffensiveNullFollowUp:
+                _view.AnnounceOffensiveNullFollowUp(unit); break;
         }
     }
 

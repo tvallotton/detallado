@@ -1188,6 +1188,11 @@ public class Skill {
             "Piercing Tribute",
             new Always(),
             new Effect { defensiveNullFollowUp = 1 }
+        ),
+        new SimpleSkill(
+            "Mjölnir",
+            new Always(),
+            new Effect { offensiveNullFollowUp = 1 }
         )
 
 };
