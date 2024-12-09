@@ -1271,6 +1271,15 @@ public class Skill {
             ),
             new Effect {  percentagewiseDamageReduction = 30, scope = Scope.FIRST_ATTACK }
         ),
+        new SimpleSkill(
+            "Flow Force",
+            new OnTurn(Subject.Self),
+            new Effect {
+                offensiveNullFollowUp = 1, neutralizedPenalty = new Stats<bool> {
+                    Atk = true, Spd = true
+                }
+            }
+        ),
 };
 
     public Skill(string name) {
