@@ -1217,7 +1217,32 @@ public class Skill {
                 )
             ),
             new Effect { followUpGuarantee = 1, followUpNegation = 1 }
-        )
+        ),
+        new SimpleSkill(
+            "Null Follow-Up",
+            new Always(),
+            new Effect { defensiveNullFollowUp = 1, offensiveNullFollowUp = 1 }
+        ),
+        new SimpleSkill(
+            "Sturdy Impact",
+            new OnTurn(Subject.Self),
+            new Effect { difference = new Stats<int> {Atk = 6 , Def = 10}, followUpNegation = 1}
+        ),
+        new SimpleSkill(
+            "Mirror Impact",
+            new OnTurn(Subject.Self),
+            new Effect { difference = new Stats<int> {Atk = 6 , Res = 10}, followUpNegation = 1}
+        ),
+        new SimpleSkill(
+            "Swift Impact",
+            new OnTurn(Subject.Self),
+            new Effect { difference = new Stats<int> {Spd = 6 , Res = 10}, followUpNegation = 1}
+        ),
+        new SimpleSkill(
+            "Steady Impact",
+            new OnTurn(Subject.Self),
+            new Effect { difference = new Stats<int> {Spd = 6 , Def = 10}, followUpNegation = 1}
+        ),
 
 
 };
