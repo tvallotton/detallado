@@ -17,12 +17,12 @@ public class EffectAnnouncer(FireEmblemView _view, int player, GameState _gameSt
 
         AnnounceAllDamageEffects();
         AnnounceByEffectName(EffectName.Healing);
-        AnnounceCounterAttackNegation();
-        AnnounceCounterAttackNegationBlocker();
         AnnounceByEffectName(EffectName.FollowUpNegation);
         AnnounceByEffectName(EffectName.FollowUpGuarantee);
         AnnounceByEffectName(EffectName.OffensiveNullFollowUp);
         AnnounceByEffectName(EffectName.DefensiveNullFollowUp);
+        AnnounceCounterAttackNegation();
+        AnnounceCounterAttackNegationBlocker();
     }
 
     public void AnnounceAfterCombatEffects() {

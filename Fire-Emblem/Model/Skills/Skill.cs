@@ -1287,6 +1287,14 @@ public class Skill {
                 offensiveNullFollowUp = 1,afterCombatHealing = 10
             }
         ),
+        new SimpleSkill(
+            "Binding Shield",
+            new OnGreaterPlayerStat(Stat.Spd, 4),
+            new Effect {
+              followUpGuarantee = 1, followUpNegation = 1,counterAttackNegation = 1
+            }
+        ),
+
 };
 
     public Skill(string name) {
