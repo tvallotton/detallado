@@ -1280,6 +1280,13 @@ public class Skill {
                 }
             }
         ),
+        new SimpleSkill(
+            "Flow Refresh",
+            new OnTurn(Subject.Self),
+            new Effect {
+                offensiveNullFollowUp = 1,afterCombatHealing = 10
+            }
+        ),
 };
 
     public Skill(string name) {
