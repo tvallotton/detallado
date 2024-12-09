@@ -1243,8 +1243,34 @@ public class Skill {
             new OnTurn(Subject.Self),
             new Effect { difference = new Stats<int> {Spd = 6 , Def = 10}, followUpNegation = 1}
         ),
-
-
+        new SimpleSkill(
+            "Slick Fighter",
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnTurn(Subject.Rival)),
+            new Effect { neutralizedPenalty = Stats<bool>.All(), followUpGuarantee = 1}
+        ),
+        new SimplePenalty(
+            "Wily Fighter",
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnTurn(Subject.Rival)),
+            new Effect { neutralizedBonus = Stats<bool>.All() }
+        ),
+        new SimpleSkill(
+            "Wily Fighter",
+            new OnHighPercentageHP(Subject.Self, 25).And(new OnTurn(Subject.Rival)),
+            new Effect { followUpGuarantee = 1}
+        ),
+        new SimpleSkill(
+            "Savvy Fighter",
+            new OnTurn(Subject.Rival),
+            new Effect { defensiveNullFollowUp = 1 , offensiveNullFollowUp = 1}
+        ),
+        new SimpleSkill(
+            "Savvy Fighter",
+            new All(
+                new OnTurn(Subject.Rival),
+                new OnGreaterPlayerStat(Stat.Spd, 3)
+            ),
+            new Effect {  percentagewiseDamageReduction = 30, scope = Scope.FIRST_ATTACK }
+        ),
 };
 
     public Skill(string name) {
