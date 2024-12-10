@@ -1294,6 +1294,29 @@ public class Skill {
               followUpGuarantee = 1, followUpNegation = 1,counterAttackNegation = 1
             }
         ),
+        new SimpleSkill(
+            "Sun-Twin Wing",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                defensiveNullFollowUp = 1,
+                offensiveNullFollowUp = 1
+            }
+        ),
+        new SimpleSkill(
+            "Sun-Twin Wing",
+            new OnTurn(Subject.Self),
+            new Effect {
+            }
+        ),
+        new SimplePenalty(
+            "Sun-Twin Wing",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {
+                    Def = -5, Spd = -5
+                },
+            }
+        )
 
 };
 
