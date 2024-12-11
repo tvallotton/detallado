@@ -1316,6 +1316,29 @@ public class Skill {
                     Def = -5, Spd = -5
                 },
             }
+        ),
+        new SimplePenalty(
+            "Dragon's Ire",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {
+                    Atk = -4, Res = -4
+                }
+            }
+        ),
+        new SimpleSkill(
+            "Dragon's Ire",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                followUpGuarantee = 1,
+            }
+        ),
+        new SimpleSkill(
+            "Dragon's Ire",
+            new All(new OnHighPercentageHP(Subject.Self, 25), new OnTurn(Subject.Rival)),
+            new Effect {
+                offensiveNullFollowUp = 1
+            }
         )
 
 };
