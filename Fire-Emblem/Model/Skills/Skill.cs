@@ -1342,7 +1342,7 @@ public class Skill {
         ),
         new SimpleSkill(
             "Black Eagle Rule",
-               new OnHighPercentageHP(Subject.Self, 25),
+            new OnHighPercentageHP(Subject.Self, 25),
             new Effect { followUpGuarantee = 1 }
         ),
         new SimpleSkill(
@@ -1355,6 +1355,23 @@ public class Skill {
             "Blue Lion Rule",
             new OnTurn(Subject.Rival),
             new Effect { followUpGuarantee = 1 }
+        ),
+        new SimplePenalty(
+            "New Divinity",
+            new OnHighPercentageHP(Subject.Self, 25),
+            new Effect {
+                difference = new Stats<int> {
+                    Atk = -5, Res = -5
+                }
+            }
+        ),
+        new DiffStatX4DamageReduction("New Divinity", Stat.Res, new OnHighPercentageHP(Subject.Self, 25)),
+        new SimpleSkill(
+            "New Divinity",
+            new OnHighPercentageHP(Subject.Self, 40),
+            new Effect {
+               followUpNegation = 1
+            }
         ),
 
 };
