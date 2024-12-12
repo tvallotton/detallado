@@ -1385,6 +1385,17 @@ public class Skill {
             new Always(),
             new Effect { defensiveNullFollowUp = 1, offensiveNullFollowUp = 1 }
         ),
+        new SimplePenalty(
+            "Mag. Null Follow",
+            new Always(),
+            new Effect { difference = new Stats<int> { Spd = -4, Res = -4 } }
+        ),
+        new SimpleSkill(
+            "Mag. Null Follow",
+            new Always(),
+            new Effect { defensiveNullFollowUp = 1, offensiveNullFollowUp = 1 }
+        ),
+
 
 };
 
