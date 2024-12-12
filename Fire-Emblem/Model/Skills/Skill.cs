@@ -1339,7 +1339,17 @@ public class Skill {
             new Effect {
                 offensiveNullFollowUp = 1
             }
-        )
+        ),
+        new SimpleSkill(
+            "Black Eagle Rule",
+               new OnHighPercentageHP(Subject.Self, 25),
+            new Effect { followUpGuarantee = 1 }
+        ),
+        new SimpleSkill(
+            "Black Eagle Rule",
+            new All(new OnHighPercentageHP(Subject.Self, 25), new OnTurn(Subject.Rival)),
+            new Effect { percentagewiseDamageReduction = 80, scope = Scope.FOLLOW_UP }
+        ),
 
 };
 
