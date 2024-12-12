@@ -1350,6 +1350,12 @@ public class Skill {
             new All(new OnHighPercentageHP(Subject.Self, 25), new OnTurn(Subject.Rival)),
             new Effect { percentagewiseDamageReduction = 80, scope = Scope.FOLLOW_UP }
         ),
+        new DiffStatX4DamageReduction("Blue Lion Rule", Stat.Def),
+        new SimpleSkill(
+            "Blue Lion Rule",
+            new OnTurn(Subject.Rival),
+            new Effect { followUpGuarantee = 1 }
+        ),
 
 };
 
