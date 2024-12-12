@@ -1373,6 +1373,18 @@ public class Skill {
                followUpNegation = 1
             }
         ),
+        new SimplePenalty(
+            "Phys. Null Follow",
+            new Always(),
+            new Effect {
+                difference = new Stats<int> { Spd = -4, Def = -4 }
+            }
+        ),
+        new SimpleSkill(
+            "Phys. Null Follow",
+            new Always(),
+            new Effect { defensiveNullFollowUp = 1, offensiveNullFollowUp = 1 }
+        ),
 
 };
 
